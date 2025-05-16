@@ -21,27 +21,17 @@ export async function generatePdfService(req: NextRequest) {
 		if (ENV === "production") {
 			console.log("Launching browser in production...");
 			puppeteer = await import("puppeteer-core");
-			console.log("puppeteer", puppeteer);
-			let executablePath = await chromium.executablePath();
-			if (!executablePath || executablePath.includes(".next/server/bin")) {
-				executablePath = "/tmp/chromium";
-			}
 
-			launchOptions = {
-				args: chromium.args,
-				defaultViewport: chromium.defaultViewport,
-				executablePath,
-				headless: chromium.headless,
-			};
+			const executablePath = await chromium.executablePath();
 
 			console.log("executablePath", executablePath);
 
 			launchOptions = {
 				args: chromium.args,
 				defaultViewport: chromium.defaultViewport,
-				executablePath: await chromium.executablePath(), // Đừng gán gì thêm!
+				executablePath,  // use the single obtained path here
 				headless: chromium.headless,
-			}
+			};
 		} else {
 			console.log("Launching browser in development...");
 			puppeteer = await import("puppeteer");
@@ -50,6 +40,7 @@ export async function generatePdfService(req: NextRequest) {
 				headless: true,
 			};
 		}
+
 
 		browser = await puppeteer.launch(launchOptions);
 		if (!browser) throw new Error("Browser launch failed");
