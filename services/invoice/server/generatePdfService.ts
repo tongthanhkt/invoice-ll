@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from "next/server";
-import chromium from "@sparticuz/chromium";
+import chromium from "chrome-aws-lambda";
 import { getInvoiceTemplate } from "@/lib/helpers";
 import { CHROMIUM_EXECUTABLE_PATH, ENV, TAILWIND_CDN } from "@/lib/variables";
 import { InvoiceType } from "@/types";
@@ -20,7 +20,7 @@ export async function generatePdfService(req: NextRequest) {
 
 		if (ENV === "production") {
 			console.log("Launching browser in production...");
-			const executablePath = await chromium.executablePath();
+			const executablePath = await chromium.executablePath;
 
 			if (!executablePath) {
 				throw new Error("Chromium executable path not found");
