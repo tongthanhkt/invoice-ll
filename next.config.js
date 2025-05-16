@@ -1,6 +1,8 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
-    serverExternalPackages: ["puppeteer-core", "@sparticuz/chromium"],
+    experimental: {
+        serverComponentsExternalPackages: ["puppeteer-core", "@sparticuz/chromium"],
+    },
     webpack: (config) => {
         config.module.rules.push({
             test: /\.map$/,
