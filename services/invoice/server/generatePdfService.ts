@@ -1,7 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
 
 // Chromium
-import chromium from "@sparticuz/chromium";
+import chromium from "@sparticuz/chromium-min";
 
 // Helpers
 import { getInvoiceTemplate } from "@/lib/helpers";
@@ -37,34 +37,16 @@ export async function generatePdfService(req: NextRequest) {
 			console.log("Generating PDF in production environment");
 			const puppeteer = await import("puppeteer-core");
 
-			// Configure Chromium for serverless environment
-			const args = [
-				'--no-sandbox',
-				'--disable-setuid-sandbox',
-				'--disable-dev-shm-usage',
-				'--disable-gpu',
-				'--no-first-run',
-				'--no-zygote',
-				'--single-process',
-				'--disable-extensions',
-				'--disable-web-security',
-				'--disable-features=IsolateOrigins,site-per-process',
-				'--disable-site-isolation-trials'
-			];
-
-			// Get the executable path for AWS Lambda
+			// Configure Chromium for serverless environment using chromium-min's built-in config
 			const executablePath = await chromium.executablePath();
 
-			// Set up browser
+			// Set up browser with chromium-min's optimized configuration
 			browser = await puppeteer.launch({
-				args,
+				args: chromium.args,
 				executablePath,
 				headless: true,
-				ignoreDefaultArgs: ['--disable-extensions'],
-				defaultViewport: {
-					width: 1200,
-					height: 800
-				}
+				ignoreHTTPSErrors: true,
+				defaultViewport: chromium.defaultViewport
 			});
 		} else {
 			console.log("Generating PDF in development environment");
