@@ -32,38 +32,20 @@ export async function generatePdfService(req: NextRequest) {
 		const htmlTemplate = ReactDOMServer.renderToStaticMarkup(InvoiceTemplate(body));
 
 		if (ENV === "production") {
+			console.log("Generating PDF in production environment");
 			const puppeteer = await import("puppeteer-core");
-
-			// Configure Chromium for serverless environment
-			const args = [
-				'--no-sandbox',
-				'--disable-setuid-sandbox',
-				'--disable-dev-shm-usage',
-				'--disable-gpu',
-				'--no-first-run',
-				'--no-zygote',
-				'--single-process',
-				'--disable-extensions',
-				'--disable-web-security',
-				'--disable-features=IsolateOrigins,site-per-process',
-				'--disable-site-isolation-trials'
-			];
-
-			// Get the executable path for AWS Lambda
-			const executablePath = await chromium.executablePath();
-
-			// Set up browser
 			browser = await puppeteer.launch({
-				args,
-				executablePath,
-				headless: true,
-				ignoreDefaultArgs: ['--disable-extensions'],
+				args: chromium.args,
+				executablePath: await chromium.executablePath(),
+				headless: chromium.headless as boolean,
 				defaultViewport: {
 					width: 1200,
 					height: 800
 				}
 			});
+
 		} else {
+			console.log("Generating PDF in development environment");
 			const puppeteer = await import("puppeteer");
 			browser = await puppeteer.launch({
 				args: ["--no-sandbox", "--disable-setuid-sandbox"],
