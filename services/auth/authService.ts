@@ -14,7 +14,8 @@ class AuthService {
   private baseUrl: string;
 
   private constructor() {
-    this.baseUrl = 'http://localhost:3000/api';
+    // this.baseUrl = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:3000/api';
+    this.baseUrl = "https://main.d3j54esglrkit8.amplifyapp.com/api";
   }
 
   public static getInstance(): AuthService {
