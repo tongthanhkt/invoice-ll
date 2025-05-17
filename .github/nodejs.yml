@@ -3,8 +3,7 @@ run-name: ${{ github.actor }} is testing out GitHub Actions 🚀
 on:
   push:
     branches:
-      - main  # Specify your default branch here
-      - develop  # Add any other branches you want to build
+      - entiti/1  
 jobs:
   Explore-GitHub-Actions:
     runs-on: ubuntu-latest
