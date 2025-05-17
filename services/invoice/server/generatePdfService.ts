@@ -1,7 +1,11 @@
 import { NextRequest, NextResponse } from "next/server";
 import chromium from "chrome-aws-lambda";
 import { getInvoiceTemplate } from "@/lib/helpers";
-import { CHROMIUM_EXECUTABLE_PATH, ENV, TAILWIND_CDN } from "@/lib/variables";
+
+// Variables
+import { ENV, TAILWIND_CDN } from "@/lib/variables";
+
+// Types
 import { InvoiceType } from "@/types";
 import puppeteerCore from "puppeteer-core";
 export async function generatePdfService(req: NextRequest) {
@@ -19,19 +23,37 @@ export async function generatePdfService(req: NextRequest) {
 		let launchOptions: any = {};
 
 		if (ENV === "production") {
-			console.log("Launching browser in production...");
-			const executablePath = await chromium.executablePath;
+			const puppeteer = await import("puppeteer-core");
 
-			if (!executablePath) {
-				throw new Error("Chromium executable path not found");
-			}
-			launchOptions = {
-				args: chromium.args,
+			// Configure Chromium for serverless environment
+			const args = [
+				'--no-sandbox',
+				'--disable-setuid-sandbox',
+				'--disable-dev-shm-usage',
+				'--disable-gpu',
+				'--no-first-run',
+				'--no-zygote',
+				'--single-process',
+				'--disable-extensions',
+				'--disable-web-security',
+				'--disable-features=IsolateOrigins,site-per-process',
+				'--disable-site-isolation-trials'
+			];
+
+			// Get the executable path for AWS Lambda
+			const executablePath = await chromium.executablePath();
+
+			// Set up browser
+			browser = await puppeteer.launch({
+				args,
 				executablePath,
-				defaultViewport: chromium.defaultViewport,
-				headless: chromium.headless,
-
-			};
+				headless: true,
+				ignoreDefaultArgs: ['--disable-extensions'],
+				defaultViewport: {
+					width: 1200,
+					height: 800
+				}
+			});
 		} else {
 			console.log("Launching browser in development...");
 
@@ -58,6 +80,16 @@ export async function generatePdfService(req: NextRequest) {
 			printBackground: true,
 			preferCSSPageSize: true,
 		});
+
+		// Clean up browser resources
+		if (page) {
+			await page.close();
+		}
+		if (browser) {
+			const pages = await browser.pages();
+			await Promise.all(pages.map((p) => p.close()));
+			await browser.close();
+		}
 
 		return new NextResponse(new Blob([pdfBuffer], { type: "application/pdf" }), {
 			status: 200,
@@ -94,5 +126,20 @@ export async function generatePdfService(req: NextRequest) {
 				console.error("Error closing browser:", e);
 			}
 		}
+
+		console.error("PDF Generation Error:", error);
+		return new NextResponse(
+			JSON.stringify({
+				error: "Failed to generate PDF",
+				details: error instanceof Error ? error.message : String(error)
+			}),
+			{
+				status: 500,
+				headers: {
+					"Content-Type": "application/json",
+				},
+			}
+		);
 	}
 }
+//
