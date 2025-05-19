@@ -5,7 +5,7 @@ import { useGetProfileQuery } from "@/services";
 import { authService } from "@/services/auth/authService";
 import { spinnerService } from "@/services/spinner.service";
 import { User } from "@/types";
-import { useRouter } from "next/navigation";
+import { useRouter, usePathname } from "next/navigation";
 import { createContext, ReactNode, useContext, useState } from "react";
 
 interface AuthContextType {
@@ -20,7 +20,12 @@ interface AuthContextType {
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
 
 export function AuthProvider({ children }: { children: ReactNode }) {
-  const { data: userData, isLoading } = useQuerySpinner(useGetProfileQuery());
+  const pathname = usePathname();
+
+  const isAuthPage = pathname === "/login" || pathname === "/register";
+  const { data: userData, isLoading } = useQuerySpinner(
+    useGetProfileQuery(undefined, { skip: isAuthPage })
+  );
   const [loading, setLoading] = useState<boolean>(false);
   const router = useRouter();
 
