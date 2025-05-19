@@ -1,41 +1,43 @@
-import type { Metadata } from 'next';
-import { ReactNode } from 'react';
+import type { Metadata } from "next";
+import { ReactNode } from "react";
+import { Provider } from "react-redux";
 
 // Fonts
 
 // Favicon
-import Favicon from '@/public/assets/favicon/favicon.ico';
+import Favicon from "@/public/assets/favicon/favicon.ico";
 
 // Vercel Analytics
-import { Analytics } from '@vercel/analytics/react';
+import { Analytics } from "@vercel/analytics/react";
 
 // Next Intl
-import { NextIntlClientProvider } from 'next-intl';
+import { NextIntlClientProvider } from "next-intl";
 
 // ShadCn
-import { Toaster } from '@/components/ui/toaster';
+import { Toaster } from "@/components/ui/toaster";
 
 // Components
-import PageLoader from '@/app/components/reusables/PageLoader/PageLoader';
-import Spinner from '@/app/components/reusables/Spinner/Spinner';
+import PageLoader from "@/app/components/reusables/PageLoader/PageLoader";
+import Spinner from "@/app/components/reusables/Spinner/Spinner";
 
 // Contexts
-import { AuthProvider } from '@/contexts/AuthContext';
-import Providers from '@/contexts/Providers';
+import { AuthProvider } from "@/contexts/AuthContext";
+import Providers from "@/contexts/Providers";
 
 // SEO
-import { ROOTKEYWORDS } from '@/lib/seo';
+import { ROOTKEYWORDS } from "@/lib/seo";
 
 // Variables
-import { BASE_URL, GOOGLE_SC_VERIFICATION, LOCALES } from '@/lib/variables';
+import { BASE_URL, GOOGLE_SC_VERIFICATION, LOCALES } from "@/lib/variables";
+import { store } from "../store/store";
 
 export const metadata: Metadata = {
-  title: 'Invoify | Free Invoice Generator',
+  title: "Invoify | Free Invoice Generator",
   description:
-    'Create invoices effortlessly with Invoify, the free invoice generator. Try it now!',
-  icons: [{ rel: 'icon', url: Favicon.src }],
+    "Create invoices effortlessly with Invoify, the free invoice generator. Try it now!",
+  icons: [{ rel: "icon", url: Favicon.src }],
   keywords: ROOTKEYWORDS,
-  viewport: 'width=device-width, initial-scale=1',
+  viewport: "width=device-width, initial-scale=1",
   robots: {
     index: true,
     follow: true,
@@ -44,8 +46,8 @@ export const metadata: Metadata = {
     canonical: BASE_URL,
   },
   authors: {
-    name: 'Ali Abbasov',
-    url: 'https://aliabb.vercel.app',
+    name: "Ali Abbasov",
+    url: "https://aliabb.vercel.app",
   },
   verification: {
     google: GOOGLE_SC_VERIFICATION,

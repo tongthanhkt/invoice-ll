@@ -23,37 +23,39 @@ import { InvoiceType } from "@/types";
 
 // Variables
 import { FORM_DEFAULT_VALUES } from "@/lib/variables";
+import { Provider } from "react-redux";
+import { store } from "@/app/store/store";
 
 type ProvidersProps = {
-    children: React.ReactNode;
+  children: React.ReactNode;
 };
 
 const Providers = ({ children }: ProvidersProps) => {
-    const form = useForm<InvoiceType>({
-        resolver: zodResolver(InvoiceSchema),
-        defaultValues: FORM_DEFAULT_VALUES,
-    });
+  const form = useForm<InvoiceType>({
+    resolver: zodResolver(InvoiceSchema),
+    defaultValues: FORM_DEFAULT_VALUES,
+  });
 
-    return (
-        <ThemeProvider
-            attribute="class"
-            defaultTheme="system"
-            enableSystem
-            disableTransitionOnChange
-        >
-            <TranslationProvider>
-                <AuthProvider>
-                    <FormProvider {...form}>
-                        <InvoiceContextProvider>
-                            <ChargesContextProvider>
-                                {children}
-                            </ChargesContextProvider>
-                        </InvoiceContextProvider>
-                    </FormProvider>
-                </AuthProvider>
-            </TranslationProvider>
-        </ThemeProvider>
-    );
+  return (
+    <Provider store={store}>
+      <ThemeProvider
+        attribute="class"
+        defaultTheme="system"
+        enableSystem
+        disableTransitionOnChange
+      >
+        <TranslationProvider>
+          <AuthProvider>
+            <FormProvider {...form}>
+              <InvoiceContextProvider>
+                <ChargesContextProvider>{children}</ChargesContextProvider>
+              </InvoiceContextProvider>
+            </FormProvider>
+          </AuthProvider>
+        </TranslationProvider>
+      </ThemeProvider>
+    </Provider>
+  );
 };
 
 export default Providers;
