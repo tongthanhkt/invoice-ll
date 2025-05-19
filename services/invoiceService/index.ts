@@ -1,9 +1,8 @@
-import { User } from "@/types";
-import { api } from "@/app/store/api";
 import {
   PayerCombined,
   ReceiverCombined,
 } from "@/app/components/invoice/InvoiceMain";
+import { api } from "@/app/store/api";
 
 const invoiceService = api.injectEndpoints({
   endpoints: (builder) => ({
@@ -45,11 +44,35 @@ const invoiceService = api.injectEndpoints({
       query: () => "/receivers-combined",
       providesTags: ["receivers"],
     }),
-    createReceiver: builder.mutation<{ name: string }, string>({
+    createReceiver: builder.mutation<
+      { id: string; name: string },
+      { name: string }
+    >({
       query: (receiver) => ({
         url: "/receivers",
         method: "POST",
         body: receiver,
+      }),
+      invalidatesTags: ["receivers"],
+    }),
+    createReceiverEmail: builder.mutation<{ email: string }, { email: string }>(
+      {
+        query: (email) => ({
+          url: "/receiver-emails",
+          method: "POST",
+          body: email,
+        }),
+        invalidatesTags: ["receivers"],
+      }
+    ),
+    createReceiverAddress: builder.mutation<
+      { address: string },
+      { address: string }
+    >({
+      query: (address) => ({
+        url: "/receiver-addresses",
+        method: "POST",
+        body: address,
       }),
       invalidatesTags: ["receivers"],
     }),
@@ -63,4 +86,6 @@ export const {
   useCreateReceiverMutation,
   useCreatePayerEmailMutation,
   useCreatePayerAddressMutation,
+  useCreateReceiverEmailMutation,
+  useCreateReceiverAddressMutation,
 } = invoiceService;
