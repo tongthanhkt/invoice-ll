@@ -1,7 +1,7 @@
 "use client";
 
-import { useGetProfileQuery } from "@/app/store/api";
 import { useQuerySpinner } from "@/hooks";
+import { useGetProfileQuery } from "@/services";
 import { authService } from "@/services/auth/authService";
 import { spinnerService } from "@/services/spinner.service";
 import { User } from "@/types";
@@ -11,10 +11,7 @@ import { createContext, ReactNode, useContext, useState } from "react";
 interface AuthContextType {
   user: User | null;
   loading: boolean;
-  login: (
-    email: string,
-    password: string
-  ) => Promise<{ success: boolean; error?: string }>;
+
   register: (name: string, email: string, password: string) => Promise<void>;
   logout: () => Promise<void>;
   updateProfile: (data: Partial<User>) => Promise<void>;
@@ -36,19 +33,6 @@ export function AuthProvider({ children }: { children: ReactNode }) {
       spinnerService.endSpinner();
       setLoading(false);
     }
-  };
-
-  const login = async (email: string, password: string) => {
-    return withSpinner(async () => {
-      try {
-        await authService.login({ email, password });
-        router.push("/invoice");
-        return { success: true };
-      } catch (error) {
-        console.error("Login failed:", error);
-        return { success: false, error: "Login failed" };
-      }
-    });
   };
 
   const register = async (name: string, email: string, password: string) => {
@@ -87,7 +71,6 @@ export function AuthProvider({ children }: { children: ReactNode }) {
       value={{
         user: userData?.user || null,
         loading: isLoading || loading,
-        login,
         register,
         logout,
         updateProfile,

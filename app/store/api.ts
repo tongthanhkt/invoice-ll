@@ -19,20 +19,5 @@ export const api = createApi({
     },
   }),
   tagTypes: ["Profile"],
-  endpoints: (builder) => ({
-    getProfile: builder.query<{ user: User }, void>({
-      query: () => "auth/me",
-      providesTags: ["Profile"],
-    }),
-    updateProfile: builder.mutation<User, Partial<User>>({
-      query: (data: Partial<User>) => ({
-        url: "auth/me",
-        method: "PATCH",
-        body: data,
-      }),
-      invalidatesTags: ["Profile"],
-    }),
-  }),
+  endpoints: () => ({}),
 });
-
-export const { useGetProfileQuery, useUpdateProfileMutation } = api;
