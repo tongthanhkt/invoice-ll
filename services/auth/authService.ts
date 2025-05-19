@@ -27,49 +27,6 @@ class AuthService {
     return AuthService.instance;
   }
 
-  async login(credentials: LoginCredentials): Promise<User> {
-    const response = await fetch(`${this.baseUrl}/auth/login`, {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify(credentials),
-      credentials: "include",
-    });
-
-    if (!response.ok) {
-      const error = await response.json();
-      throw new Error(error.error || "Login failed");
-    }
-
-    return response.json();
-  }
-
-  async register(data: RegisterData): Promise<User> {
-    const response = await fetch(`${this.baseUrl}/auth/register`, {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify(data),
-      credentials: "include",
-    });
-
-    if (!response.ok) {
-      const error = await response.json();
-      throw new Error(error.error || "Registration failed");
-    }
-
-    return response.json();
-  }
-
-  async logout(): Promise<void> {
-    await fetch(`${this.baseUrl}/auth/logout`, {
-      method: "POST",
-      credentials: "include",
-    });
-  }
-
   async getProfile(): Promise<User> {
     const response = await fetch(`${this.baseUrl}/auth/me`, {
       credentials: "include",

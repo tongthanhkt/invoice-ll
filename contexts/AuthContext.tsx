@@ -6,14 +6,18 @@ import { authService } from "@/services/auth/authService";
 import { spinnerService } from "@/services/spinner.service";
 import { User } from "@/types";
 import { useRouter, usePathname } from "next/navigation";
-import { createContext, ReactNode, useContext, useState } from "react";
+import {
+  createContext,
+  ReactNode,
+  useContext,
+  useEffect,
+  useState,
+} from "react";
 
 interface AuthContextType {
   user: User | null;
   loading: boolean;
 
-  register: (name: string, email: string, password: string) => Promise<void>;
-  logout: () => Promise<void>;
   updateProfile: (data: Partial<User>) => Promise<void>;
 }
 
@@ -23,11 +27,19 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   const pathname = usePathname();
 
   const isAuthPage = pathname === "/login" || pathname === "/register";
-  const { data: userData, isLoading } = useQuerySpinner(
-    useGetProfileQuery(undefined, { skip: isAuthPage })
-  );
+  const {
+    data: userData,
+    isLoading,
+    refetch,
+  } = useQuerySpinner(useGetProfileQuery(undefined, { skip: isAuthPage }));
+
+  // Fetch user data on mount and after login
+  useEffect(() => {
+    if (!isAuthPage) {
+      refetch();
+    }
+  }, [isAuthPage, refetch]);
   const [loading, setLoading] = useState<boolean>(false);
-  const router = useRouter();
 
   const withSpinner = async <T,>(fn: () => Promise<T>): Promise<T> => {
     setLoading(true);
@@ -38,31 +50,6 @@ export function AuthProvider({ children }: { children: ReactNode }) {
       spinnerService.endSpinner();
       setLoading(false);
     }
-  };
-
-  const register = async (name: string, email: string, password: string) => {
-    return withSpinner(async () => {
-      try {
-        await authService.register({ name, email, password });
-        router.push("/invoice");
-      } catch (error) {
-        console.error("Registration failed:", error);
-        throw error;
-      }
-    });
-  };
-
-  const logout = async () => {
-    return withSpinner(async () => {
-      try {
-        await authService.logout();
-        router.push("/login");
-        router.refresh();
-      } catch (error) {
-        console.error("Logout failed:", error);
-        throw error;
-      }
-    });
   };
 
   const updateProfile = async (data: Partial<User>) => {
@@ -76,8 +63,6 @@ export function AuthProvider({ children }: { children: ReactNode }) {
       value={{
         user: userData?.user || null,
         loading: isLoading || loading,
-        register,
-        logout,
         updateProfile,
       }}
     >

@@ -8,7 +8,8 @@ import {
   containerVariants,
   itemVariants,
 } from "@/constants/animationVariants";
-import { useLoginMutation } from "@/services";
+import { useQuerySpinner } from "@/hooks";
+import { useGetProfileQuery, useLoginMutation } from "@/services";
 import { spinnerService } from "@/services/spinner.service";
 import { motion } from "framer-motion";
 import Link from "next/link";
@@ -26,7 +27,18 @@ export default function LoginPage() {
     e.preventDefault();
 
     try {
-      await spinnerService.executePromises(login({ email, password }));
+      const res = await spinnerService.executePromises(
+        login({ email, password })
+      );
+
+      if (res.error) {
+        toast({
+          variant: "destructive",
+          description: "Invalid email or password",
+        });
+        return;
+      }
+      // refetch();
       router.push("/invoice");
     } catch (err) {
       toast({
