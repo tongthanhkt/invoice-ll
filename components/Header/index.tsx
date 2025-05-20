@@ -13,7 +13,7 @@ import {
 import { ChevronDown, LogOut, User } from "lucide-react";
 import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
-import { useEffect, useState, memo, useCallback } from "react";
+import { useEffect, useState, memo, useCallback, useMemo } from "react";
 import {
   spinnerService,
   useGetProfileQuery,
@@ -51,10 +51,14 @@ const Header = memo(function Header() {
 
   const handleLogout = useCallback(async () => {
     try {
-      await spinnerService.executePromises(logout());
-      router.push("/login");
+      spinnerService.startSpinner();
+      // await spinnerService.executePromises(logout());
+      window.location.href = "/logout";
+      // router.push("/login");
     } catch (error) {
       console.error("Logout failed:", error);
+    } finally {
+      spinnerService.endSpinner();
     }
   }, [logout, router]);
 
@@ -65,7 +69,13 @@ const Header = memo(function Header() {
     [router]
   );
 
-  const hidden = pathname === "/login" || pathname === "/register";
+  const hidden = useMemo(
+    () =>
+      pathname === "/login" ||
+      pathname === "/register" ||
+      pathname === "/logout",
+    [pathname]
+  );
 
   if (hidden || isLoading || isLogoutLoading) {
     return null;

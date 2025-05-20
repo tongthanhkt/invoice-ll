@@ -36,7 +36,8 @@ export default function LoginPage() {
         });
         return;
       }
-      router.push("/invoice");
+      // router.push("/invoice");
+      window.location.href = "/invoice";
     } catch (err) {
       toast({
         variant: "destructive",
