@@ -33,7 +33,7 @@ export const CreateProfile = () => {
         if (
           "data" in res.error &&
           (res.error.data as { message: string }).message ===
-            "BUSINESS_ALREADY_EXISTED"
+          "BUSINESS_ALREADY_EXISTED"
         ) {
           toast({
             variant: "destructive",
@@ -106,7 +106,7 @@ export const CreateProfile = () => {
         whileHover="hover"
         whileTap="tap"
       >
-        Sign up
+        Confirm
       </motion.button>
     </motion.form>
   );
