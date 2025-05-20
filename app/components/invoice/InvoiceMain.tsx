@@ -177,11 +177,11 @@ const InvoiceMain = () => {
           </motion.div>
 
           <motion.div
-            className="flex flex-col xl:flex-row w-full gap-4 mt-2 lg:mt-0"
+            className="flex flex-col lg:flex-row w-full gap-4 mt-2 lg:mt-0"
             variants={itemVariants}
           >
             {/* Form */}
-            <motion.div className="w-full xl:flex-1" variants={itemVariants}>
+            <motion.div className="w-full lg:flex-1" variants={itemVariants}>
               <AnimatePresence mode="wait">
                 <motion.div
                   key={selectedType}
@@ -197,7 +197,7 @@ const InvoiceMain = () => {
 
             {/* Actions for desktop */}
             <motion.div
-              className="w-full hidden xl:block xl:flex-1 mt-4 xl:mt-0"
+              className="w-full hidden lg:block lg:flex-1 mt-4 lg:mt-0"
               variants={actionsVariants}
             >
               <InvoiceActions key={renderKey} />
@@ -206,7 +206,7 @@ const InvoiceMain = () => {
         </motion.div>
 
         {/* Floating action button for mobile with instruction tag */}
-        <div className="fixed bottom-6 right-6 xl:hidden z-50 flex items-center">
+        <div className="fixed bottom-6 right-6 lg:hidden z-50 flex items-center">
           <AnimatePresence>
             {!mobileActionsVisible && (
               <motion.div
@@ -242,7 +242,7 @@ const InvoiceMain = () => {
         <AnimatePresence>
           {mobileActionsVisible && (
             <motion.div
-              className="fixed inset-0 bg-black/50 z-40 xl:hidden flex items-end"
+              className="fixed inset-0 bg-black/50 z-40 lg:hidden flex items-end"
               variants={mobileOverlayVariants}
               initial="hidden"
               animate="visible"
