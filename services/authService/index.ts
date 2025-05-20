@@ -36,6 +36,21 @@ const authService = api.injectEndpoints({
         method: "POST",
       }),
     }),
+    createBusiness: builder.mutation<
+      {
+        message: string;
+        payer: string;
+        email: string;
+        address: string;
+      },
+      { name: string; email: string; address: string; userId: string }
+    >({
+      query: (business) => ({
+        url: "/auth/business",
+        method: "POST",
+        body: business,
+      }),
+    }),
   }),
 });
 
@@ -45,4 +60,5 @@ export const {
   useLoginMutation,
   useRegisterMutation,
   useLogoutMutation,
+  useCreateBusinessMutation,
 } = authService;

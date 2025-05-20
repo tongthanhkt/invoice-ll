@@ -40,6 +40,7 @@ const invoiceService = api.injectEndpoints({
       }),
       invalidatesTags: ["payers"],
     }),
+
     combinedReceivers: builder.query<ReceiverCombined, void>({
       query: () => "/receivers-combined",
       providesTags: ["receivers"],

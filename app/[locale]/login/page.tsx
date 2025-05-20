@@ -8,8 +8,7 @@ import {
   containerVariants,
   itemVariants,
 } from "@/constants/animationVariants";
-import { useQuerySpinner } from "@/hooks";
-import { useGetProfileQuery, useLoginMutation } from "@/services";
+import { useLoginMutation } from "@/services";
 import { spinnerService } from "@/services/spinner.service";
 import { motion } from "framer-motion";
 import Link from "next/link";

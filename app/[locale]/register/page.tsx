@@ -1,136 +1,41 @@
 "use client";
 
 import { AuthLayout } from "@/app/components";
-import FormInput from "@/app/components/reusables/form-fields/FormInput/FormInput";
-import { Checkbox } from "@/components/ui/checkbox";
 import { toast } from "@/components/ui/use-toast";
-import { useAuth } from "@/contexts/AuthContext";
-import { useRouter } from "next/navigation";
-import { useState } from "react";
-import { motion } from "framer-motion";
 import {
   buttonAnimationVariants,
   containerVariants,
-  itemVariants,
 } from "@/constants/animationVariants";
 import { spinnerService, useRegisterMutation } from "@/services";
+import { motion } from "framer-motion";
+import { useRouter, useSearchParams } from "next/navigation";
+import { useState } from "react";
+import { CreateProfile } from "./CreateProfile";
+import { CreateAccount } from "./CreateAccount";
 
 export default function RegisterPage() {
-  const [name, setName] = useState("");
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
-  const router = useRouter();
-  const [register] = useRegisterMutation();
-
-  const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
-    try {
-      const res = await spinnerService.executePromises(
-        register({ name, email, password })
-      );
-      if (res.error) {
-        toast({
-          variant: "destructive",
-          description: "Registration failed. Please try again.",
-        });
-        return;
-      }
-      router.push("/login");
-    } catch (error) {
-      toast({
-        variant: "destructive",
-        description: "Registration failed. Please try again.",
-      });
-    }
-  };
+  const searchParams = useSearchParams();
+  const isProfile = searchParams.get("userId") || undefined;
 
   return (
     <AuthLayout
-      title="Create your account"
-      footerConfig={{
-        description: "Already have an account?",
-        link: "/login",
-        linkText: "Sign in",
-      }}
+      title={isProfile ? "Create your profile" : "Create your account"}
+      footerConfig={
+        isProfile
+          ? undefined
+          : {
+              description: "Already have an account?",
+              link: "/login",
+              linkText: "Sign in",
+            }
+      }
+      subTitle={
+        isProfile &&
+        "Your profile information will be the information in the future documents (purchase order/payment voucher, etc.)"
+      }
     >
-      <motion.form
-        className="space-y-4 w-full"
-        onSubmit={handleSubmit}
-        initial="hidden"
-        variants={containerVariants}
-        animate="visible"
-      >
-        <motion.div variants={itemVariants}>
-          <FormInput
-            name="name"
-            type="text"
-            required
-            placeholder="Please enter your fullname"
-            label="Fullname"
-            value={name}
-            onChange={(e) => setName(e.target.value)}
-          />
-        </motion.div>
-
-        <motion.div variants={itemVariants}>
-          <FormInput
-            name="email"
-            type="email"
-            required
-            label="Email address"
-            placeholder="Please enter your email address"
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
-          />
-        </motion.div>
-
-        <motion.div variants={itemVariants}>
-          <FormInput
-            name="password"
-            type="password"
-            required
-            label="Password"
-            placeholder="Please enter your password"
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
-          />
-        </motion.div>
-
-        <motion.div
-          className="flex items-start mt-2 mb-2"
-          variants={itemVariants}
-        >
-          <Checkbox id="terms" required className="mt-1 mr-2" />
-          <label htmlFor="terms" className="text-sm text-gray-700 select-none">
-            I have read and agree to the
-            <motion.a
-              href="https://vn.lianlianglobal.com/legal/terms"
-              className="ml-2 text-blue-700 hover:underline"
-              whileHover={{ scale: 1.02 }}
-            >
-              Terms & Conditions
-            </motion.a>
-            {" ,"}
-            <motion.a
-              href="#"
-              className="ml-2 text-blue-700 hover:underline"
-              whileHover={{ scale: 1.02 }}
-            >
-              Privacy Policy.
-            </motion.a>
-          </label>
-        </motion.div>
-
-        <motion.button
-          type="submit"
-          className="w-full bg-blue-500 hover:bg-blue-700 text-white font-medium py-2 rounded-lg transition-colors"
-          variants={buttonAnimationVariants}
-          whileHover="hover"
-          whileTap="tap"
-        >
-          Sign up
-        </motion.button>
-      </motion.form>
+      {isProfile ? <CreateProfile /> : <CreateAccount />}
+      {/* <CreateProfile /> */}
     </AuthLayout>
   );
 }

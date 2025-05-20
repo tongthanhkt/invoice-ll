@@ -1,25 +1,30 @@
-"use client"
+"use client";
 
-import bannerImg from "@/public/assets/img/banner/auth.svg"
-import Image from "next/image"
-import Link from "next/link"
-import type React from "react"
-import { motion } from "framer-motion"
+import bannerImg from "@/public/assets/img/banner/auth.svg";
+import Image from "next/image";
+import Link from "next/link";
+import type React from "react";
+import { motion } from "framer-motion";
 
 type AuthLayoutProps = {
-  children: React.ReactNode
-  title: string
-  footerConfig: {
-    description: string
-    link: string
-    linkText: string
-  }
-}
+  children: React.ReactNode;
+  title: string;
+  subTitle?: string;
+  footerConfig?: {
+    description: string;
+    link: string;
+    linkText: string;
+  };
+};
 
-export const AuthLayout = ({ children, title, footerConfig }: AuthLayoutProps) => {
+export const AuthLayout = ({
+  children,
+  title,
+  footerConfig,
+  subTitle,
+}: AuthLayoutProps) => {
   return (
-    <div
-      className="min-h-screen bg-blue-50 flex justify-center relative overflow-hidden before:content-[''] before:absolute before:top-0 before:left-0 before:right-0 before:h-40  before:bg-[url('/assets/img/banner/auth.svg')] before:bg-center before:bg-[center_10%] before:bg-no-repeat before:bg-[length:200px] before:opacity-40 lg:before:hidden">
+    <div className="min-h-screen bg-blue-50 flex justify-center relative overflow-hidden before:content-[''] before:absolute before:top-0 before:left-0 before:right-0 before:h-40  before:bg-[url('/assets/img/banner/auth.svg')] before:bg-center before:bg-[center_10%] before:bg-no-repeat before:bg-[length:200px] before:opacity-40 lg:before:hidden">
       <motion.div
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
@@ -54,7 +59,8 @@ export const AuthLayout = ({ children, title, footerConfig }: AuthLayoutProps) =
               Generate &amp; Manage Your Invoices Instantly
             </h1>
             <p className="text-sm text-neutral-500">
-              Easily generate, store, and organize all your receipts and invoices with just one click.
+              Easily generate, store, and organize all your receipts and
+              invoices with just one click.
               <br />
               Simplify your accounting and never lose a bill again!
             </p>
@@ -67,7 +73,6 @@ export const AuthLayout = ({ children, title, footerConfig }: AuthLayoutProps) =
           className="w-full lg:flex-1  h-fit bg-white rounded-2xl p-6 sm:p-10 lg:p-16 !text-gray-900 shadow-md flex items-center justify-center relative"
         >
           <div className="flex flex-col justify-center mx-auto w-full">
-
             <motion.h2
               initial={{ scale: 0.8, opacity: 0 }}
               animate={{ scale: 1, opacity: 1 }}
@@ -89,6 +94,16 @@ export const AuthLayout = ({ children, title, footerConfig }: AuthLayoutProps) =
             >
               {title}
             </motion.div>
+            {subTitle && (
+              <motion.div
+                initial={{ opacity: 0, y: 10 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.5, delay: 0.6 }}
+                className="text-sm sm:text-sm py-2 max-w-sm mx-auto sm:pb-4 -mt-4 text-neutral-500 text-center"
+              >
+                {subTitle}
+              </motion.div>
+            )}
             <motion.div
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
@@ -97,17 +112,22 @@ export const AuthLayout = ({ children, title, footerConfig }: AuthLayoutProps) =
               {children}
             </motion.div>
 
-            <motion.p
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              transition={{ duration: 0.5, delay: 0.9 }}
-              className="text-center text-sm text-gray-600 mt-4"
-            >
-              {footerConfig.description}{" "}
-              <Link href={footerConfig.link} className="text-indigo-600 hover:underline font-medium">
-                {footerConfig.linkText}
-              </Link>
-            </motion.p>
+            {footerConfig && (
+              <motion.p
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                transition={{ duration: 0.5, delay: 0.9 }}
+                className="text-center text-sm text-gray-600 mt-4"
+              >
+                {footerConfig.description}{" "}
+                <Link
+                  href={footerConfig.link}
+                  className="text-indigo-600 hover:underline font-medium"
+                >
+                  {footerConfig.linkText}
+                </Link>
+              </motion.p>
+            )}
             <motion.div
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
@@ -122,8 +142,10 @@ export const AuthLayout = ({ children, title, footerConfig }: AuthLayoutProps) =
                 . All rights reserved.
               </div>
               <div className="flex gap-2">
-                <a href="/support"
-                  className="text-blue-700 hover:underline flex flex-row-reverse items-center gap-1">
+                <a
+                  href="/support"
+                  className="text-blue-700 hover:underline flex flex-row-reverse items-center gap-1"
+                >
                   Support{" "}
                   <svg
                     xmlns="http://www.w3.org/2000/svg"
@@ -148,5 +170,5 @@ export const AuthLayout = ({ children, title, footerConfig }: AuthLayoutProps) =
         </motion.div>
       </motion.div>
     </div>
-  )
-}
+  );
+};
