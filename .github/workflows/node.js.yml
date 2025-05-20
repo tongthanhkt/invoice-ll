@@ -27,6 +27,13 @@ jobs:
 
       - name: 📂 List Files
         run: ls -la
+        
+      - name: 📄 Write .env File
+        run: |
+            cat <<EOF > .env
+            JWT_SECRET=${{ secrets.JWT_SECRET }}
+            MONGODB_URI=${{ secrets.MONGODB_URI }}       
+          EOF
 
       - name: 📦 Install Dependencies
         run: npm install --force
