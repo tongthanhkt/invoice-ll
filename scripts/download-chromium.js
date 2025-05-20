@@ -9,7 +9,7 @@ if (!fs.existsSync('/tmp')) {
 
 // Download Chromium
 console.log('Downloading Chromium...');
-execSync('npx @sparticuz/chromium download', { stdio: 'inherit' });
+execSync('TMPDIR=/tmp npx @sparticuz/chromium download', { stdio: 'inherit' });
 
 // Copy Chromium to /tmp
 console.log('Copying Chromium to /tmp...');
