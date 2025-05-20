@@ -51,16 +51,18 @@ jobs:
         run: |
           scp -i private_key -o StrictHostKeyChecking=no project.zip ubuntu@${{ vars.REMOTE_HOST }}:~/
 
-      - name: 📦 Unzip and Install on Server
+      - name: 📤 Upload Archive to Server
         run: |
-          ssh -i private_key -o StrictHostKeyChecking=no ubuntu@${{ vars.REMOTE_HOST }} << 'EOF'
-            rm -rf ~/project
-            mkdir -p ~/project
-            unzip -q ~/project.zip -d ~/project
-            cd ~/project
+          scp -i private_key -o StrictHostKeyChecking=no project.zip ubuntu@${{ vars.REMOTE_HOST }}:~/
+
+      - name: 📦 Unzip and Deploy on Server (overwrite changed files only)
+        run: |
+          ssh -i private_key -o StrictHostKeyChecking=no ubuntu@${{ vars.REMOTE_HOST }} << EOF
+            unzip -o ~/project.zip -d ~/${{ vars.REMOTE_PATH }}
+            cd ~/${{ vars.REMOTE_PATH }}
             npm ci --omit=dev
             node scripts/setup-chromium.js
-          EOF
+      EOF
 
       - name: ✅ Done
         run: echo "🚀 Deployment completed successfully!"
