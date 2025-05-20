@@ -45,7 +45,7 @@ const Header = memo(function Header() {
     useGetProfileQuery(undefined, { skip: isAuthPage })
   );
   const router = useRouter();
-  const [logout] = useLogoutMutation();
+  const [logout, { isLoading: isLogoutLoading }] = useLogoutMutation();
 
   const user = userData?.user;
 
@@ -67,7 +67,7 @@ const Header = memo(function Header() {
 
   const hidden = pathname === "/login" || pathname === "/register";
 
-  if (hidden || isLoading) {
+  if (hidden || isLoading || isLogoutLoading) {
     return null;
   }
 

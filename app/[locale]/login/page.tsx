@@ -29,7 +29,6 @@ export default function LoginPage() {
       const res = await spinnerService.executePromises(
         login({ email, password })
       );
-
       if (res.error) {
         toast({
           variant: "destructive",
@@ -37,7 +36,6 @@ export default function LoginPage() {
         });
         return;
       }
-      // refetch();
       router.push("/invoice");
     } catch (err) {
       toast({
