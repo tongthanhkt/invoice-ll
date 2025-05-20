@@ -1,4 +1,5 @@
-name: GitHub Actions Deployment
+name: GitHub Actions Demo
+run-name: ${{ github.actor }} is deploying 🚀
 
 on:
   push:
@@ -16,14 +17,14 @@ jobs:
         node-version: [20.x]
 
     steps:
-      - name: 🛎 Triggered by ${{ github.actor }}
-        run: echo "🚀 Deployment triggered by a ${{ github.event_name }} event."
-
-      - name: 🔄 Checkout repository
+      - name: 📥 Checkout code
         uses: actions/checkout@v3
 
-      - name: 📂 List repo files
-        run: ls -la
+      - name: 🧪 Log basic info
+        run: |
+          echo "🎉 Triggered by ${{ github.event_name }}"
+          echo "🔀 Branch: ${{ github.ref }}"
+          echo "📁 Repo: ${{ github.repository }}"
 
       - name: 📦 Install dependencies
         run: npm install --force
@@ -31,46 +32,32 @@ jobs:
       - name: 🏗️ Build project
         run: npm run build
 
-      - name: 🧹 Clean unnecessary files
+      - name: 🧹 Clean up before packaging
         run: |
-          rm -rf .git
-          rm -rf .cache
-          rm -rf node_modules
+          rm -rf .git .cache node_modules
 
-      - name: 📦 Archive entire project (excluding node_modules & .git)
+      - name: 🗂️ Create archive of entire project
         run: |
-          tar --exclude='./node_modules' --exclude='./.git' -czf project.tar.gz .
+          tar -czf project.tar.gz .
 
-      - name: 🔐 Set up SSH key
+      - name: 🔐 Install SSH Key
         uses: shimataro/ssh-key-action@v2
         with:
           key: ${{ secrets.SSH_KEY }}
           known_hosts: "unnecessary"
 
-      - name: 📤 Upload archive to server
+      - name: 🚀 Upload archive to server
         run: |
-          scp -i ${{ secrets.SSH_KEY }} -o StrictHostKeyChecking=no project.tar.gz ubuntu@${{ vars.REMOTE_HOST }}:/tmp/project.tar.gz
+          scp -i ${{ secrets.SSH_KEY }} -o StrictHostKeyChecking=no project.tar.gz ubuntu@${{ vars.REMOTE_HOST }}:~/
 
-      - name: 📥 Extract and install on server
+      - name: 📂 Extract archive and install on server
         run: |
           ssh -i ${{ secrets.SSH_KEY }} -o StrictHostKeyChecking=no ubuntu@${{ vars.REMOTE_HOST }} << 'EOF'
-            # Tạo thư mục project nếu chưa có
-            mkdir -p ~/${{ vars.REMOTE_PATH }}
-            cd ~/${{ vars.REMOTE_PATH }}
-
-            # Xoá nội dung cũ (nếu cần)
-            rm -rf ./*
-
-            # Giải nén file
-            tar -xzf /tmp/project.tar.gz -C ./
-
-            # Cài production dependencies
+            cd ~
+            rm -rf ./project           # Xoá project cũ nếu có
+            mkdir -p project
+            tar -xzf project.tar.gz -C ./project
+            cd project
             npm ci --omit=dev
-
-            # Cài Chromium nếu có script
-            if [ -f scripts/setup-chromium.js ]; then
-              node scripts/setup-chromium.js
-            fi
-
-            echo "✅ Deployment completed successfully!"
+            node scripts/setup-chromium.js
           EOF
