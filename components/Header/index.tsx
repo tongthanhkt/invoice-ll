@@ -13,7 +13,7 @@ import {
 import { ChevronDown, LogOut, User } from "lucide-react";
 import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
-import { useEffect, useState } from "react";
+import { useEffect, useState, memo, useCallback } from "react";
 import {
   spinnerService,
   useGetProfileQuery,
@@ -37,11 +37,11 @@ const getInitials = (name: string) => {
     .substring(0, 2);
 };
 
-export default function Header() {
+const Header = memo(function Header() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const pathname = usePathname();
   const isAuthPage = pathname === "/login" || pathname === "/register";
-  const { data: userData } = useQuerySpinner(
+  const { data: userData, isLoading } = useQuerySpinner(
     useGetProfileQuery(undefined, { skip: isAuthPage })
   );
   const router = useRouter();
@@ -49,20 +49,26 @@ export default function Header() {
 
   const user = userData?.user;
 
-  const handleLogout = async () => {
+  const handleLogout = useCallback(async () => {
     try {
       await spinnerService.executePromises(logout());
       router.push("/login");
-      // The redirect and reload will be handled by the AuthContext
     } catch (error) {
       console.error("Logout failed:", error);
     }
-  };
+  }, [logout, router]);
+
+  const handleNavigation = useCallback(
+    (path: string) => {
+      router.push(path);
+    },
+    [router]
+  );
 
   const hidden = pathname === "/login" || pathname === "/register";
 
-  if (hidden) {
-    return null; // Don't render header on login/register pages
+  if (hidden || isLoading) {
+    return null;
   }
 
   return (
@@ -72,7 +78,9 @@ export default function Header() {
           <div className="flex items-center">
             <Link
               href="/invoice"
-              className="text-xl font-bold text-white bg-blue-600 uppercase px-4 py-1 rounded-lg transition-colors"
+              className={`text-xl font-bold text-white bg-blue-600 uppercase px-4 py-1 rounded-lg transition-colors`}
+              prefetch={true}
+              onClick={() => handleNavigation("/invoice")}
             >
               Invoify
             </Link>
@@ -220,4 +228,6 @@ export default function Header() {
       )}
     </header>
   );
-}
+});
+
+export default Header;

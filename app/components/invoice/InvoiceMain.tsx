@@ -96,13 +96,13 @@ const InvoiceMain = () => {
   const [formLoaded, setFormLoaded] = useState(false);
 
   // Set form as loaded after a short delay for animations
-  useEffect(() => {
-    const timer = setTimeout(() => {
-      setFormLoaded(true);
-    }, 100);
+  // useEffect(() => {
+  //   const timer = setTimeout(() => {
+  //     setFormLoaded(true);
+  //   }, 0);
 
-    return () => clearTimeout(timer);
-  }, []);
+  //   return () => clearTimeout(timer);
+  // }, []);
 
   const { data: payers } = useQuerySpinner(useCombinedPayersQuery());
   const { data: receivers } = useQuerySpinner(useCombinedReceiversQuery());
@@ -159,8 +159,8 @@ const InvoiceMain = () => {
         <motion.div
           className="flex flex-col lg:flex-row w-full gap-4 pb-6"
           variants={containerVariants}
-          initial="hidden"
-          animate={formLoaded ? "visible" : "hidden"}
+          initial="visible"
+          // animate={formLoaded ? "visible" : "hidden"}
         >
           {/* Sidebar Navigation - for mobile/tablet it stacks, for desktop it's on the left */}
           <motion.div

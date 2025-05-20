@@ -123,6 +123,7 @@ export const AuthLayout = ({
                 <Link
                   href={footerConfig.link}
                   className="text-indigo-600 hover:underline font-medium"
+                  prefetch={true}
                 >
                   {footerConfig.linkText}
                 </Link>
