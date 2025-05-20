@@ -15,7 +15,7 @@ class AuthService {
 
   private constructor() {
     // console.log("process.env.NEXT_PUBLIC_API_URL", process.env.NEXT_PUBLIC_API_URL);
-    this.baseUrl = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:3000/api';
+    this.baseUrl = '/api';
     // // this.baseUrl = process.env.NEXT_PUBLIC_API_URL || process.env.NEXT_PUBLIC_API_URL || 'http://localhost:3000/api';
 
   }
