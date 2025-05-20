@@ -1,5 +1,5 @@
-name: GitHub Actions Demo
-run-name: ${{ github.actor }} is deploying 🚀
+name: GitHub Actions Deployment
+run-name: ${{ github.actor }} is deploying to production 🚀
 
 on:
   push:
@@ -9,7 +9,7 @@ on:
 jobs:
   deployment:
     runs-on: ubuntu-latest
-    environment: 
+    environment:
       name: PRODUCTION
 
     strategy:
@@ -17,42 +17,43 @@ jobs:
         node-version: [20.x]
 
     steps:
-      - name: 📥 Checkout code
+      - name: 🛎️ Trigger Info
+        run: |
+          echo "🎉 Triggered by ${{ github.event_name }} on branch ${{ github.ref }}"
+          echo "🖥️ Running on ${{ runner.os }} for repo ${{ github.repository }}"
+
+      - name: 📥 Checkout Code
         uses: actions/checkout@v3
 
-      - name: 🧪 Log basic info
-        run: |
-          echo "🎉 Triggered by ${{ github.event_name }}"
-          echo "🔀 Branch: ${{ github.ref }}"
-          echo "📁 Repo: ${{ github.repository }}"
+      - name: 📂 List Files
+        run: ls -la
 
-      - name: 📦 Install dependencies
+      - name: 📦 Install Dependencies
         run: npm install --force
 
-      - name: 🏗️ Build project
+      - name: 🏗️ Build Project
         run: npm run build
 
-      - name: 🧹 Clean up before packaging
+      - name: 🧹 Clean up Unneeded Files
         run: |
-          rm -rf .git .cache node_modules
+          rm -rf .git .cache
 
-      - name: 📦 Zip entire project
+      - name: 🗜️ Zip Project (excluding node_modules and .git)
         run: |
           zip -r project.zip . -x "node_modules/*" -x ".git/*" -x ".cache/*"
 
-      - name: 🔐 Install SSH Key
-        uses: shimataro/ssh-key-action@v2
-        with:
-          key: ${{ secrets.SSH_KEY }}
-          known_hosts: "unnecessary"
-
-      - name: 🚀 Upload archive to server
+      - name: 🔐 Write SSH Private Key to File
         run: |
-          scp -i ${{ secrets.SSH_KEY }} -o StrictHostKeyChecking=no project.zip ubuntu@${{ vars.REMOTE_HOST }}:~/
+          echo "${{ secrets.SSH_KEY }}" > private_key
+          chmod 600 private_key
 
-      - name: 📂 Extract archive and install on server
+      - name: 📤 Upload Archive to Server
         run: |
-          ssh -i ${{ secrets.SSH_KEY }} -o StrictHostKeyChecking=no ubuntu@${{ vars.REMOTE_HOST }} << 'EOF'
+          scp -i private_key -o StrictHostKeyChecking=no project.zip ubuntu@${{ vars.REMOTE_HOST }}:~/
+
+      - name: 📦 Unzip and Install on Server
+        run: |
+          ssh -i private_key -o StrictHostKeyChecking=no ubuntu@${{ vars.REMOTE_HOST }} << 'EOF'
             rm -rf ~/project
             mkdir -p ~/project
             unzip -q ~/project.zip -d ~/project
@@ -60,3 +61,6 @@ jobs:
             npm ci --omit=dev
             node scripts/setup-chromium.js
           EOF
+
+      - name: ✅ Done
+        run: echo "🚀 Deployment completed successfully!"
