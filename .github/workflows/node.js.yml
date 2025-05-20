@@ -36,9 +36,9 @@ jobs:
         run: |
           rm -rf .git .cache node_modules
 
-      - name: 🗂️ Create archive of entire project
+      - name: 📦 Zip entire project
         run: |
-          tar -czf project.tar.gz .
+          zip -r project.zip . -x "node_modules/*" -x ".git/*" -x ".cache/*"
 
       - name: 🔐 Install SSH Key
         uses: shimataro/ssh-key-action@v2
@@ -48,16 +48,15 @@ jobs:
 
       - name: 🚀 Upload archive to server
         run: |
-          scp -i ${{ secrets.SSH_KEY }} -o StrictHostKeyChecking=no project.tar.gz ubuntu@${{ vars.REMOTE_HOST }}:~/
+          scp -i ${{ secrets.SSH_KEY }} -o StrictHostKeyChecking=no project.zip ubuntu@${{ vars.REMOTE_HOST }}:~/
 
       - name: 📂 Extract archive and install on server
         run: |
           ssh -i ${{ secrets.SSH_KEY }} -o StrictHostKeyChecking=no ubuntu@${{ vars.REMOTE_HOST }} << 'EOF'
-            cd ~
-            rm -rf ./project           # Xoá project cũ nếu có
-            mkdir -p project
-            tar -xzf project.tar.gz -C ./project
-            cd project
+            rm -rf ~/project
+            mkdir -p ~/project
+            unzip -q ~/project.zip -d ~/project
+            cd ~/project
             npm ci --omit=dev
             node scripts/setup-chromium.js
           EOF
