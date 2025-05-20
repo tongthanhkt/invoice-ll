@@ -1,17 +1,9 @@
 "use client";
 
 import { AuthLayout } from "@/app/components";
-import { toast } from "@/components/ui/use-toast";
-import {
-  buttonAnimationVariants,
-  containerVariants,
-} from "@/constants/animationVariants";
-import { spinnerService, useRegisterMutation } from "@/services";
-import { motion } from "framer-motion";
-import { useRouter, useSearchParams } from "next/navigation";
-import { useState } from "react";
-import { CreateProfile } from "./CreateProfile";
+import { useSearchParams } from "next/navigation";
 import { CreateAccount } from "./CreateAccount";
+import { CreateProfile } from "./CreateProfile";
 
 export default function RegisterPage() {
   const searchParams = useSearchParams();

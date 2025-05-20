@@ -47,6 +47,7 @@ export const AuthLayout = ({
               alt="Authentication illustration"
               width={460}
               className="mx-auto"
+              priority
             />
           </motion.div>
           <motion.div
@@ -120,13 +121,14 @@ export const AuthLayout = ({
                 className="text-center text-sm text-gray-600 mt-4"
               >
                 {footerConfig.description}{" "}
-                <Link
+                <a
                   href={footerConfig.link}
                   className="text-indigo-600 hover:underline font-medium"
-                  prefetch={true}
+                  // prefetch={true}
+                  // replace
                 >
                   {footerConfig.linkText}
-                </Link>
+                </a>
               </motion.p>
             )}
             <motion.div

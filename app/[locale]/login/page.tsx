@@ -12,12 +12,9 @@ import { useLoginMutation } from "@/services";
 import { spinnerService } from "@/services/spinner.service";
 import { motion } from "framer-motion";
 import Link from "next/link";
-import { useRouter } from "next/navigation";
 import { useState } from "react";
 
 export default function LoginPage() {
-  const router = useRouter();
-
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [login] = useLoginMutation();
