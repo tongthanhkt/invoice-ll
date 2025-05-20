@@ -58,7 +58,7 @@ jobs:
             cd ~/${{ vars.REMOTE_PATH }}
             npm ci --omit=dev
             node scripts/setup-chromium.js
-EOF
+          EOF
 
       - name: ✅ Done
         run: echo "🚀 Deployment completed successfully!"
