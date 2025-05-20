@@ -1,5 +1,4 @@
-name: GitHub Actions Demo
-run-name: ${{ github.actor }} is testing out GitHub Actions 🚀
+name: GitHub Actions Deployment
 
 on:
   push:
@@ -10,58 +9,68 @@ jobs:
   deployment:
     runs-on: ubuntu-latest
     environment: 
-      name: PRODUCTION     # ✅ Đã sửa đúng tên environment
+      name: PRODUCTION
 
     strategy:
       matrix:
         node-version: [20.x]
 
     steps:
-      - run: echo "🎉 The job was automatically triggered by a ${{ github.event_name }} event."
-      - run: echo "🐧 This job is now running on a ${{ runner.os }} server hosted by GitHub!"
-      - run: echo "🔎 The name of your branch is ${{ github.ref }} and your repository is ${{ github.repository }}."
+      - name: 🛎 Triggered by ${{ github.actor }}
+        run: echo "🚀 Deployment triggered by a ${{ github.event_name }} event."
 
-      - name: Check out repository code
+      - name: 🔄 Checkout repository
         uses: actions/checkout@v3
 
-      - run: echo "💡 The ${{ github.repository }} repository has been cloned to the runner."
-      - run: echo "🖥️ The workflow is now ready to test your code on the runner."
+      - name: 📂 List repo files
+        run: ls -la
 
-      - name: List files in the repository
-        run: ls ${{ github.workspace }}
-
-      - name: Install dependency
+      - name: 📦 Install dependencies
         run: npm install --force
 
-      - name: Build dependency
+      - name: 🏗️ Build project
         run: npm run build
 
-      - run: echo "🍏 This job's status is ${{ job.status }}."
+      - name: 🧹 Clean unnecessary files
+        run: |
+          rm -rf .git
+          rm -rf .cache
+          rm -rf node_modules
 
-      - run: sudo rm -rf .git
+      - name: 📦 Archive entire project (excluding node_modules & .git)
+        run: |
+          tar --exclude='./node_modules' --exclude='./.git' -czf project.tar.gz .
 
-      - name: Remove Puppeteer cache before sync
-        run: rm -rf .cache
-
-      # ✅ Đặt SSH Key trước rsync
-      - name: Install SSH Key
+      - name: 🔐 Set up SSH key
         uses: shimataro/ssh-key-action@v2
         with:
           key: ${{ secrets.SSH_KEY }}
           known_hosts: "unnecessary"
 
-      - name: rsync deployments
-        uses: burnett01/rsync-deployments@7.0.1
-        with:
-          switches: -avzr --rsync-path="mkdir -p ~/${{ vars.REMOTE_PATH }} && rsync"
-          remote_path: ~/${{ vars.REMOTE_PATH }}/
-          remote_host: ${{ vars.REMOTE_HOST }}
-          remote_user: ubuntu
-          remote_key: ${{ secrets.SSH_KEY }}
-      - name: Install Chromium on server
+      - name: 📤 Upload archive to server
+        run: |
+          scp -i ${{ secrets.SSH_KEY }} -o StrictHostKeyChecking=no project.tar.gz ubuntu@${{ vars.REMOTE_HOST }}:/tmp/project.tar.gz
+
+      - name: 📥 Extract and install on server
         run: |
           ssh -i ${{ secrets.SSH_KEY }} -o StrictHostKeyChecking=no ubuntu@${{ vars.REMOTE_HOST }} << 'EOF'
+            # Tạo thư mục project nếu chưa có
+            mkdir -p ~/${{ vars.REMOTE_PATH }}
             cd ~/${{ vars.REMOTE_PATH }}
+
+            # Xoá nội dung cũ (nếu cần)
+            rm -rf ./*
+
+            # Giải nén file
+            tar -xzf /tmp/project.tar.gz -C ./
+
+            # Cài production dependencies
             npm ci --omit=dev
-            node scripts/setup-chromium.js
+
+            # Cài Chromium nếu có script
+            if [ -f scripts/setup-chromium.js ]; then
+              node scripts/setup-chromium.js
+            fi
+
+            echo "✅ Deployment completed successfully!"
           EOF
