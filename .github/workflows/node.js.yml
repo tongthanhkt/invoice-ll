@@ -33,7 +33,7 @@ jobs:
             cat <<EOF > .env
             JWT_SECRET=${{ secrets.JWT_SECRET }}
             MONGODB_URI=${{ secrets.MONGODB_URI }}       
-          EOF
+            EOF
 
       - name: 📦 Install Dependencies
         run: npm install --force
