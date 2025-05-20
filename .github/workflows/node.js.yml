@@ -4,7 +4,7 @@ run-name: ${{ github.actor }} is testing out GitHub Actions 🚀
 on:
   push:
     branches:
-      - clone/entiti/responsive  
+      - main
 
 jobs:
   deployment:
@@ -50,16 +50,8 @@ jobs:
       - name: rsync deployments
         uses: burnett01/rsync-deployments@7.0.1
         with:
-          switches: -avzr
-          remote_path: ~/frontend/
-          remote_host: 13.213.11.180
+          switches: -avzr --rsync-path="mkdir -p ~/${{ vars.REMOTE_PATH }} && rsync"
+          remote_path: ~/${{ vars.REMOTE_PATH }}/
+          remote_host: ${{ vars.REMOTE_HOST }}
           remote_user: ubuntu
           remote_key: ${{ secrets.SSH_KEY }}
-
-      - name: Start application
-        run: |
-          ssh -o StrictHostKeyChecking=no ubuntu@13.213.11.180 << 'EOF'
-            sudo cp -r /home/ubuntu/frontend /var/www
-            pm2 delete frontend || true
-            pm2 start npm --name "frontend" -- start
-          EOF
