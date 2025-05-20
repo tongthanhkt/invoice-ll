@@ -1,8 +1,14 @@
-import { useEffect, useState } from 'react';
-import { useFormContext } from 'react-hook-form';
-import { AppSelect } from '../../reusables/form-fields/AppSelect';
-import { PayerCombined } from '../InvoiceMain';
-import { SectionContainer } from '../SectionContainer';
+import {
+  useCreatePayerAddressMutation,
+  useCreatePayerEmailMutation,
+  useCreatePayerMutation,
+} from "@/services";
+import { spinnerService } from "@/services/spinner.service";
+import { useMemo, useState } from "react";
+import { useFormContext } from "react-hook-form";
+import { AppSelect } from "../../reusables/form-fields/AppSelect";
+import { PayerCombined } from "../InvoiceMain";
+import { SectionContainer } from "../SectionContainer";
 
 interface Payer {
   _id: string;
@@ -26,32 +32,23 @@ export const PayerSection = ({ payersData }: PayerSectionProps) => {
   const { setValue } = methods;
 
   // Initialize with data from props
-  const [payers, setPayers] = useState<Payer[]>([]);
-  const [payerEmails, setPayerEmails] = useState<SelectOption[]>([]);
-  const [payerAddresses, setPayerAddresses] = useState<SelectOption[]>([]);
+  const [createPayer] = useCreatePayerMutation();
+  const [createPayerEmail] = useCreatePayerEmailMutation();
+  const [createPayerAddress] = useCreatePayerAddressMutation();
 
-  // Update state when props change
-  useEffect(() => {
-    if (payersData?.payers) {
-      setPayers(payersData.payers);
-    }
+  const payerEmails = useMemo(() => {
+    return payersData?.emails.map((email) => ({
+      value: email.email,
+      label: email.email,
+    }));
+  }, [payersData?.emails]);
 
-    if (payersData?.emails) {
-      const emailOptions = payersData.emails.map((email) => ({
-        value: email.email,
-        label: email.email,
-      }));
-      setPayerEmails(emailOptions);
-    }
-
-    if (payersData?.addresses) {
-      const addressOptions = payersData.addresses.map((address) => ({
-        value: address.address,
-        label: address.address,
-      }));
-      setPayerAddresses(addressOptions);
-    }
-  }, [payersData]);
+  const payerAddresses = useMemo(() => {
+    return payersData?.addresses.map((address) => ({
+      value: address.address,
+      label: address.address,
+    }));
+  }, [payersData?.addresses]);
 
   // Initialize select options
   const [selectedPayer, setSelectedPayer] = useState<SelectOption | null>(null);
@@ -65,7 +62,7 @@ export const PayerSection = ({ payersData }: PayerSectionProps) => {
       <AppSelect
         label="Payer"
         value={selectedPayer}
-        options={payers.map((payer: Payer) => ({
+        options={payersData?.payers.map((payer: Payer) => ({
           value: payer._id,
           label: payer.name,
         }))}
@@ -73,42 +70,36 @@ export const PayerSection = ({ payersData }: PayerSectionProps) => {
         onChange={(option: any) => {
           setSelectedPayer(option);
           if (!option) {
-            setValue('payer.name', '');
+            setValue("payer.name", "");
           } else if (option?.__isNew__) {
-            setValue('payer.name', option.label);
+            setValue("payer.name", option.label);
           } else {
-            setValue('payer.name', option.label);
+            setValue("payer.name", option.label);
           }
         }}
         onCreateOption={async (inputValue: string) => {
           try {
-            const response = await fetch('/api/payers', {
-              method: 'POST',
-              headers: {
-                'Content-Type': 'application/json',
-              },
-              body: JSON.stringify({
-                name: inputValue,
-              }),
-            });
+            const newPayer = await spinnerService.executePromises(
+              createPayer({ name: inputValue })
+            );
 
-            if (!response.ok) {
-              throw new Error('Failed to create payer');
+            const { id = "", name = "" } = newPayer.data || {};
+
+            if (!id || !name) {
+              throw new Error("Failed to create payer");
             }
 
-            const newPayer = await response.json();
-            setPayers([...payers, newPayer]);
             setSelectedPayer({
-              value: newPayer.id,
-              label: newPayer.name,
+              value: id,
+              label: name,
             });
-            setValue('payer.name', newPayer.name);
+            setValue("payer.name", name);
             return {
-              value: newPayer.id,
-              label: newPayer.name,
+              value: id,
+              label: name,
             };
           } catch (error) {
-            console.error('Error creating payer:', error);
+            console.error("Error creating payer:", error);
             return null;
           }
         }}
@@ -123,48 +114,36 @@ export const PayerSection = ({ payersData }: PayerSectionProps) => {
         onChange={(option: any) => {
           setSelectedPayerEmail(option);
           if (!option) {
-            setValue('payer.email', '');
+            setValue("payer.email", "");
           } else if (option?.__isNew__) {
-            setValue('payer.email', option.label);
+            setValue("payer.email", option.label);
           } else {
-            setValue('payer.email', option.value);
+            setValue("payer.email", option.value);
           }
         }}
         onCreateOption={async (inputValue: string) => {
           try {
-            const response = await fetch('/api/payer-emails', {
-              method: 'POST',
-              headers: {
-                'Content-Type': 'application/json',
-              },
-              body: JSON.stringify({
-                email: inputValue,
-              }),
-            });
+            const response = await spinnerService.executePromises(
+              createPayerEmail({ email: inputValue })
+            );
 
-            if (!response.ok) {
-              throw new Error('Failed to create payer email');
+            if (!response) {
+              throw new Error("Failed to create payer email");
             }
 
-            const newEmail = await response.json();
-            setPayerEmails([
-              ...payerEmails,
-              {
-                value: newEmail.email,
-                label: newEmail.email,
-              },
-            ]);
+            const { email = "" } = response.data || {};
+
             setSelectedPayerEmail({
-              value: newEmail.email,
-              label: newEmail.email,
+              value: email,
+              label: email,
             });
-            setValue('payer.email', newEmail.email);
+            setValue("payer.email", email);
             return {
-              value: newEmail.email,
-              label: newEmail.email,
+              value: email,
+              label: email,
             };
           } catch (error) {
-            console.error('Error creating payer email:', error);
+            console.error("Error creating payer email:", error);
             return null;
           }
         }}
@@ -186,48 +165,36 @@ export const PayerSection = ({ payersData }: PayerSectionProps) => {
         onChange={(option: any) => {
           setSelectedPayerAddress(option);
           if (!option) {
-            setValue('payer.address', '');
+            setValue("payer.address", "");
           } else if (option?.__isNew__) {
-            setValue('payer.address', option.label);
+            setValue("payer.address", option.label);
           } else {
-            setValue('payer.address', option.value);
+            setValue("payer.address", option.value);
           }
         }}
         onCreateOption={async (inputValue: string) => {
           try {
-            const response = await fetch('/api/payer-addresses', {
-              method: 'POST',
-              headers: {
-                'Content-Type': 'application/json',
-              },
-              body: JSON.stringify({
-                address: inputValue,
-              }),
-            });
+            const response = await spinnerService.executePromises(
+              createPayerAddress({ address: inputValue })
+            );
 
-            if (!response.ok) {
-              throw new Error('Failed to create payer address');
+            if (!response) {
+              throw new Error("Failed to create payer address");
             }
 
-            const newAddress = await response.json();
-            setPayerAddresses([
-              ...payerAddresses,
-              {
-                value: newAddress.address,
-                label: newAddress.address,
-              },
-            ]);
+            const { address = "" } = response.data || {};
+
             setSelectedPayerAddress({
-              value: newAddress.address,
-              label: newAddress.address,
+              value: address,
+              label: address,
             });
-            setValue('payer.address', newAddress.address);
+            setValue("payer.address", address);
             return {
-              value: newAddress.address,
-              label: newAddress.address,
+              value: address,
+              label: address,
             };
           } catch (error) {
-            console.error('Error creating payer address:', error);
+            console.error("Error creating payer address:", error);
             return null;
           }
         }}

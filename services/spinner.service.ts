@@ -28,6 +28,11 @@ class SpinnerService {
   public subscribe(callback: (isLoading: boolean) => void): () => void {
     return this.isLoading.subscribe(callback);
   }
+
+  public executePromises<T>(prm: Promise<T>): Promise<T> {
+    this.startSpinner();
+    return prm.finally(() => this.endSpinner());
+  }
 }
 
 export const spinnerService = SpinnerService.getInstance();
