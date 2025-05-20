@@ -64,6 +64,7 @@ jobs:
             unzip -o ~/project.zip -d ~/${{ vars.REMOTE_PATH }}
             cd ~/${{ vars.REMOTE_PATH }}
             npm ci --omit=dev
+            pm2 reload invoice-ll
           EOF
 
       - name: ✅ Done
