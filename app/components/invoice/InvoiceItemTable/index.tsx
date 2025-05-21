@@ -1,5 +1,5 @@
-import { useFormContext } from 'react-hook-form';
-import { Items } from '../..';
+import { useFormContext } from "react-hook-form";
+import { Items } from "../..";
 
 export const InvoiceItemTable = () => {
   const { watch } = useFormContext();
@@ -14,13 +14,13 @@ export const InvoiceItemTable = () => {
             <div className="flex justify-between w-full text-lg">
               <span className="text-sm text-gray-500">Tax amount</span>
               <span className="font-semibold text-gray-700">
-                {watch('details.taxDetails.amount') || 0}
+                {watch("details.taxDetails.amount") || 0}
               </span>
             </div>
             <div className="flex justify-between w-full text-lg">
               <span className="text-sm text-gray-500 font-medium">Total</span>
               <span className="font-semibold text-gray-700">
-                {watch('details.subTotal') || 0}
+                {watch("details.totalAmount") || 0}
               </span>
             </div>
           </div>
