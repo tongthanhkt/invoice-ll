@@ -58,14 +58,24 @@ jobs:
         run: |
           scp -i private_key -o StrictHostKeyChecking=no project.zip ubuntu@${{ vars.REMOTE_HOST }}:~/
 
-      - name: 📦 Unzip and Deploy on Server (overwrite changed files only)
+      - name: 📦 Unzip and Deploy on Server (overwrite everything)
         run: |
           ssh -i private_key -o StrictHostKeyChecking=no ubuntu@${{ vars.REMOTE_HOST }} << EOF
-            unzip -o ~/project.zip -d ~/${{ vars.REMOTE_PATH }}
+            # Xóa toàn bộ thư mục cũ trước khi unzip
+            rm -rf ~/${{ vars.REMOTE_PATH }}
+
+            # Tạo lại thư mục rỗng
+            mkdir -p ~/${{ vars.REMOTE_PATH }}
+
+            # Giải nén vào thư mục mới
+            unzip ~/project.zip -d ~/${{ vars.REMOTE_PATH }}
+
+            # Cài đặt lại package
             cd ~/${{ vars.REMOTE_PATH }}
             npm ci --omit=dev
+
+            # Reload lại bằng PM2 (ứng dụng phải được đăng ký từ trước)
             pm2 reload invoice-ll-dev
           EOF
-
       - name: ✅ Done
         run: echo "🚀 Deployment completed successfully!"
