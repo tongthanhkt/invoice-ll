@@ -58,23 +58,22 @@ jobs:
         run: |
           scp -i private_key -o StrictHostKeyChecking=no project.zip ubuntu@${{ vars.REMOTE_HOST }}:~/
 
-      - name: 📦 Unzip and Deploy on Server (overwrite everything)
+      - name: 📦 Deploy with Overwrite and Clean
         run: |
-          ssh -i private_key -o StrictHostKeyChecking=no ubuntu@${{ vars.REMOTE_HOST }} << EOF
-            # Xóa toàn bộ thư mục cũ trước khi unzip
-            rm -rf ~/${{ vars.REMOTE_PATH }}
+          ssh -i private_key -o StrictHostKeyChecking=no ubuntu@${{ vars.REMOTE_HOST }} << 'EOF'
+            set -e
 
-            # Tạo lại thư mục rỗng
-            mkdir -p ~/${{ vars.REMOTE_PATH }}
+            # Tạo thư mục tạm và giải nén
+            rm -rf ~/temp-unzip
+            mkdir ~/temp-unzip
+            unzip -o ~/project.zip -d ~/temp-unzip
 
-            # Giải nén vào thư mục mới
-            unzip ~/project.zip -d ~/${{ vars.REMOTE_PATH }}
+            # Đồng bộ qua thư mục chính và xóa file cũ không còn trong bản mới
+            rsync -a --delete ~/temp-unzip/ ~/${{ vars.REMOTE_PATH }}/
 
-            # Cài đặt lại package
+            # Cài dependency và reload app
             cd ~/${{ vars.REMOTE_PATH }}
             npm ci --omit=dev
-
-            # Reload lại bằng PM2 (ứng dụng phải được đăng ký từ trước)
             pm2 reload invoice-ll-dev
           EOF
       - name: ✅ Done
