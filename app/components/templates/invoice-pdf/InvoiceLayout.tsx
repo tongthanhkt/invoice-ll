@@ -1,7 +1,7 @@
-import { ReactNode } from 'react';
+import { ReactNode } from "react";
 
 // Types
-import { InvoiceType } from '@/types';
+import { InvoiceType } from "@/types";
 
 type InvoiceLayoutProps = {
   data: InvoiceType;
@@ -14,7 +14,7 @@ export default function InvoiceLayout({ data, children }: InvoiceLayoutProps) {
   // Instead of fetching all signature fonts, get the specific one user selected.
   const fontHref = details.signature?.fontFamily
     ? `https://fonts.googleapis.com/css2?family=${details?.signature?.fontFamily}&display=swap`
-    : '';
+    : "";
 
   const head = (
     <>

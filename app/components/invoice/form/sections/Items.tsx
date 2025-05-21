@@ -1,9 +1,9 @@
-'use client';
+"use client";
 
-import { useCallback, useState } from 'react';
+import { useCallback, useState } from "react";
 
 // RHF
-import { useFieldArray, useFormContext } from 'react-hook-form';
+import { useFieldArray, useFormContext } from "react-hook-form";
 
 // DnD
 import {
@@ -15,31 +15,31 @@ import {
   UniqueIdentifier,
   useSensor,
   useSensors,
-} from '@dnd-kit/core';
+} from "@dnd-kit/core";
 import {
   SortableContext,
   verticalListSortingStrategy,
-} from '@dnd-kit/sortable';
+} from "@dnd-kit/sortable";
 
 // Components
-import { BaseButton, SingleItem } from '@/app/components';
+import { BaseButton, SingleItem } from "@/app/components";
 
 // Contexts
-import { useTranslationContext } from '@/contexts/TranslationContext';
+import { useTranslationContext } from "@/contexts/TranslationContext";
 
 // Icons
-import { Plus } from 'lucide-react';
+import { Plus } from "lucide-react";
 
 // Types
-import FormInput from '@/app/components/reusables/form-fields/FormInput/FormInput';
-import { InvoiceType } from '@/types';
+import FormInput from "@/app/components/reusables/form-fields/FormInput/FormInput";
+import { InvoiceType } from "@/types";
 
 const Items = () => {
   const { control, setValue } = useFormContext<InvoiceType>();
 
   const { _t } = useTranslationContext();
 
-  const ITEMS_NAME = 'details.items';
+  const ITEMS_NAME = "details.items";
   const { fields, append, remove, move } = useFieldArray({
     control: control,
     name: ITEMS_NAME,
@@ -48,8 +48,8 @@ const Items = () => {
   // console.log('fields', fields);
   const addNewField = () => {
     append({
-      name: '',
-      description: '',
+      name: "",
+      description: "",
       quantity: 1,
       unitPrice: 0,
       total: 0,
@@ -94,11 +94,11 @@ const Items = () => {
   return (
     <section className="flex flex-col gap-4 w-full">
       <div className="flex justify-between items-center">
-        <h3 className="text-base font-semibold tracking-tight text-gray-900">
+        <h3 className="text-sm font-semibold tracking-tight text-gray-900">
           Expense Item
         </h3>
       </div>
-      <div className="hidden md:flex flex-row items-center px-2 font-medium text-neutral-700 w-full gap-3 bg-neutral-100 py-3 rounded-t-lg border border-b-0 border-solid border-neutral-200 text-sm">
+      <div className="hidden md:flex flex-row items-center px-2 font-medium text-neutral-700 w-full gap-3 bg-neutral-100 py-3 rounded-t-lg border border-b-0 border-solid border-neutral-200 text-xs">
         <div className="w-10">No.</div>
         <div className="w-1/2">Description</div>
         <div className="w-1/4">Unit Price</div>
@@ -138,7 +138,9 @@ const Items = () => {
             </SortableContext>
           </DndContext>
         ) : (
-          <div className="text-neutral-500 text-center py-4">No data</div>
+          <div className="text-neutral-500 text-center py-4 text-sm">
+            No data
+          </div>
         )}
       </div>
 
@@ -173,10 +175,12 @@ const Items = () => {
             </SortableContext>
           </DndContext>
         ) : (
-          <div className="text-neutral-500 text-center py-4">No data</div>
+          <div className="text-neutral-500 text-center py-4 text-sm">
+            No data
+          </div>
         )}
         <div className="flex flex-col sm:flex-row items-start sm:items-center justify-end px-2 pt-3 pb-1 gap-3 border-t border-neutral-200 mt-2">
-          <div className="w-full sm:w-1/4 text-left sm:text-right font-medium mb-2 sm:mb-0">
+          <div className="w-full sm:w-1/4 text-left sm:text-right font-medium mb-2 sm:mb-0 text-sm">
             Tax
           </div>
           <div className="w-full sm:w-1/4">
@@ -209,7 +213,7 @@ const Items = () => {
         className="bg-white rounded-lg text-blue-500 hover:bg-blue-50 border-0 py-0 h-8 w-fit ml-auto flex items-center gap-2 -mr-2"
       >
         <Plus />
-        {_t('form.steps.lineItems.addNewItem')}
+        {_t("form.steps.lineItems.addNewItem")}
       </BaseButton>
     </section>
   );

@@ -1,29 +1,29 @@
-'use client';
+"use client";
 
-import { useEffect } from 'react';
+import { useEffect } from "react";
 
 // RHF
-import { FieldArrayWithId, useFormContext, useWatch } from 'react-hook-form';
+import { FieldArrayWithId, useFormContext, useWatch } from "react-hook-form";
 
 // DnD
-import { useSortable } from '@dnd-kit/sortable';
-import { CSS } from '@dnd-kit/utilities';
+import { useSortable } from "@dnd-kit/sortable";
+import { CSS } from "@dnd-kit/utilities";
 
 // ShadCn
-import { Label } from '@/components/ui/label';
+import { Label } from "@/components/ui/label";
 
 // Components
-import { BaseButton } from '@/app/components';
+import { BaseButton } from "@/app/components";
 
 // Contexts
-import { useTranslationContext } from '@/contexts/TranslationContext';
+import { useTranslationContext } from "@/contexts/TranslationContext";
 
 // Icons
-import { GripVertical, Trash2 } from 'lucide-react';
+import { GripVertical, Trash2 } from "lucide-react";
 
 // Types
-import { ItemType, NameType } from '@/types';
-import FormInput from '../../reusables/form-fields/FormInput/FormInput';
+import { ItemType, NameType } from "@/types";
+import FormInput from "../../reusables/form-fields/FormInput/FormInput";
 
 type SingleItemProps = {
   name: NameType;
@@ -98,11 +98,11 @@ const SingleItem = ({
     transform: CSS.Transform.toString(transform),
   };
 
-  const boxDragClasses = isDragging ? 'bg-blue-50 z-10' : '';
+  const boxDragClasses = isDragging ? "bg-blue-50 z-10" : "";
 
   const gripDragClasses = isDragging
-    ? 'opacity-0 group-hover:opacity-100 transition-opacity cursor-grabbing'
-    : 'cursor-grab';
+    ? "opacity-0 group-hover:opacity-100 transition-opacity cursor-grabbing"
+    : "cursor-grab";
 
   return (
     <div
@@ -148,7 +148,7 @@ const SingleItem = ({
             <FormInput
               name={`${name}[${index}].unitPrice`}
               type="number"
-              placeholder={_t('form.steps.lineItems.rate')}
+              placeholder={_t("form.steps.lineItems.rate")}
               vertical
             />
           </div>
@@ -198,7 +198,7 @@ const SingleItem = ({
           <FormInput
             name={`${name}[${index}].unitPrice`}
             type="number"
-            placeholder={_t('form.steps.lineItems.rate')}
+            placeholder={_t("form.steps.lineItems.rate")}
             vertical
           />
         </div>
@@ -223,16 +223,18 @@ const SingleItem = ({
         </div>
         <div className="flex flex-row gap-2">
           {fields.length > 0 && (
-            <BaseButton
-              className="px-2 bg-white text-red-500 hover:bg-red-50 size-10"
-              variant="destructive"
-              onClick={() => removeField(index)}
-            >
-              <Trash2 className="w-5 h-5" />
-            </BaseButton>
+            <div className="h-8">
+              <BaseButton
+                className="px-2 bg-white text-red-500 hover:bg-red-50 max-h-8"
+                variant="destructive"
+                onClick={() => removeField(index)}
+              >
+                <Trash2 className="w-4 h-4" />
+              </BaseButton>
+            </div>
           )}
           <div
-            className={`${gripDragClasses} flex justify-center items-center`}
+            className={`${gripDragClasses} flex justify-center items-center !h-8`}
             ref={setNodeRef}
             {...listeners}
           >

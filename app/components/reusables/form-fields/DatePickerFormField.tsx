@@ -53,7 +53,7 @@ const DatePickerFormField = ({
         name={name}
         render={({ field }) => (
           <FormItem>
-            <div className="flex justify-between gap-5 items-center text-sm w-full">
+            <div className="flex justify-between gap-5 items-center text-xs w-full">
               <div className="w-full">
                 <Popover open={isPopoverOpen} onOpenChange={setIsPopoverOpen}>
                   <PopoverTrigger asChild>
@@ -61,7 +61,7 @@ const DatePickerFormField = ({
                       <Button
                         variant={"outline"}
                         className={cn(
-                          "w-full text-foreground bg-white text-neutral-500 font-normal hover:border-blue-400 hover:bg-white hover:text-neutral-500 flex justify-between flex-row-reverse border-neutral-300 rounded-lg"
+                          "w-full text-foreground bg-white text-neutral-500 font-normal hover:border-blue-400 hover:bg-white hover:text-neutral-500 flex justify-between flex-row-reverse border-neutral-300 rounded-lg text-xs h-8"
                         )}
                       >
                         <CalendarIcon className="mr-2 h-4 w-4" />

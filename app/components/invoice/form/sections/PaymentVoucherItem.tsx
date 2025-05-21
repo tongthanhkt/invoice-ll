@@ -1,9 +1,9 @@
-'use client';
+"use client";
 
-import { useCallback, useState } from 'react';
+import { useCallback, useState } from "react";
 
 // RHF
-import { useFieldArray, useFormContext } from 'react-hook-form';
+import { useFieldArray, useFormContext } from "react-hook-form";
 
 // DnD
 import {
@@ -15,31 +15,31 @@ import {
   UniqueIdentifier,
   useSensor,
   useSensors,
-} from '@dnd-kit/core';
+} from "@dnd-kit/core";
 import {
   SortableContext,
   verticalListSortingStrategy,
-} from '@dnd-kit/sortable';
+} from "@dnd-kit/sortable";
 
 // Components
 
 // Contexts
-import { useTranslationContext } from '@/contexts/TranslationContext';
+import { useTranslationContext } from "@/contexts/TranslationContext";
 
 // Icons
-import { Plus } from 'lucide-react';
+import { Plus } from "lucide-react";
 
 // Types
-import { BaseButton } from '@/app/components';
-import { InvoiceType } from '@/types';
-import VoucherSingleItem from '../VoucherSingleItem';
+import { BaseButton } from "@/app/components";
+import { InvoiceType } from "@/types";
+import VoucherSingleItem from "../VoucherSingleItem";
 
 const PaymentVoucherItem = () => {
   const { control, setValue } = useFormContext<InvoiceType>();
 
   const { _t } = useTranslationContext();
 
-  const ITEMS_NAME = 'details.items';
+  const ITEMS_NAME = "details.items";
   const { fields, append, remove, move } = useFieldArray({
     control: control,
     name: ITEMS_NAME,
@@ -47,8 +47,8 @@ const PaymentVoucherItem = () => {
 
   const addNewField = () => {
     append({
-      name: '',
-      description: '',
+      name: "",
+      description: "",
       quantity: 1,
       unitPrice: 0,
       total: 0,
@@ -93,11 +93,11 @@ const PaymentVoucherItem = () => {
   return (
     <section className="flex flex-col gap-4 w-full">
       <div className="flex justify-between items-center">
-        <h3 className="text-base font-semibold tracking-tight text-gray-900">
+        <h3 className="text-sm font-semibold tracking-tight text-gray-900">
           Expense Item
         </h3>
       </div>
-      <div className="flex flex-row items-center px-2 font-medium text-neutral-700 w-full gap-3 bg-neutral-100 py-3 rounded-t-lg border border-b-0 border-solid border-neutral-200 text-sm">
+      <div className="flex flex-row items-center px-2 font-medium text-neutral-700 w-full gap-3 bg-neutral-100 py-3 rounded-t-lg border border-b-0 border-solid border-neutral-200 text-xs">
         <div className="w-10">No.</div>
         <div className="w-1/2">Description</div>
         <div className="w-1/4">Amount</div>
@@ -133,7 +133,7 @@ const PaymentVoucherItem = () => {
             </SortableContext>
           </DndContext>
         ) : (
-          <div className="text-neutral-500 text-center">No data</div>
+          <div className="text-neutral-500 text-center text-sm">No data</div>
         )}
       </div>
       <BaseButton
@@ -142,7 +142,7 @@ const PaymentVoucherItem = () => {
         className="bg-white rounded-lg text-blue-500 hover:bg-blue-50 border-0 py-0 h-8 w-fit ml-auto flex items-center gap-2 -mr-2"
       >
         <Plus />
-        {_t('form.steps.lineItems.addNewItem')}
+        {_t("form.steps.lineItems.addNewItem")}
       </BaseButton>
     </section>
   );
