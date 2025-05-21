@@ -92,9 +92,7 @@ export default async function LocaleLayout({
           <AuthProvider>
             <PageLoader>
               <main className="bg-white">
-                {/* <BaseNavbar /> */}
                 <div className="flex flex-col">{children}</div>
-                {/* <BaseFooter /> */}
               </main>
               {/* Toast component */}
               <Toaster />

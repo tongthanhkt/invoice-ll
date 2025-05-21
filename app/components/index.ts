@@ -1,10 +1,4 @@
 /* =========================
-   * Navigation
-   ========================= */
-import BaseNavbar from "./layout/BaseNavbar";
-import BaseFooter from "./layout/BaseFooter";
-
-/* =========================
    * Invoice
    ========================= */
 import InvoiceMain from "./invoice/InvoiceMain";
@@ -44,20 +38,6 @@ import LanguageSelector from "./reusables/LanguageSelector";
 import Subheading from "./reusables/Subheading";
 
 /* =========================
-   * Modals & Alerts
-   ========================= */
-import SendPdfToEmailModal from "./modals/email/SendPdfToEmailModal";
-
-// Import/Export
-import InvoiceExportModal from "./modals/invoice/InvoiceExportModal";
-
-// Custom Selectors
-import SavedInvoicesList from "./modals/invoice/components/SavedInvoicesList";
-
-// Alerts
-import NewInvoiceAlert from "./modals/alerts/NewInvoiceAlert";
-
-/* =========================
    * Templates
    ========================= */
 // Invoice templates
@@ -72,8 +52,6 @@ import SendPdfEmail from "./templates/email/SendPdfEmail";
 export * from "./layout";
 
 export {
-  BaseNavbar,
-  BaseFooter,
   InvoiceMain,
   InvoiceForm,
   InvoiceActions,
@@ -81,7 +59,6 @@ export {
   SingleItem,
   Charges,
   CurrencySelector,
-  SavedInvoicesList,
   PdfViewer,
   LivePreview,
   FinalPdf,
@@ -95,9 +72,6 @@ export {
   ThemeSwitcher,
   LanguageSelector,
   Subheading,
-  SendPdfToEmailModal,
-  InvoiceExportModal,
-  NewInvoiceAlert,
   DynamicInvoiceTemplate,
   InvoiceLayout,
   InvoiceTemplate1,
