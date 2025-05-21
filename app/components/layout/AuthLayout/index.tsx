@@ -1,10 +1,10 @@
 "use client";
 
 import bannerImg from "@/public/assets/img/banner/auth.svg";
+import { motion } from "framer-motion";
 import Image from "next/image";
 import Link from "next/link";
 import type React from "react";
-import { motion } from "framer-motion";
 
 type AuthLayoutProps = {
   children: React.ReactNode;
@@ -121,14 +121,14 @@ export const AuthLayout = ({
                 className="text-center text-sm text-gray-600 mt-4"
               >
                 {footerConfig.description}{" "}
-                <a
+                <Link
                   href={footerConfig.link}
                   className="text-indigo-600 hover:underline font-medium"
                   // prefetch={true}
                   // replace
                 >
                   {footerConfig.linkText}
-                </a>
+                </Link>
               </motion.p>
             )}
             <motion.div

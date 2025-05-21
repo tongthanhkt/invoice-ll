@@ -29,6 +29,7 @@ import BaseButton from "./reusables/BaseButton";
 import ThemeSwitcher from "./reusables/ThemeSwitcher";
 import LanguageSelector from "./reusables/LanguageSelector";
 import Subheading from "./reusables/Subheading";
+import FormInput from "./reusables/form-fields/FormInput/FormInput";
 
 /* =========================
    * Templates
@@ -63,4 +64,5 @@ export {
   InvoiceTemplate1,
   InvoiceTemplate2,
   SendPdfEmail,
+  FormInput,
 };
