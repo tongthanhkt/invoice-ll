@@ -1,11 +1,11 @@
 .input {
   @apply flex flex-col gap-2;
   &__label {
-    @apply text-sm font-medium text-neutral-700;
+    @apply text-xs font-medium text-neutral-700;
   }
 
   &__field {
-    @apply w-full bg-white border border-solid border-neutral-300 rounded-lg hover:border-blue-400;
+    @apply w-full bg-white text-xs border border-solid h-8 border-neutral-300 rounded-lg hover:border-blue-400;
 
     &:focus-visible,
     &:focus {

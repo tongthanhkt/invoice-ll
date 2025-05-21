@@ -1,6 +1,6 @@
-import { Badge } from '@/components/ui/badge';
-import { CardContent, CardHeader, CardTitle } from '@/components/ui/card';
-import React from 'react';
+import { Badge } from "@/components/ui/badge";
+import { CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import React from "react";
 
 export const InvoiceContainer = ({
   title,
@@ -14,10 +14,10 @@ export const InvoiceContainer = ({
   return (
     <div className="w-full max-w-[1200px] mx-auto sm:px-6">
       <div className="border border-solid border-neutral-200 rounded-lg bg-white">
-        <CardHeader className="border-b border-border/40 bg-white p-4 sm:p-6">
+        <CardHeader className="border-b border-border/40 bg-white p-4">
           <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-2">
             <CardTitle className="flex items-center gap-3">
-              <span className="text-xl sm:text-2xl font-semibold tracking-tight text-gray-800">
+              <span className="text-lg sm:text-xl font-semibold tracking-tight text-gray-800">
                 {title}
               </span>
             </CardTitle>
