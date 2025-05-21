@@ -21,7 +21,7 @@ const InvoiceActions = () => {
     <div className="h-full bg-white border border-solid border-neutral-200 rounded-lg">
       <CardHeader className="pb-4 bg-white border-b border-gray-200 flex flex-col sm:flex-row w-full items-start sm:items-center justify-between gap-3">
         <div>
-          <CardTitle className="text-gray-900 text-lg sm:text-xl">
+          <CardTitle className="text-gray-900 text-lg">
             {_t("actions.title")}
           </CardTitle>
           <CardDescription className="text-gray-600 text-xs">

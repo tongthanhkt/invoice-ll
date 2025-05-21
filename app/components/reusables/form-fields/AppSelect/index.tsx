@@ -49,6 +49,7 @@ export const AppSelect = ({
             "&:hover": {
               boxShadow: "0 3px 6px rgba(0, 0, 0, 0.07)",
             },
+            minHeight: "32px !important",
           }),
           ...props.styles,
         }}

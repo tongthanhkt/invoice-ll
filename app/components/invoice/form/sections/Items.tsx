@@ -138,7 +138,9 @@ const Items = () => {
             </SortableContext>
           </DndContext>
         ) : (
-          <div className="text-neutral-500 text-center py-4">No data</div>
+          <div className="text-neutral-500 text-center py-4 text-sm">
+            No data
+          </div>
         )}
       </div>
 
@@ -173,7 +175,9 @@ const Items = () => {
             </SortableContext>
           </DndContext>
         ) : (
-          <div className="text-neutral-500 text-center py-4">No data</div>
+          <div className="text-neutral-500 text-center py-4 text-sm">
+            No data
+          </div>
         )}
         <div className="flex flex-col sm:flex-row items-start sm:items-center justify-end px-2 pt-3 pb-1 gap-3 border-t border-neutral-200 mt-2">
           <div className="w-full sm:w-1/4 text-left sm:text-right font-medium mb-2 sm:mb-0 text-sm">

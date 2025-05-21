@@ -133,7 +133,7 @@ const PaymentVoucherItem = () => {
             </SortableContext>
           </DndContext>
         ) : (
-          <div className="text-neutral-500 text-center">No data</div>
+          <div className="text-neutral-500 text-center text-sm">No data</div>
         )}
       </div>
       <BaseButton

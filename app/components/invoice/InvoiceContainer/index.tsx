@@ -17,7 +17,7 @@ export const InvoiceContainer = ({
         <CardHeader className="border-b border-border/40 bg-white p-4">
           <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-2">
             <CardTitle className="flex items-center gap-3">
-              <span className="text-lg sm:text-xl font-semibold tracking-tight text-gray-800">
+              <span className="text-lg font-semibold tracking-tight text-gray-800">
                 {title}
               </span>
             </CardTitle>
