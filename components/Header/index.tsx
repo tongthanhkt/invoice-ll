@@ -82,7 +82,7 @@ const Header = memo(function Header() {
   }
 
   return (
-    <header className="border-b border-neutral-200 bg-white">
+    <header className="border-b border-neutral-200 bg-white fixed top-0 left-0 right-0 z-50">
       <div className=" px-4 mx-4 md:mx-8 lg:mx-16 xl:mx-28">
         <div className="flex justify-between h-16">
           <div className="flex items-center">
