@@ -1,6 +1,5 @@
 import type { Metadata } from "next";
 import { ReactNode } from "react";
-import { Provider } from "react-redux";
 
 // Fonts
 
@@ -25,8 +24,7 @@ import Providers from "@/contexts/Providers";
 import { ROOTKEYWORDS } from "@/lib/seo";
 
 // Variables
-import { BASE_URL, GOOGLE_SC_VERIFICATION, LOCALES } from "@/lib/variables";
-import { store } from "../store/store";
+import { BASE_URL, GOOGLE_SC_VERIFICATION } from "@/lib/variables";
 
 export const metadata: Metadata = {
   title: "Invoify | Free Invoice Generator",
@@ -50,11 +48,6 @@ export const metadata: Metadata = {
     google: GOOGLE_SC_VERIFICATION,
   },
 };
-
-export function generateStaticParams() {
-  const locales = LOCALES.map((locale) => locale.code);
-  return locales;
-}
 
 type Props = {
   children: ReactNode;

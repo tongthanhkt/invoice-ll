@@ -27,7 +27,6 @@ import DatePickerFormField from "./reusables/form-fields/DatePickerFormField";
 
 import BaseButton from "./reusables/BaseButton";
 import ThemeSwitcher from "./reusables/ThemeSwitcher";
-import LanguageSelector from "./reusables/LanguageSelector";
 import Subheading from "./reusables/Subheading";
 
 /* =========================
@@ -56,7 +55,6 @@ export {
   DatePickerFormField,
   BaseButton,
   ThemeSwitcher,
-  LanguageSelector,
   Subheading,
   DynamicInvoiceTemplate,
   InvoiceLayout,
