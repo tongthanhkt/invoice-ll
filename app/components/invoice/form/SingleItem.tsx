@@ -131,7 +131,7 @@ const SingleItem = ({
           </div>
         </div>
 
-        <div className="w-full mb-3">
+        <div className="w-full mb-3 ">
           <FormInput
             name={`${name}[${index}].description`}
             placeholder="Item description"

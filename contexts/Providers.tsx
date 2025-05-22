@@ -1,6 +1,8 @@
 "use client";
 
 import React from "react";
+import "@/app/globals.css";
+import Header from "@/components/Header";
 
 // RHF
 import { FormProvider, useForm } from "react-hook-form";
@@ -12,7 +14,6 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { InvoiceSchema } from "@/lib/schemas";
 
 // Context
-import { AuthProvider } from "@/contexts/AuthContext";
 import { ChargesContextProvider } from "@/contexts/ChargesContext";
 import { InvoiceContextProvider } from "@/contexts/InvoiceContext";
 import { ThemeProvider } from "@/contexts/ThemeProvider";
@@ -43,13 +44,14 @@ const Providers = ({ children }: ProvidersProps) => {
         enableSystem
         disableTransitionOnChange
       >
-        <AuthProvider>
-          <FormProvider {...form}>
-            <InvoiceContextProvider>
-              <ChargesContextProvider>{children}</ChargesContextProvider>
-            </InvoiceContextProvider>
-          </FormProvider>
-        </AuthProvider>
+        <FormProvider {...form}>
+          <InvoiceContextProvider>
+            <ChargesContextProvider>
+              <Header />
+              <div className="flex flex-col">{children}</div>
+            </ChargesContextProvider>
+          </InvoiceContextProvider>
+        </FormProvider>
       </ThemeProvider>
     </Provider>
   );

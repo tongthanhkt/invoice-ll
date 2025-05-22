@@ -24,7 +24,7 @@ export const AuthLayout = ({
   subTitle,
 }: AuthLayoutProps) => {
   return (
-    <div className="min-h-screen bg-blue-50 flex justify-center relative overflow-hidden before:content-[''] before:absolute before:top-0 before:left-0 before:right-0 before:h-40  before:bg-[url('/assets/img/banner/auth.svg')] before:bg-center before:bg-[center_10%] before:bg-no-repeat before:bg-[length:200px] before:opacity-40 lg:before:hidden">
+    <div className="min-h-screen bg-blue-50 flex justify-center relative overflow-hidden before:content-[''] before:absolute before:top-0 before:left-0 before:right-0 before:h-40  before:bg-[url('/assets/img/banner/auth.svg')] before:bg-center before:bg-[center_10%] before:bg-no-repeat before:bg-[length:200px] before:opacity-40 lg:before:hidden -mt-16">
       <motion.div
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}

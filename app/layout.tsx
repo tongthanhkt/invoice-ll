@@ -1,12 +1,31 @@
-"use client";
-import "@/app/globals.css";
-import { AuthProvider } from "@/contexts/AuthContext";
-import { InvoiceProvider } from "@/contexts/InvoiceContext";
-import { Poppins } from "next/font/google";
+import type { Metadata } from "next";
 import { ReactNode } from "react";
-import Header from "@/components/Header";
-import { Provider } from "react-redux";
-import { store } from "./store/store";
+import { Poppins } from "next/font/google";
+
+// Fonts
+
+// Favicon
+import Favicon from "@/public/assets/favicon/favicon.ico";
+
+// Vercel Analytics
+import { Analytics } from "@vercel/analytics/react";
+
+// ShadCn
+import { Toaster } from "@/components/ui/toaster";
+
+// Components
+import PageLoader from "@/app/components/reusables/PageLoader/PageLoader";
+import Spinner from "@/app/components/reusables/Spinner/Spinner";
+
+// Contexts
+import { AuthProvider } from "@/contexts/AuthContext";
+import Providers from "@/contexts/Providers";
+
+// SEO
+import { ROOTKEYWORDS } from "@/lib/seo";
+
+// Variables
+import { BASE_URL, GOOGLE_SC_VERIFICATION } from "@/lib/variables";
 
 const poppins = Poppins({
   subsets: ["latin"],
@@ -14,26 +33,51 @@ const poppins = Poppins({
   variable: "--font-poppins",
 });
 
+export const metadata: Metadata = {
+  title: "Invoify | Free Invoice Generator",
+  description:
+    "Create invoices effortlessly with Invoify, the free invoice generator. Try it now!",
+  icons: [{ rel: "icon", url: Favicon.src }],
+  keywords: ROOTKEYWORDS,
+  viewport: "width=device-width, initial-scale=1",
+  robots: {
+    index: true,
+    follow: true,
+  },
+  alternates: {
+    canonical: BASE_URL,
+  },
+  authors: {
+    name: "Ali Abbasov",
+    url: "https://aliabb.vercel.app",
+  },
+  verification: {
+    google: GOOGLE_SC_VERIFICATION,
+  },
+};
+
 type Props = {
   children: ReactNode;
 };
 
-// Since we have a `not-found.tsx` page on the root, a layout file
-// is required, even if it's just passing children through.
 export default function RootLayout({ children }: Props) {
   return (
     <html lang="en">
       <body className={`${poppins.variable} font-sans`}>
-        <Provider store={store}>
+        <Spinner />
+        <Providers>
           <AuthProvider>
-            <InvoiceProvider>
-              <div className="flex flex-col">
-                <Header />
-                <div className="flex-1">{children}</div>
-              </div>
-            </InvoiceProvider>
+            <PageLoader>
+              <main className="bg-white mt-16">
+                <div className="flex flex-col">{children}</div>
+              </main>
+              {/* Toast component */}
+              <Toaster />
+              {/* Vercel analytics */}
+              <Analytics />
+            </PageLoader>
           </AuthProvider>
-        </Provider>
+        </Providers>
       </body>
     </html>
   );
