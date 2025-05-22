@@ -157,8 +157,13 @@ const Header = memo(function Header() {
                     </button>
                   </DropdownMenuTrigger>
                   <DropdownMenuContent align="end" className="w-56">
-                    <DropdownMenuLabel>My Account</DropdownMenuLabel>
-                    <DropdownMenuSeparator />
+                    <DropdownMenuItem
+                      className="cursor-pointer"
+                      onClick={() => handleNavigation("/profile")}
+                    >
+                      <User className="mr-2 h-4 w-4" />
+                      My Account
+                    </DropdownMenuItem>
                     <DropdownMenuItem
                       className="cursor-pointer text-red-600 focus:text-red-600"
                       onClick={handleLogout}

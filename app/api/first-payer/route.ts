@@ -27,10 +27,10 @@ export async function GET(request: Request) {
     await connectDB();
 
     const firstPayer = await UserPayer.findOne({
-      userId: decoded.userId,
+      user_id: decoded.userId,
     }).sort({ createdAt: 1 });
     const firstPayerEmail = await UserPayerEmail.findOne({
-      userId: decoded.userId,
+      user_id: decoded.userId,
     }).sort({ createdAt: 1 });
 
     if (!firstPayer || !firstPayerEmail) {
@@ -43,7 +43,7 @@ export async function GET(request: Request) {
     }
 
     const firstPayerAddress = await UserPayerAddress.findOne({
-      userId: decoded.userId,
+      user_id: decoded.userId,
     }).sort({ createdAt: 1 });
 
     return NextResponse.json({
@@ -89,6 +89,16 @@ export async function PUT(request: Request) {
     }
 
     await connectDB();
+    const existingEmail = await UserPayerEmail.findOne({
+      email: payerEmail.email,
+    });
+
+    if (existingEmail) {
+      return NextResponse.json(
+        { error: "Email already exists" },
+        { status: 400 }
+      );
+    }
 
     // Update payer information
     await Promise.all([
