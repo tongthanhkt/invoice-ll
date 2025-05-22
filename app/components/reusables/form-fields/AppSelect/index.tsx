@@ -7,12 +7,12 @@ export const AppSelect = ({
 }: CreatableProps<any, any, any> & { label: string }) => {
   return (
     <div className="space-y-1.5 sm:space-y-2">
-      <Label className="text-xs font-medium text-neutral-700 block truncate">
+      <Label className="text-label font-medium text-neutral-700 block truncate">
         {label}
       </Label>
       <CreatableSelect
         {...props}
-        className="w-full bg-white text-gray-900 text-xs sm:text-xs "
+        className="w-full bg-white text-gray-900 text-label sm:text-label "
         classNames={{
           control: ({ isFocused }) =>
             `!min-h-9 !h-9 border ${
@@ -21,23 +21,23 @@ export const AppSelect = ({
               isFocused ? "ring-2 ring-blue-100" : ""
             }`,
           valueContainer: () => "py-1 px-3 sm:px-4",
-          input: () => "text-xs",
+          input: () => "text-label",
           menu: () =>
             "bg-white px-2 py-1 !rounded-xl !shadow-lg z-50 border border-gray-100 mt-1",
           menuList: () => "max-h-[200px] sm:max-h-[280px]",
           option: ({ isSelected, isFocused }) =>
-            `text-gray-900 hover:text-gray-900 px-3 sm:px-4 !py-1 hover:bg-gray-50 rounded-lg hover:cursor-pointer my-1 text-xs sm:text-base transition-all duration-150 ${
+            `text-gray-900 hover:text-gray-900 px-3 sm:px-4 !py-1 hover:bg-gray-50 rounded-lg hover:cursor-pointer my-1 text-label sm:text-base transition-all duration-150 ${
               isSelected
                 ? "!bg-blue-100 !text-blue-600 hover:text-blue-600 hover:bg-blue-100 font-medium"
                 : "bg-white"
             } ${isFocused ? "!bg-blue-50 shadow-sm" : ""}`,
-          placeholder: () => "text-xs sm:text-xs text-gray-400",
+          placeholder: () => "text-label sm:text-label text-gray-400",
           indicatorsContainer: () => "h-9",
           dropdownIndicator: () => "text-gray-400 hover:text-blue-500 p-2",
           clearIndicator: () => "text-gray-400 hover:text-red-500 p-2",
           multiValue: () =>
             "bg-blue-50 rounded-md overflow-hidden mr-1.5 my-0.5",
-          multiValueLabel: () => "px-2 py-1 text-blue-700 text-xs",
+          multiValueLabel: () => "px-2 py-1 text-blue-700 text-label",
           multiValueRemove: () =>
             "px-1 hover:bg-red-100 hover:text-red-700 text-blue-500 rounded-r-md",
           ...props.classNames,

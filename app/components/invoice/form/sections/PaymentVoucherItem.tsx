@@ -93,11 +93,11 @@ const PaymentVoucherItem = () => {
   return (
     <section className="flex flex-col gap-4 w-full">
       <div className="flex justify-between items-center">
-        <h3 className="text-sm font-semibold tracking-tight text-gray-900">
+        <h3 className="text-sm font-semibold tracking-tight text-gray-900 ">
           Expense Item
         </h3>
       </div>
-      <div className="flex flex-row items-center px-2 font-medium text-neutral-700 w-full gap-3 bg-neutral-100 py-3 rounded-t-lg border border-b-0 border-solid border-neutral-200 text-xs">
+      <div className="flex flex-row items-center px-2 font-medium text-neutral-700 w-full gap-3 bg-neutral-100 py-3 rounded-t-lg border border-b-0 border-solid border-neutral-200 text-label">
         <div className="w-10">No.</div>
         <div className="w-1/2">Description</div>
         <div className="w-1/4">Amount</div>

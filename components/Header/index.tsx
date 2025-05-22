@@ -83,7 +83,7 @@ const Header = memo(function Header() {
 
   return (
     <header className="border-b border-neutral-200 bg-white">
-      <div className="mx-auto px-4 sm:px-6 lg:px-8">
+      <div className=" px-4 mx-4 md:mx-8 lg:mx-16 xl:mx-28">
         <div className="flex justify-between h-16">
           <div className="flex items-center">
             <Link
@@ -206,7 +206,7 @@ const Header = memo(function Header() {
                       src="/placeholder.svg?height=32&width=32"
                       alt={user.name}
                     />
-                    <AvatarFallback className="bg-blue-600 text-white text-xs">
+                    <AvatarFallback className="bg-blue-600 text-white text-label">
                       {user.name ? getInitials(user.name) : "U"}
                     </AvatarFallback>
                   </Avatar>

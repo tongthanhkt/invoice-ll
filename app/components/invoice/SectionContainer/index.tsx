@@ -9,10 +9,10 @@ export const SectionContainer = ({
 }) => {
   return (
     <section className="space-y-1 border-0">
-      <h3 className="text-sm font-semibold tracking-tight text-gray-900">
+      <h3 className="text-sm font-semibold tracking-tight text-gray-900 ">
         {title}
       </h3>
-      <div className="flex flex-col space-y-2 border-l pl-2 sm:pl-4 border-neutral-400 border-solid">
+      <div className="flex flex-col space-y-2 border-l pl-2 sm:pl-4 border-neutral-400 border-solid !mt-2">
         {children}
       </div>
     </section>

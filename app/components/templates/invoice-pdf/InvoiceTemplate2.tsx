@@ -1,14 +1,14 @@
 // Components
-import { InvoiceLayout } from '@/app/components';
+import { InvoiceLayout } from "@/app/components";
 
 // Helpers
-import { formatNumberWithCommas } from '@/lib/helpers';
+import { formatNumberWithCommas } from "@/lib/helpers";
 
 // Variables
-import { DATE_OPTIONS } from '@/lib/variables';
+import { DATE_OPTIONS } from "@/lib/variables";
 
 // Types
-import { InvoiceType } from '@/types';
+import { InvoiceType } from "@/types";
 
 const InvoiceTemplate2 = (data: InvoiceType) => {
   const { payer, receiver, details } = data;
@@ -108,14 +108,14 @@ const InvoiceTemplate2 = (data: InvoiceType) => {
                 title={
                   details.invoiceDate &&
                   new Date(details.invoiceDate).toLocaleDateString(
-                    'en-US',
+                    "en-US",
                     DATE_OPTIONS
                   )
                 }
               >
                 {details.invoiceDate &&
                   new Date(details.invoiceDate).toLocaleDateString(
-                    'en-US',
+                    "en-US",
                     DATE_OPTIONS
                   )}
               </span>
@@ -126,12 +126,12 @@ const InvoiceTemplate2 = (data: InvoiceType) => {
                 <span
                   className="text-right text-sm break-words"
                   title={new Date(details.dueDate).toLocaleDateString(
-                    'en-US',
+                    "en-US",
                     DATE_OPTIONS
                   )}
                 >
                   {new Date(details.dueDate).toLocaleDateString(
-                    'en-US',
+                    "en-US",
                     DATE_OPTIONS
                   )}
                 </span>
@@ -174,7 +174,10 @@ const InvoiceTemplate2 = (data: InvoiceType) => {
                   >
                     {item.name}
                   </p>
-                  <p className="break-words text-xs" title={item.description}>
+                  <p
+                    className="break-words text-label"
+                    title={item.description}
+                  >
                     {item.description}
                   </p>
                 </div>
@@ -186,7 +189,7 @@ const InvoiceTemplate2 = (data: InvoiceType) => {
                   {item.quantity || 1}
                 </div>
                 <div className="col-span-2 p-3 text-right text-sm break-words">
-                  {formatNumberWithCommas(Number(item.total))}{' '}
+                  {formatNumberWithCommas(Number(item.total))}{" "}
                   {details.currency}
                 </div>
               </div>
@@ -199,11 +202,11 @@ const InvoiceTemplate2 = (data: InvoiceType) => {
               </div>
 
               <div className="col-span-2 p-2 text-right text-sm font-semibold break-words">
-                {details.taxDetails?.amountType === 'amount'
+                {details.taxDetails?.amountType === "amount"
                   ? `${formatNumberWithCommas(
                       Number(details.taxDetails?.amount)
                     )}`
-                  : ''}
+                  : ""}
               </div>
             </div>
 
@@ -218,7 +221,7 @@ const InvoiceTemplate2 = (data: InvoiceType) => {
                   Number(details.totalAmount)
                 )} ${details.currency}`}
               >
-                {formatNumberWithCommas(Number(details.totalAmount))}{' '}
+                {formatNumberWithCommas(Number(details.totalAmount))}{" "}
                 {details.currency}
               </div>
             </div>

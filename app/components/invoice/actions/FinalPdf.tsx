@@ -1,12 +1,12 @@
-'use client';
+"use client";
 
 // ShadCn
 
 // Components
-import { BaseButton } from '@/app/components';
+import { BaseButton } from "@/app/components";
 
 // Contexts
-import { useInvoiceContext } from '@/contexts/InvoiceContext';
+import { useInvoiceContext } from "@/contexts/InvoiceContext";
 
 // Icons
 import {
@@ -15,7 +15,7 @@ import {
   Eye,
   MoveLeft,
   Printer,
-} from 'lucide-react';
+} from "lucide-react";
 
 export default function FinalPdf() {
   const {
@@ -54,7 +54,6 @@ export default function FinalPdf() {
             className="flex items-center gap-1.5 h-9 px-3"
           >
             <Eye className="w-4 h-4" />
-            <span className="hidden sm:inline">Preview</span>
           </BaseButton>
 
           <BaseButton
@@ -65,7 +64,6 @@ export default function FinalPdf() {
             className="flex items-center gap-1.5 h-9 px-3"
           >
             <DownloadCloudIcon className="w-4 h-4" />
-            <span className="hidden sm:inline">Download</span>
           </BaseButton>
 
           <BaseButton
@@ -76,7 +74,6 @@ export default function FinalPdf() {
             className="flex items-center gap-1.5 h-9 px-3"
           >
             <Printer className="w-4 h-4" />
-            <span className="hidden sm:inline">Print</span>
           </BaseButton>
 
           <BaseButton
@@ -87,7 +84,6 @@ export default function FinalPdf() {
             className="flex items-center gap-1.5 h-9 px-3 bg-blue-500 text-white hover:bg-blue-600"
           >
             <BookmarkIcon className="w-4 h-4" />
-            <span className="hidden sm:inline">Save</span>
           </BaseButton>
         </div>
       </div>

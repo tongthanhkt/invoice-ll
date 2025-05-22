@@ -20,7 +20,7 @@ export default function InvoicePage() {
   }
 
   return (
-    <div className="p-4 mx-16 mt-4">
+    <div className="p-4 mx-4 md:mx-8 lg:mx-16 xl:mx-28 mt-4">
       <InvoiceMain />
     </div>
   );

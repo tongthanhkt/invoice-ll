@@ -144,7 +144,7 @@ const SingleItem = ({
 
         <div className="grid grid-cols-2 gap-3 mb-2">
           <div>
-            <Label className="text-xs mb-1 block">Unit Price</Label>
+            <Label className="text-label mb-1 block">Unit Price</Label>
             <FormInput
               name={`${name}[${index}].unitPrice`}
               type="number"
@@ -154,7 +154,7 @@ const SingleItem = ({
           </div>
 
           <div>
-            <Label className="text-xs mb-1 block">Quantity</Label>
+            <Label className="text-label mb-1 block">Quantity</Label>
             <FormInput
               name={`${name}[${index}].quantity`}
               type="number"
@@ -165,7 +165,7 @@ const SingleItem = ({
         </div>
 
         <div className="w-full">
-          <Label className="text-xs mb-1 block">Total</Label>
+          <Label className="text-label mb-1 block">Total</Label>
           <FormInput
             name={`${name}[${index}].total`}
             value={`${total}`}
@@ -194,7 +194,7 @@ const SingleItem = ({
           />
         </div>
 
-        <div className="w-1/4">
+        <div className="w-1/4 min-w-[60px]">
           <FormInput
             name={`${name}[${index}].unitPrice`}
             type="number"
@@ -203,7 +203,7 @@ const SingleItem = ({
           />
         </div>
 
-        <div className="max-w-[80px] w-full">
+        <div className="max-w-[60px] w-full">
           <FormInput
             name={`${name}[${index}].quantity`}
             type="number"
@@ -233,13 +233,13 @@ const SingleItem = ({
               </BaseButton>
             </div>
           )}
-          <div
+          {/* <div
             className={`${gripDragClasses} flex justify-center items-center !h-9`}
             ref={setNodeRef}
             {...listeners}
           >
             <GripVertical className="hover:text-blue-600 text-neutral-700 w-4 h-4 cursor-pointer !important" />
-          </div>
+          </div> */}
         </div>
       </div>
     </div>

@@ -1,7 +1,7 @@
-'use client';
+"use client";
 
 // RHF
-import { useFormContext } from 'react-hook-form';
+import { useFormContext } from "react-hook-form";
 
 // ShadCn
 import {
@@ -10,9 +10,9 @@ import {
   FormItem,
   FormLabel,
   FormMessage,
-} from '@/components/ui/form';
-import { Input, InputProps } from '@/components/ui/input';
-import styles from './styles.module.scss';
+} from "@/components/ui/form";
+import { Input, InputProps } from "@/components/ui/input";
+import styles from "./styles.module.scss";
 
 type FormInputProps = {
   name: string;
@@ -46,8 +46,8 @@ const FormInput = ({
             )}
 
             {labelHelper && (
-              <span className="text-xs text-neutral-500 truncate">
-                {' '}
+              <span className="text-label text-neutral-500 truncate">
+                {" "}
                 {labelHelper}
               </span>
             )}
@@ -60,7 +60,7 @@ const FormInput = ({
                 {...props}
               />
             </FormControl>
-            <FormMessage className="text-xs sm:text-sm" />
+            <FormMessage className="text-label sm:text-sm" />
           </div>
         </FormItem>
       )}
@@ -80,8 +80,8 @@ const FormInput = ({
               <FormLabel className="flex-shrink-0 sm:w-1/3 truncate">{`${label}:`}</FormLabel>
             )}
             {labelHelper && (
-              <span className="text-xs text-neutral-500 truncate">
-                {' '}
+              <span className="text-label text-neutral-500 truncate">
+                {" "}
                 {labelHelper}
               </span>
             )}
@@ -95,7 +95,7 @@ const FormInput = ({
                   {...props}
                 />
               </FormControl>
-              <FormMessage className="text-xs sm:text-sm" />
+              <FormMessage className="text-label sm:text-sm" />
             </div>
           </div>
         </FormItem>

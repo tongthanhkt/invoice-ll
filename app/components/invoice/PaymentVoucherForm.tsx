@@ -67,9 +67,9 @@ const PaymentVoucherForm = ({
           numberTitle="Voucher Number"
           className="grid grid-cols-2 gap-4 items-start"
         >
-          <div className="space-y-2 !-mt-2">
-            <Label className="text-xs font-medium text-gray-700">Date</Label>
-            <div className="bg-white text-gray-900 mt-2">
+          <div className="space-y-2 !-mt-3">
+            <Label className="text-label font-medium text-gray-700">Date</Label>
+            <div className="bg-white text-gray-600 mt-2">
               <DatePickerFormField name="details.invoiceDate" />
             </div>
           </div>
