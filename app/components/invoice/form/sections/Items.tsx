@@ -99,7 +99,7 @@ const Items = () => {
         <div className="w-1/4 min-w-[60px]">Unit Price</div>
         <div className="w-full max-w-[60px]">Quantity</div>
         <div className="w-1/4">Total</div>
-        <div className="max-w-[60px] w-full"></div>
+        <div className="max-w-[32px] w-full"></div>
       </div>
 
       {/* Mobile view for items */}

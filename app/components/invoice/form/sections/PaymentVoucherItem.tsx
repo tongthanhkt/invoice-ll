@@ -96,7 +96,7 @@ const PaymentVoucherItem = () => {
         <div className="w-10">No.</div>
         <div className="w-1/2">Description</div>
         <div className="w-1/4">Amount</div>
-        <div className="max-w-[60px] w-full"></div>
+        <div className="max-w-[32px] w-full"></div>
       </div>
       <div className="border border-t-0 border-solid rounded-b-lg -mt-4 border-neutral-200 py-2">
         {fields?.length ? (
