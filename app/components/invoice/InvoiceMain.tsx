@@ -157,7 +157,7 @@ const InvoiceMain = () => {
         })}
       >
         <motion.div
-          className="flex flex-col lg:flex-row w-full gap-4 pb-6"
+          className="flex flex-col lg:flex-row w-full gap-4 "
           variants={containerVariants}
           initial="visible"
           // animate={formLoaded ? "visible" : "hidden"}

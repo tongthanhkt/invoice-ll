@@ -23,7 +23,7 @@ export const InvoiceContainer = ({
             </CardTitle>
             <Badge
               variant="secondary"
-              className="h-8 rounded-md px-3 bg-gray-100 cursor-pointer self-start sm:self-auto"
+              className="h-9 rounded-md px-3 bg-gray-100 cursor-pointer self-start sm:self-auto"
             >
               <p className="text-sm font-medium text-gray-900">
                 {invoiceLabel}

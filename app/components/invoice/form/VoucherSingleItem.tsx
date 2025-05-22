@@ -140,7 +140,7 @@ const VoucherSingleItem = ({
         <div className="flex flex-row gap-2">
           {fields.length > 0 && (
             <BaseButton
-              className="px-2 bg-white text-red-500 hover:bg-red-50 size-10 !h-8  "
+              className="px-2 bg-white text-red-500 hover:bg-red-50 size-10 !h-9  "
               variant="destructive"
               onClick={() => removeField(index)}
             >

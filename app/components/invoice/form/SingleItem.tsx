@@ -223,9 +223,9 @@ const SingleItem = ({
         </div>
         <div className="flex flex-row gap-2">
           {fields.length > 0 && (
-            <div className="h-8">
+            <div className="h-9">
               <BaseButton
-                className="px-2 bg-white text-red-500 hover:bg-red-50 max-h-8"
+                className="px-2 bg-white text-red-500 hover:bg-red-50 max-h-9"
                 variant="destructive"
                 onClick={() => removeField(index)}
               >
@@ -234,7 +234,7 @@ const SingleItem = ({
             </div>
           )}
           <div
-            className={`${gripDragClasses} flex justify-center items-center !h-8`}
+            className={`${gripDragClasses} flex justify-center items-center !h-9`}
             ref={setNodeRef}
             {...listeners}
           >

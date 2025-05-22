@@ -210,7 +210,7 @@ const Items = () => {
       <BaseButton
         tooltipLabel="Add a new item to the list"
         onClick={addNewField}
-        className="bg-white rounded-lg text-blue-500 hover:bg-blue-50 border-0 py-0 h-8 w-fit ml-auto flex items-center gap-2 -mr-2"
+        className="bg-white rounded-lg text-blue-500 hover:bg-blue-50 border-0 py-0 h-9 w-fit ml-auto flex items-center gap-2 -mr-2"
       >
         <Plus />
         {_t("form.steps.lineItems.addNewItem")}

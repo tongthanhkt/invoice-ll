@@ -15,7 +15,7 @@ export const AppSelect = ({
         className="w-full bg-white text-gray-900 text-xs sm:text-xs "
         classNames={{
           control: ({ isFocused }) =>
-            `!min-h-8 !h-8 border ${
+            `!min-h-9 !h-9 border ${
               isFocused ? "border-blue-500" : "border-gray-200"
             } hover:!border-blue-500 !shadow-none px-0 !rounded-lg !outline-0  box-border transition-all duration-200 ${
               isFocused ? "ring-2 ring-blue-100" : ""
@@ -32,7 +32,7 @@ export const AppSelect = ({
                 : "bg-white"
             } ${isFocused ? "!bg-blue-50 shadow-sm" : ""}`,
           placeholder: () => "text-xs sm:text-xs text-gray-400",
-          indicatorsContainer: () => "h-8",
+          indicatorsContainer: () => "h-9",
           dropdownIndicator: () => "text-gray-400 hover:text-blue-500 p-2",
           clearIndicator: () => "text-gray-400 hover:text-red-500 p-2",
           multiValue: () =>
