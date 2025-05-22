@@ -76,7 +76,9 @@ export default function Profile() {
       <motion.form
         className="space-y-4 w-full flex items-center justify-center h-[calc(100vh_-64px)]"
         variants={containerVariants}
+        initial="hidden"
         animate="visible"
+        exit="exit"
         onSubmit={methods.handleSubmit(onSubmit)}
       >
         <motion.div className="flex flex-col gap-4 max-w-md w-full p-6 rounded-lg shadow-md">
