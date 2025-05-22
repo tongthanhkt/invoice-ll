@@ -1,25 +1,22 @@
 "use client";
 
-import { authService } from "@/services/auth/authService";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuItem,
-  DropdownMenuLabel,
-  DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
-import { ChevronDown, LogOut, User } from "lucide-react";
-import Link from "next/link";
-import { usePathname, useRouter } from "next/navigation";
-import { useEffect, useState, memo, useCallback, useMemo } from "react";
+import { useQuerySpinner } from "@/hooks";
 import {
   spinnerService,
   useGetProfileQuery,
   useLogoutMutation,
 } from "@/services";
-import { useQuerySpinner } from "@/hooks";
+import { ChevronDown, LogOut, User } from "lucide-react";
+import Link from "next/link";
+import { usePathname, useRouter } from "next/navigation";
+import { memo, useCallback, useMemo, useState } from "react";
 
 // Define user type interface
 interface User {
