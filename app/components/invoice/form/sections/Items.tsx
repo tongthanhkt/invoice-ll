@@ -24,9 +24,6 @@ import {
 // Components
 import { BaseButton, SingleItem } from "@/app/components";
 
-// Contexts
-import { useTranslationContext } from "@/contexts/TranslationContext";
-
 // Icons
 import { Plus } from "lucide-react";
 
@@ -36,8 +33,6 @@ import { InvoiceType } from "@/types";
 
 const Items = () => {
   const { control, setValue } = useFormContext<InvoiceType>();
-
-  const { _t } = useTranslationContext();
 
   const ITEMS_NAME = "details.items";
   const { fields, append, remove, move } = useFieldArray({
@@ -213,7 +208,7 @@ const Items = () => {
         className="bg-white rounded-lg text-blue-500 hover:bg-blue-50 border-0 py-0 h-9 w-fit ml-auto flex items-center gap-2 -mr-2"
       >
         <Plus />
-        {_t("form.steps.lineItems.addNewItem")}
+        Add item
       </BaseButton>
     </section>
   );

@@ -16,7 +16,6 @@ import { Label } from "@/components/ui/label";
 import { BaseButton } from "@/app/components";
 
 // Contexts
-import { useTranslationContext } from "@/contexts/TranslationContext";
 
 // Icons
 import { GripVertical, Trash2 } from "lucide-react";
@@ -45,8 +44,6 @@ const SingleItem = ({
   removeField,
 }: SingleItemProps) => {
   const { control, setValue } = useFormContext();
-
-  const { _t } = useTranslationContext();
 
   // Items
   const itemName = useWatch({
@@ -148,7 +145,7 @@ const SingleItem = ({
             <FormInput
               name={`${name}[${index}].unitPrice`}
               type="number"
-              placeholder={_t("form.steps.lineItems.rate")}
+              placeholder="Amount"
               vertical
             />
           </div>
@@ -198,7 +195,7 @@ const SingleItem = ({
           <FormInput
             name={`${name}[${index}].unitPrice`}
             type="number"
-            placeholder={_t("form.steps.lineItems.rate")}
+            placeholder="Amount"
             vertical
           />
         </div>

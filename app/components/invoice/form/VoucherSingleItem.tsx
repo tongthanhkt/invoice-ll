@@ -10,17 +10,12 @@ import { useSortable } from "@dnd-kit/sortable";
 import { CSS } from "@dnd-kit/utilities";
 
 // ShadCn
-import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
 
 // Components
 import { BaseButton } from "@/app/components";
 
-// Contexts
-import { useTranslationContext } from "@/contexts/TranslationContext";
-
 // Icons
-import { ChevronDown, ChevronUp, GripVertical, Trash2 } from "lucide-react";
+import { Trash2 } from "lucide-react";
 
 // Types
 import { ItemType, NameType } from "@/types";
@@ -46,8 +41,6 @@ const VoucherSingleItem = ({
   removeField,
 }: SingleItemProps) => {
   const { control, setValue } = useFormContext();
-
-  const { _t } = useTranslationContext();
 
   // Items
   const itemName = useWatch({
@@ -132,7 +125,7 @@ const VoucherSingleItem = ({
           <FormInput
             name={`${name}[${index}].unitPrice`}
             type="number"
-            placeholder={_t("form.steps.lineItems.rate")}
+            placeholder="Amount"
             vertical
           />
         </div>

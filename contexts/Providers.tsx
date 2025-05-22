@@ -12,19 +12,18 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { InvoiceSchema } from "@/lib/schemas";
 
 // Context
-import { ThemeProvider } from "@/contexts/ThemeProvider";
-import { TranslationProvider } from "@/contexts/TranslationContext";
-import { InvoiceContextProvider } from "@/contexts/InvoiceContext";
-import { ChargesContextProvider } from "@/contexts/ChargesContext";
 import { AuthProvider } from "@/contexts/AuthContext";
+import { ChargesContextProvider } from "@/contexts/ChargesContext";
+import { InvoiceContextProvider } from "@/contexts/InvoiceContext";
+import { ThemeProvider } from "@/contexts/ThemeProvider";
 
 // Types
 import { InvoiceType } from "@/types";
 
 // Variables
+import { store } from "@/app/store/store";
 import { FORM_DEFAULT_VALUES } from "@/lib/variables";
 import { Provider } from "react-redux";
-import { store } from "@/app/store/store";
 
 type ProvidersProps = {
   children: React.ReactNode;
@@ -44,15 +43,13 @@ const Providers = ({ children }: ProvidersProps) => {
         enableSystem
         disableTransitionOnChange
       >
-        <TranslationProvider>
-          <AuthProvider>
-            <FormProvider {...form}>
-              <InvoiceContextProvider>
-                <ChargesContextProvider>{children}</ChargesContextProvider>
-              </InvoiceContextProvider>
-            </FormProvider>
-          </AuthProvider>
-        </TranslationProvider>
+        <AuthProvider>
+          <FormProvider {...form}>
+            <InvoiceContextProvider>
+              <ChargesContextProvider>{children}</ChargesContextProvider>
+            </InvoiceContextProvider>
+          </FormProvider>
+        </AuthProvider>
       </ThemeProvider>
     </Provider>
   );

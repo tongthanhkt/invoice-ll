@@ -23,9 +23,6 @@ import {
 
 // Components
 
-// Contexts
-import { useTranslationContext } from "@/contexts/TranslationContext";
-
 // Icons
 import { Plus } from "lucide-react";
 
@@ -36,8 +33,6 @@ import VoucherSingleItem from "../VoucherSingleItem";
 
 const PaymentVoucherItem = () => {
   const { control, setValue } = useFormContext<InvoiceType>();
-
-  const { _t } = useTranslationContext();
 
   const ITEMS_NAME = "details.items";
   const { fields, append, remove, move } = useFieldArray({
@@ -142,7 +137,7 @@ const PaymentVoucherItem = () => {
         className="bg-white rounded-lg text-blue-500 hover:bg-blue-50 border-0 py-0 h-9 w-fit ml-auto flex items-center gap-2 -mr-2"
       >
         <Plus />
-        {_t("form.steps.lineItems.addNewItem")}
+        Add item
       </BaseButton>
     </section>
   );

@@ -11,7 +11,6 @@ import { Label } from "@/components/ui/label";
 import { DatePickerFormField } from "@/app/components";
 
 // Contexts
-import { useTranslationContext } from "@/contexts/TranslationContext";
 import { InvoiceContainer } from "./InvoiceContainer";
 import { PayerCombined, ReceiverCombined } from "./InvoiceMain";
 import { PayerSection } from "./PayerSection";
@@ -42,7 +41,6 @@ const PaymentVoucherForm = ({
   payersData,
   receiversData,
 }: PaymentVoucherFormProps) => {
-  const { _t } = useTranslationContext();
   const { control } = useFormContext();
 
   // Get invoice number variable

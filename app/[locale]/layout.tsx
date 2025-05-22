@@ -10,9 +10,6 @@ import Favicon from "@/public/assets/favicon/favicon.ico";
 // Vercel Analytics
 import { Analytics } from "@vercel/analytics/react";
 
-// Next Intl
-import { NextIntlClientProvider } from "next-intl";
-
 // ShadCn
 import { Toaster } from "@/components/ui/toaster";
 
@@ -87,21 +84,19 @@ export default async function LocaleLayout({
         </head> */}
       {/* <body> */}
       <Spinner />
-      <NextIntlClientProvider locale={locale} messages={messages}>
-        <Providers>
-          <AuthProvider>
-            <PageLoader>
-              <main className="bg-white mt-16">
-                <div className="flex flex-col">{children}</div>
-              </main>
-              {/* Toast component */}
-              <Toaster />
-              {/* Vercel analytics */}
-              <Analytics />
-            </PageLoader>
-          </AuthProvider>
-        </Providers>
-      </NextIntlClientProvider>
+      <Providers>
+        <AuthProvider>
+          <PageLoader>
+            <main className="bg-white mt-16">
+              <div className="flex flex-col">{children}</div>
+            </main>
+            {/* Toast component */}
+            <Toaster />
+            {/* Vercel analytics */}
+            <Analytics />
+          </PageLoader>
+        </AuthProvider>
+      </Providers>
       {/* </body> */}
       {/* </html> */}
     </>
