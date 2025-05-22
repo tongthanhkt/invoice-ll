@@ -87,7 +87,7 @@ const Header = memo(function Header() {
               href="/invoice"
               className={`text-xl font-bold text-white bg-blue-600 uppercase px-4 py-1 rounded-lg transition-colors`}
               prefetch={true}
-              onClick={() => handleNavigation("/invoice")}
+              // onClick={() => handleNavigation("/invoice")}
             >
               Invoify
             </Link>

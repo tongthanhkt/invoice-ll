@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { ReactNode } from "react";
+import { ReactNode, Suspense } from "react";
 import { Poppins } from "next/font/google";
 
 // Fonts
@@ -16,6 +16,7 @@ import { Toaster } from "@/components/ui/toaster";
 // Components
 import PageLoader from "@/app/components/reusables/PageLoader/PageLoader";
 import Spinner from "@/app/components/reusables/Spinner/Spinner";
+import Header from "@/components/Header";
 
 // Contexts
 import { AuthProvider } from "@/contexts/AuthContext";
@@ -69,7 +70,16 @@ export default function RootLayout({ children }: Props) {
           <AuthProvider>
             <PageLoader>
               <main className="bg-white mt-16">
-                <div className="flex flex-col">{children}</div>
+                <Suspense
+                  fallback={
+                    <div className="flex items-center justify-center min-h-screen">
+                      <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-gray-900"></div>
+                    </div>
+                  }
+                >
+                  <Header />
+                  <div className="flex flex-col">{children}</div>
+                </Suspense>
               </main>
               {/* Toast component */}
               <Toaster />
