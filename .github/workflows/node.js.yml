@@ -43,6 +43,7 @@ jobs:
           mkdir -p invoice-test/.next
           cp -r .next/standalone/* invoice-test/
           cp -r .next/static invoice-test/.next/static
+          cp .next/BUILD_ID invoice-test/.next/BUILD_ID
           cp -r public invoice-test/public || true
           cp .env package.json package-lock.json invoice-test/
 
