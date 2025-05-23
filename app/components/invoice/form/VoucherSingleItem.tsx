@@ -158,7 +158,7 @@ const VoucherSingleItem = ({
           />
         </div>
 
-        <div className="w-1/4">
+        <div className="flex-1">
           <FormInput
             name={`${name}[${index}].unitPrice`}
             type="number"

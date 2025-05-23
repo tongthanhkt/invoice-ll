@@ -30,7 +30,7 @@ export default function FinalPdf() {
 
   return (
     <div className="flex flex-col h-full">
-      <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between py-2 px-2 sm:px-4 border-b border-neutral-200 bg-white sticky top-0 z-10">
+      <div className="flex flex-row items-start sm:items-center justify-between py-2 px-2 sm:px-4 border-b border-neutral-200 bg-white sticky top-0 z-10">
         <div className="flex items-center mb-2 sm:mb-0">
           <BaseButton
             variant="ghost"
@@ -40,7 +40,7 @@ export default function FinalPdf() {
             className="text-neutral-700 hover:text-blue-600 flex items-center gap-1.5"
           >
             <MoveLeft className="w-4 h-4" />
-            <span>Back to editor</span>
+            <span className="w-max">Back to editor</span>
           </BaseButton>
         </div>
 
@@ -91,7 +91,7 @@ export default function FinalPdf() {
       <div className="flex-grow bg-neutral-100 p-4">
         <div className="max-w-[850px] mx-auto bg-white shadow-md rounded-lg overflow-hidden">
           <iframe
-            className="w-full h-[calc(100vh_-_140px)]"
+            className="w-full h-[calc(100vh_-_560px)] overflow-auto md:h-[calc(100vh_-_140px)]"
             src={`${pdfUrl}#toolbar=0`}
             frameBorder="0"
           />
