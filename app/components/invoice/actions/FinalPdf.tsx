@@ -91,7 +91,7 @@ export default function FinalPdf() {
       <div className="flex-grow bg-neutral-100 p-4">
         <div className="max-w-[850px] mx-auto bg-white shadow-md rounded-lg overflow-hidden">
           <iframe
-            className="w-full h-[calc(100vh_-_560px)] overflow-auto md:h-[calc(100vh_-_140px)]"
+            className="w-full h-[calc(100vh_-_560px)] overflow-auto md:h-[calc(100vh_-_460px)] lg:h-[calc(100vh_-_340px)]"
             src={`${pdfUrl}#toolbar=0`}
             frameBorder="0"
           />
