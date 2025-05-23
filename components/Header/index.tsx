@@ -62,6 +62,7 @@ const Header = memo(function Header() {
   const handleNavigation = useCallback(
     (path: string) => {
       router.push(path);
+      setIsMenuOpen(false);
     },
     [router]
   );
@@ -210,6 +211,15 @@ const Header = memo(function Header() {
                   <div className="text-gray-700 font-medium">{user.name}</div>
                 </div>
                 <div className="px-4 py-2 border-t border-gray-100">
+                  <button
+                    onClick={() => handleNavigation("/profile")}
+                    className="w-full text-left flex items-center text-neutral-600 hover:text-neutral-700 font-medium"
+                  >
+                    <User className="w-4 h-4 mr-2" />
+                    My Account
+                  </button>
+                </div>
+                <div className="px-4 py-2">
                   <button
                     onClick={handleLogout}
                     className="w-full text-left flex items-center text-red-600 hover:text-red-700"
