@@ -258,7 +258,11 @@ const InvoiceMain = () => {
               >
                 <div className="flex justify-between items-center mb-4">
                   <h3 className="text-lg font-bold">Invoice Actions</h3>
-                  <Button variant="ghost" onClick={toggleMobileActions}>
+                  <Button
+                    variant="ghost"
+                    onClick={toggleMobileActions}
+                    type="button"
+                  >
                     <X size={24} />
                   </Button>
                 </div>
