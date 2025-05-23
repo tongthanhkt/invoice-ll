@@ -15,7 +15,7 @@ export const InvoiceContainer = ({
     <div className="w-full max-w-[1200px] mx-auto sm:px-6">
       <div className="border border-solid border-neutral-200 rounded-lg bg-white">
         <CardHeader className="border-b border-border/40 bg-white p-4">
-          <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-2">
+          <div className="flex flex-row items-center justify-between gap-2">
             <CardTitle className="flex items-center gap-3">
               <span className="text-lg font-semibold tracking-tight text-gray-800">
                 {title}
@@ -31,7 +31,7 @@ export const InvoiceContainer = ({
             </Badge>
           </div>
         </CardHeader>
-        <CardContent className="p-4 sm:p-6 pb-10 bg-white h-[calc(100vh_-_196px)] overflow-y-auto">
+        <CardContent className="p-4 sm:p-6 sn:pb-10 bg-white  h-[calc(100vh_-_400px)] sm:h-[calc(100vh_-_196px)] overflow-y-auto">
           {children}
         </CardContent>
       </div>

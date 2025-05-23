@@ -198,7 +198,7 @@ const Header = memo(function Header() {
             {user ? (
               <>
                 <div className="flex items-center px-4 py-2">
-                  <Avatar className="h-9 w-8 mr-2 border border-blue-100">
+                  <Avatar className="h-9 w-9 mr-2 border border-blue-100">
                     <AvatarImage
                       src="/placeholder.svg?height=32&width=32"
                       alt={user.name}

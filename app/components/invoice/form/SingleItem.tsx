@@ -110,15 +110,8 @@ const SingleItem = ({
       {/* Mobile view */}
       <div className="md:hidden flex flex-col gap-3 p-3 border border-neutral-200 rounded-lg mb-2">
         <div className="flex justify-between items-center">
-          <div className="font-medium text-neutral-700">Item #{index + 1}</div>
+          <div className="font-medium text-neutral-700">#{index + 1}</div>
           <div className="flex items-center gap-1">
-            <div
-              className={`${gripDragClasses} flex justify-center items-center`}
-              ref={setNodeRef}
-              {...listeners}
-            >
-              <GripVertical className="hover:text-blue-600 text-neutral-700 w-4 h-4 cursor-pointer !important" />
-            </div>
             {fields.length > 0 && (
               <BaseButton
                 className="p-1 bg-white text-red-500 hover:bg-red-50 size-8"
@@ -172,7 +165,6 @@ const SingleItem = ({
           />
         </div>
       </div>
-
       {/* Desktop view */}
       <div
         className="
