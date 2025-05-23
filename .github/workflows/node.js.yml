@@ -1,5 +1,5 @@
 name: GitHub Actions Deployment
-run-name: ${{ github.actor }} is deploying to production 🚀
+run-name: ${{ github.actor }} is deploying Next.js standalone to production 🚀
 
 on:
   push:
@@ -25,56 +25,43 @@ jobs:
       - name: 📥 Checkout Code
         uses: actions/checkout@v3
 
-      - name: 📂 List Files
-        run: ls -la
-        
       - name: 📄 Write .env File
         run: |
-            cat <<EOF > .env
-            JWT_SECRET=${{ secrets.JWT_SECRET }}
-            MONGODB_URI=${{ secrets.MONGODB_URI }}       
-            EOF
+          cat <<EOF > .env
+          JWT_SECRET=${{ secrets.JWT_SECRET }}
+          MONGODB_URI=${{ secrets.MONGODB_URI }}       
+          EOF
 
       - name: 📦 Install Dependencies
         run: npm install --force
 
-      - name: 🏗️ Build Project
+      - name: 🏗️ Build Project (Standalone)
         run: npm run build
 
-      - name: 🧹 Clean up Unneeded Files
+      - name: 📦 Prepare Files for Deployment
         run: |
-          rm -rf .git .cache
-
-      - name: 🗜️ Zip Project (excluding node_modules, .git, .cache)
-        run: |
-          zip -r project.zip . -x "node_modules/*" -x ".git/*" -x ".cache/*"
+          mkdir invoice-test
+          cp -r .next/standalone/* invoice-test/
+          cp -r .next/static invoice-test/.next/static
+          cp -r public invoice-test/public || true
+          cp .env package.json package-lock.json deploy/
 
       - name: 🔐 Write SSH Private Key to File
         run: |
           echo "${{ secrets.SSH_KEY }}" > private_key
           chmod 600 private_key
 
-      - name: 📤 Upload Archive to Server
+      - name: 📤 Upload to Server
         run: |
-          scp -i private_key -o StrictHostKeyChecking=no project.zip ubuntu@${{ vars.REMOTE_HOST }}:~/
+          rsync -avz -e "ssh -i private_key -o StrictHostKeyChecking=no" ./invoice-test/ ubuntu@${{ vars.REMOTE_HOST }}:invoice-test
 
-      - name: 📦 Deploy with Overwrite and Clean
+      - name: 🚀 Deploy on Server
         run: |
           ssh -i private_key -o StrictHostKeyChecking=no ubuntu@${{ vars.REMOTE_HOST }} << 'EOF'
             set -e
-
-            # Tạo thư mục tạm và giải nén
-            rm -rf ~/temp-unzip
-            mkdir ~/temp-unzip
-            unzip -o ~/project.zip -d ~/temp-unzip
-
-            # Đồng bộ qua thư mục chính và xóa file cũ không còn trong bản mới
-            rsync -a --delete ~/temp-unzip/ ~/${{ vars.REMOTE_PATH }}/
-
-            # Cài dependency và reload app
-            cd ~/${{ vars.REMOTE_PATH }}
+            cd ~/invoice-test
             npm ci --omit=dev
-            pm2 reload invoice-ll-dev
           EOF
+
       - name: ✅ Done
-        run: echo "🚀 Deployment completed successfully!"
+        run: echo "🚀 Standalone Deployment completed successfully!"
