@@ -29,13 +29,13 @@ export const AuthLayout = ({
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
         transition={{ duration: 0.5 }}
-        className="min-h-screen flex flex-col sm:flex-row items-center justify-center p-4 pt-16 sm:p-6 sm:pt-20 lg:p-6 relative z-10"
+        className="min-h-screen w-full max-w-md sm:max-w-none sm:w-auto flex flex-col sm:flex-row items-center justify-center p-4 px-8 sm:p-8 lg:p-6 relative z-10"
       >
         <motion.div
           initial={{ opacity: 0, x: -50 }}
           animate={{ opacity: 1, x: 0 }}
           transition={{ duration: 0.6, delay: 0.2 }}
-          className="hidden sm:block lg:flex-1 p-4"
+          className="hidden sm:block w-full lg:flex-1 p-4"
         >
           <motion.div
             initial={{ scale: 0.9, opacity: 0 }}
@@ -71,7 +71,7 @@ export const AuthLayout = ({
           initial={{ opacity: 0, y: 30, scale: 0.95 }}
           animate={{ opacity: 1, y: 0, scale: 1 }}
           transition={{ duration: 0.6, delay: 0.2 }}
-          className="w-full lg:flex-1  h-fit bg-white rounded-2xl p-6 sm:p-10 lg:p-16 !text-gray-900 shadow-md flex items-center justify-center relative"
+          className="w-full lg:flex-1  h-fit bg-white rounded-2xl p-6 md:p-8 xl:p-14 lg:p-16 !text-gray-900 shadow-md flex items-center justify-center relative"
         >
           <div className="flex flex-col justify-center mx-auto w-full">
             <motion.h2
@@ -91,7 +91,7 @@ export const AuthLayout = ({
               initial={{ opacity: 0, y: 10 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.5, delay: 0.6 }}
-              className="text-2xl sm:text-3xl font-bold py-2 sm:py-4 text-blue-500 text-center"
+              className="text-2xl sm:text-3xl font-bold py-2 md:py-4 text-blue-500 text-center"
             >
               {title}
             </motion.div>
@@ -135,9 +135,9 @@ export const AuthLayout = ({
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               transition={{ duration: 0.5, delay: 1 }}
-              className="text-center text-sm text-gray-500 mt-8 lg:absolute lg:bottom-4 lg:right-6 lg:left-6 flex flex-col sm:flex-row items-center justify-between gap-2"
+              className="text-center text-sm text-gray-500 mt-4 md:mt-6 lg:absolute lg:bottom-4 lg:right-6 lg:left-6 flex flex-col sm:flex-row items-center justify-between gap-2"
             >
-              <div>
+              <div className="w-max">
                 ©{" "}
                 <a href="#" className="text-blue-700 hover:underline">
                   Invoify
