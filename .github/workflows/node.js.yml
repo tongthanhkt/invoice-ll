@@ -40,11 +40,11 @@ jobs:
 
       - name: 📦 Prepare Files for Deployment
         run: |
-          mkdir invoice-test
+          mkdir -p invoice-test/.next
           cp -r .next/standalone/* invoice-test/
           cp -r .next/static invoice-test/.next/static
           cp -r public invoice-test/public || true
-          cp .env package.json package-lock.json deploy/
+          cp .env package.json package-lock.json invoice-test/
 
       - name: 🔐 Write SSH Private Key to File
         run: |
