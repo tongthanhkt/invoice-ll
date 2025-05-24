@@ -56,7 +56,7 @@ export async function POST(req: Request) {
         // Set token in HTTP-only cookie
         response.cookies.set('token', token, {
             httpOnly: true,
-            secure: process.env.NODE_ENV === 'production',
+            secure: false,
             sameSite: 'strict',
             maxAge: 60 * 60 * 24 * 7, // 7 days
         });
