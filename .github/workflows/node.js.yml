@@ -1,5 +1,5 @@
 name: GitHub Actions Deployment
-run-name: ${{ github.actor }} is deploying Next.js standalone to production 🚀
+run-name: ${{ github.actor }} is deploying to production 🚀
 
 on:
   push:
@@ -25,42 +25,51 @@ jobs:
       - name: 📥 Checkout Code
         uses: actions/checkout@v3
 
+      - name: 📂 List Files
+        run: ls -la
+
       - name: 📄 Write .env File
         run: |
           cat <<EOF > .env
           JWT_SECRET=${{ secrets.JWT_SECRET }}
-          MONGODB_URI=${{ secrets.MONGODB_URI }}       
+          MONGODB_URI=${{ secrets.MONGODB_URI }}
           EOF
 
-      - name: 📦 Install Dependencies
-        run: npm install --force
-
-      - name: 🏗️ Build Project (Standalone)
-        run: npm run build
-
-      - name: 📦 Prepare Files for Deployment
+      - name: 🧹 Clean up Unneeded Files
         run: |
-          mkdir -p invoice-test
-          cp -r .next invoice-test/.next
-          cp -r public invoice-test/public || true
-          cp .env package.json package-lock.json invoice-test/
+          rm -rf .git .cache node_modules .next
+
+      - name: 🗜️ Zip Project (excluding node_modules, .git, .cache)
+        run: |
+          zip -r project.zip . -x "node_modules/*" -x ".git/*" -x ".cache/*" -x ".next/*"
 
       - name: 🔐 Write SSH Private Key to File
         run: |
           echo "${{ secrets.SSH_KEY }}" > private_key
           chmod 600 private_key
 
-      - name: 📤 Upload to Server
+      - name: 📤 Upload Archive to Server
         run: |
-          rsync -avz --exclude 'node_modules' -e "ssh -i private_key -o StrictHostKeyChecking=no" ./invoice-test/ ubuntu@${{ vars.REMOTE_HOST }}:invoice-test
+          scp -i private_key -o StrictHostKeyChecking=no project.zip ubuntu@${{ vars.REMOTE_HOST }}:~/
 
-      - name: 🚀 Deploy on Server
+      - name: 📦 Deploy with Server-side Build & Start
         run: |
           ssh -i private_key -o StrictHostKeyChecking=no ubuntu@${{ vars.REMOTE_HOST }} << 'EOF'
             set -e
-            cd ~/invoice-test
-            npm ci --omit=dev
+
+            echo "📁 Cleaning and unzipping project"
+            rm -rf ~/temp-unzip
+            mkdir ~/temp-unzip
+            unzip -o ~/project.zip -d ~/temp-unzip
+
+            echo "🔁 Sync to target folder"
+            rsync -a --delete ~/temp-unzip/ ~/${{ vars.REMOTE_PATH }}/
+
+            echo "📦 Installing and building on server"
+            cd ~/${{ vars.REMOTE_PATH }}
+            npm install
+            npm run build
           EOF
 
       - name: ✅ Done
-        run: echo "🚀 Standalone Deployment completed successfully!"
+        run: echo "🚀 Deployment completed successfully!"
