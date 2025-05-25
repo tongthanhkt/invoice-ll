@@ -39,26 +39,30 @@ jobs:
       
       - name: 📂 Prepare Deployment Folder
         run: |
-          # Tạo thư mục deploy và các thư mục con cần thiết
-          mkdir -p deploy/.next/static
-          mkdir -p deploy/public
+          mkdir -p deploy
 
-          # Copy thư mục standalone (chứa server.js, .next config)
+          # Copy standalone build (server.js + dependencies)
           cp -r .next/standalone/* deploy/
 
-          # Copy thư mục static (chứa các static assets đã build)
+          # Copy static assets
+          mkdir -p deploy/.next/static
           cp -r .next/static deploy/.next/static
 
-          # Copy thư mục public nếu có
-          cp -r public/* deploy/public || echo "No public folder, skipping..."
+          # Copy server folder với các manifest cần thiết
+          mkdir -p deploy/.next/server
+          cp -r .next/server/* deploy/.next/server/
 
-          # Copy file BUILD_ID để tránh lỗi khi start
+          # Copy BUILD_ID file (quan trọng)
           cp .next/BUILD_ID deploy/.next/BUILD_ID
 
-          # Copy file cấu hình môi trường và dependency
+          # Copy public nếu có
+          cp -r public deploy/public || echo "No public folder, skipping..."
+
+          # Copy config và lock files
           cp .env package.json package-lock.json deploy/
 
-          echo "📁 Deployment folder prepared (standalone)"
+          echo "📁 Deployment folder prepared with server files and manifests"
+
 
       - name: 🔐 Write SSH Private Key
         run: |
