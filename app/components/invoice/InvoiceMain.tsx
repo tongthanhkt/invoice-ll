@@ -114,7 +114,7 @@ const InvoiceMain = () => {
 
     setValue("details.pdfTemplate", templateNumber);
     setValue("details.invoiceNumber", "");
-    setValue("details.invoiceDate", "");
+    setValue("details.invoiceDate", new Date().toISOString());
     setValue("payer.name", "");
     setValue("payer.address", "");
     setValue("payer.email", "");

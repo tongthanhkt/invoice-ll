@@ -18,20 +18,6 @@ import { ReceiverSection } from "./ReceiverSection";
 import { VoucherItemTable } from "./VoucherItemTable";
 import { VoucherSection } from "./VoucherSection";
 
-interface Payer {
-  _id: string;
-  name: string;
-  emails: string[];
-  addresses: string[];
-}
-
-interface Receiver {
-  _id: string;
-  name: string;
-  emails: string[];
-  addresses?: string[];
-}
-
 interface PaymentVoucherFormProps {
   payersData?: PayerCombined;
   receiversData?: ReceiverCombined;

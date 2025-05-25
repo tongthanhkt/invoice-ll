@@ -1,4 +1,4 @@
-'use client';
+"use client";
 
 import React, {
   createContext,
@@ -7,18 +7,18 @@ import React, {
   useEffect,
   useMemo,
   useState,
-} from 'react';
+} from "react";
 
-import { useRouter } from 'next/navigation';
+import { useRouter } from "next/navigation";
 
 // RHF
-import { FormProvider, useForm } from 'react-hook-form';
+import { FormProvider, useForm } from "react-hook-form";
 
 // Hooks
-import useToasts from '@/hooks/useToasts';
+import useToasts from "@/hooks/useToasts";
 
 // Services
-import { exportInvoice } from '@/services/invoice/client/exportInvoice';
+import { exportInvoice } from "@/services/invoice/client/exportInvoice";
 
 // Variables
 import {
@@ -26,10 +26,10 @@ import {
   GENERATE_PDF_API,
   SEND_PDF_API,
   SHORT_DATE_OPTIONS,
-} from '@/lib/variables';
+} from "@/lib/variables";
 
 // Types
-import { ExportTypes, InvoiceType } from '@/types';
+import { ExportTypes, InvoiceType } from "@/types";
 
 const defaultInvoiceContext = {
   invoicePdf: new Blob(),
@@ -86,33 +86,33 @@ export const InvoiceContextProvider = ({
   const methods = useForm<InvoiceType>({
     defaultValues: {
       payer: {
-        name: '',
-        email: '',
-        address: '',
+        name: "",
+        email: "",
+        address: "",
       },
       receiver: {
-        name: '',
-        address: '',
-        zipCode: '',
-        city: '',
-        country: '',
-        email: '',
-        phone: '',
+        name: "",
+        address: "",
+        zipCode: "",
+        city: "",
+        country: "",
+        email: "",
+        phone: "",
         customInputs: [],
       },
       details: {
-        currency: '',
-        invoiceNumber: '',
-        invoiceDate: '',
-        dueDate: '',
-        language: '',
+        currency: "",
+        invoiceNumber: "",
+        invoiceDate: new Date().toISOString(),
+        dueDate: new Date(Date.now() + 30 * 24 * 60 * 60 * 1000).toISOString(),
+        language: "",
         items: [],
         subTotal: 0,
         totalAmount: 0,
-        totalAmountInWords: '',
-        paymentTerms: '',
+        totalAmountInWords: "",
+        paymentTerms: "",
         pdfTemplate: 1,
-        updatedAt: '',
+        updatedAt: "",
       },
     },
   });
@@ -123,7 +123,7 @@ export const InvoiceContextProvider = ({
     let savedInvoicesDefault;
     if (typeof window !== undefined) {
       // Saved invoices variables
-      const savedInvoicesJSON = window.localStorage.getItem('savedInvoices');
+      const savedInvoicesJSON = window.localStorage.getItem("savedInvoices");
       savedInvoicesDefault = savedInvoicesJSON
         ? JSON.parse(savedInvoicesJSON)
         : [];
@@ -177,7 +177,7 @@ export const InvoiceContextProvider = ({
 
     try {
       const response = await fetch(GENERATE_PDF_API, {
-        method: 'POST',
+        method: "POST",
         body: JSON.stringify(data),
       });
 
@@ -208,7 +208,7 @@ export const InvoiceContextProvider = ({
   const previewPdfInTab = () => {
     if (invoicePdf) {
       const url = window.URL.createObjectURL(invoicePdf);
-      window.open(url, '_blank');
+      window.open(url, "_blank");
     }
   };
 
@@ -222,9 +222,9 @@ export const InvoiceContextProvider = ({
       const url = window.URL.createObjectURL(invoicePdf);
 
       // Create an anchor element to initiate the download
-      const a = document.createElement('a');
+      const a = document.createElement("a");
       a.href = url;
-      a.download = 'invoice.pdf';
+      a.download = "invoice.pdf";
       document.body.appendChild(a);
 
       // Trigger the download
@@ -241,7 +241,7 @@ export const InvoiceContextProvider = ({
   const printPdf = () => {
     if (invoicePdf) {
       const pdfUrl = URL.createObjectURL(invoicePdf);
-      const printWindow = window.open(pdfUrl, '_blank');
+      const printWindow = window.open(pdfUrl, "_blank");
       if (printWindow) {
         printWindow.onload = () => {
           printWindow.print();
@@ -259,13 +259,13 @@ export const InvoiceContextProvider = ({
       // If get values function is provided, allow to save the invoice
       if (getValues) {
         // Retrieve the existing array from local storage or initialize an empty array
-        const savedInvoicesJSON = localStorage.getItem('savedInvoices');
+        const savedInvoicesJSON = localStorage.getItem("savedInvoices");
         const savedInvoices = savedInvoicesJSON
           ? JSON.parse(savedInvoicesJSON)
           : [];
 
         const updatedDate = new Date().toLocaleDateString(
-          'en-US',
+          "en-US",
           SHORT_DATE_OPTIONS
         );
 
@@ -294,7 +294,7 @@ export const InvoiceContextProvider = ({
           saveInvoiceSuccess();
         }
 
-        localStorage.setItem('savedInvoices', JSON.stringify(savedInvoices));
+        localStorage.setItem("savedInvoices", JSON.stringify(savedInvoices));
 
         setSavedInvoices(savedInvoices);
       }
@@ -315,7 +315,7 @@ export const InvoiceContextProvider = ({
 
       const updatedInvoicesJSON = JSON.stringify(updatedInvoices);
 
-      localStorage.setItem('savedInvoices', updatedInvoicesJSON);
+      localStorage.setItem("savedInvoices", updatedInvoicesJSON);
     }
   };
 
@@ -327,12 +327,12 @@ export const InvoiceContextProvider = ({
    */
   const sendPdfToMail = (email: string) => {
     const fd = new FormData();
-    fd.append('email', email);
-    fd.append('invoicePdf', invoicePdf, 'invoice.pdf');
-    fd.append('invoiceNumber', getValues().details.invoiceNumber);
+    fd.append("email", email);
+    fd.append("invoicePdf", invoicePdf, "invoice.pdf");
+    fd.append("invoiceNumber", getValues().details.invoiceNumber);
 
     return fetch(SEND_PDF_API, {
-      method: 'POST',
+      method: "POST",
       body: fd,
     })
       .then((res) => {
@@ -394,7 +394,7 @@ export const InvoiceContextProvider = ({
         // Reset form with imported data
         reset(importedData);
       } catch (error) {
-        console.error('Error parsing JSON file:', error);
+        console.error("Error parsing JSON file:", error);
         importInvoiceError();
       }
     };
