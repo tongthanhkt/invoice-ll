@@ -34,7 +34,6 @@ jobs:
 
       - name: 📦 Install Dependencies & Build (standalone)
         run: |
-          npm ci
           npm run build
 
       - name: 📂 Prepare Deployment Folder
