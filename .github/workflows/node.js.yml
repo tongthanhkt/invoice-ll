@@ -25,9 +25,6 @@ jobs:
       - name: 📥 Checkout Code
         uses: actions/checkout@v3
 
-      - name: 📂 List Files
-        run: ls -la
-
       - name: 📄 Write .env File
         run: |
           cat <<EOF > .env
@@ -35,41 +32,38 @@ jobs:
           MONGODB_URI=${{ secrets.MONGODB_URI }}
           EOF
 
-      - name: 🧹 Clean up Unneeded Files
+      - name: 📦 Install Dependencies & Build (standalone)
         run: |
-          rm -rf .git .cache node_modules .next
+          npm ci
+          npm run build
 
-      - name: 🗜️ Zip Project (excluding node_modules, .git, .cache)
+      - name: 📂 Prepare Deployment Folder
         run: |
-          zip -r project.zip . -x "node_modules/*" -x ".git/*" -x ".cache/*" -x ".next/*"
+          mkdir deploy
+          cp -r .next/standalone/* deploy/
+          cp -r .next/static deploy/.next/static
+          cp -r public deploy/public
+          cp .env deploy/.env
+          cp package.json deploy/package.json
+          cp package-lock.json deploy/package-lock.json
+          echo "📁 Deployment folder prepared"
 
-      - name: 🔐 Write SSH Private Key to File
+      - name: 🔐 Write SSH Private Key
         run: |
           echo "${{ secrets.SSH_KEY }}" > private_key
           chmod 600 private_key
 
-      - name: 📤 Upload Archive to Server
+      - name: 📤 Upload to Server
         run: |
-          scp -i private_key -o StrictHostKeyChecking=no project.zip ubuntu@${{ vars.REMOTE_HOST }}:~/
+          rsync -e "ssh -i private_key -o StrictHostKeyChecking=no" -az --delete ./deploy/ ubuntu@${{ vars.REMOTE_HOST }}:~/${{ vars.REMOTE_PATH }}
 
-      - name: 📦 Deploy with Server-side Build & Start
+      - name: 🚀 Start Server
         run: |
           ssh -i private_key -o StrictHostKeyChecking=no ubuntu@${{ vars.REMOTE_HOST }} << 'EOF'
             set -e
-
-            echo "📁 Cleaning and unzipping project"
-            rm -rf ~/temp-unzip
-            mkdir ~/temp-unzip
-            unzip -o ~/project.zip -d ~/temp-unzip
-
-            echo "🔁 Sync to target folder"
-            rsync -a --delete ~/temp-unzip/ ~/${{ vars.REMOTE_PATH }}/
-
-            echo "📦 Installing and building on server"
             cd ~/${{ vars.REMOTE_PATH }}
-            npm install
-            npm run build
+            npm ci --omit=dev
           EOF
 
       - name: ✅ Done
-        run: echo "🚀 Deployment completed successfully!"
+        run: echo "🚀 Deployment completed with standalone build!"

@@ -30,37 +30,14 @@ export async function generatePdfService(req: NextRequest) {
 		const templateId = body.details.pdfTemplate;
 		const InvoiceTemplate = await getInvoiceTemplate(templateId);
 		const htmlTemplate = ReactDOMServer.renderToStaticMarkup(InvoiceTemplate(body));
-
-		console.log("htmlTemplate", htmlTemplate);
-		console.log("process.env.NODE_ENV", process.env.NODE_ENV);
-		if (ENV === "production") {
-			console.log("Generating PDF in production environment");
-			const puppeteer = await import("puppeteer-core");
-
-			// Configure Chromium for serverless environment using chromium-min's built-in config
-			const executablePath = await chromium.executablePath();
-
-			// Set up browser with chromium-min's optimized configuration
-			browser = await puppeteer.launch({
-				args: chromium.args,
-				executablePath,
-				headless: true,
-				ignoreHTTPSErrors: true,
-				defaultViewport: chromium.defaultViewport
-			});
-		} else {
-			console.log("Generating PDF in development environment");
-			const puppeteer = await import("puppeteer");
-			browser = await puppeteer.launch({
-				args: ["--no-sandbox", "--disable-setuid-sandbox"],
-				headless: true,
-			});
-		}
-
+		const puppeteer = await import("puppeteer");
+		browser = await puppeteer.launch({
+			args: ["--no-sandbox", "--disable-setuid-sandbox"],
+			headless: true,
+		});
 		if (!browser) {
 			throw new Error("Failed to launch browser");
 		}
-
 		page = await browser.newPage();
 		await page.setContent(htmlTemplate, {
 			waitUntil: ["networkidle0", "load", "domcontentloaded"],
