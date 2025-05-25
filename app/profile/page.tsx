@@ -81,7 +81,7 @@ export default function Profile() {
         exit="exit"
         onSubmit={methods.handleSubmit(onSubmit)}
       >
-        <motion.div className="flex flex-col gap-4 max-w-md w-full p-6 rounded-lg shadow-md">
+        <motion.div className="flex flex-col gap-4 max-w-md w-full p-6 rounded-lg shadow-md mx-8">
           <div className="text-2xl font-bold text-blue-500 text-center">
             Update profile
           </div>
