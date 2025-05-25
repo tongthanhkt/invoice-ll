@@ -91,7 +91,28 @@ export default function FinalPdf() {
       </div>
 
       <div className="flex-grow bg-neutral-100 p-4">
-        <div className="max-w-[850px] mx-auto bg-white shadow-md rounded-lg overflow-hidden">
+        {/* Mobile view */}
+        <div className="lg:hidden max-w-[850px] mx-auto bg-white shadow-md rounded-lg overflow-hidden h-[calc(100vh_-_560px)]">
+          <div className="relative w-full overflow-x-auto">
+            <div
+              style={{
+                width: "1000px",
+                height: "1000px",
+                transform: "scale(.55)",
+                transformOrigin: "top left",
+              }}
+            >
+              <iframe
+                className="w-full h-full"
+                src={`${pdfUrl}#toolbar=0`}
+                frameBorder="0"
+              />
+            </div>
+          </div>
+        </div>
+
+        {/* Desktop view */}
+        <div className="hidden lg:block max-w-[850px] mx-auto bg-white shadow-md rounded-lg overflow-hidden">
           <iframe
             className="w-full h-[calc(100vh_-_560px)] overflow-auto md:h-[calc(100vh_-_460px)] lg:h-[calc(100vh_-_320px)]"
             src={`${pdfUrl}#toolbar=0`}
