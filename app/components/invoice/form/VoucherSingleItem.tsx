@@ -131,13 +131,11 @@ const VoucherSingleItem = ({
         </div>
 
         <div className="w-full">
-          <Label className="text-label mb-1 block">Total</Label>
           <FormInput
-            name={`${name}[${index}].total`}
-            value={`${total}`}
-            readOnly
-            placeholder="Item total"
-            className="font-medium"
+            name={`${name}[${index}].unitPrice`}
+            placeholder="Item amount"
+            type="number"
+            label="Amount"
           />
         </div>
       </div>

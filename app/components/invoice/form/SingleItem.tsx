@@ -134,34 +134,33 @@ const SingleItem = ({
 
         <div className="grid grid-cols-2 gap-3 mb-2">
           <div>
-            <Label className="text-label mb-1 block">Unit Price</Label>
             <FormInput
               name={`${name}[${index}].unitPrice`}
               type="number"
               placeholder="Amount"
-              vertical
+              label="Unit price"
             />
           </div>
 
           <div>
-            <Label className="text-label mb-1 block">Quantity</Label>
             <FormInput
               name={`${name}[${index}].quantity`}
               type="number"
               placeholder="Item quantity"
+              label="Quantity"
               size={10}
             />
           </div>
         </div>
 
         <div className="w-full">
-          <Label className="text-label mb-1 block">Total</Label>
           <FormInput
+            label="Total"
+            type="number"
             name={`${name}[${index}].total`}
-            value={`${total}`}
+            placeholder="Total"
             readOnly
-            placeholder="Item total"
-            className="font-medium"
+            value={total}
           />
         </div>
       </div>
