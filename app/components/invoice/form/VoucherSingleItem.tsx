@@ -20,6 +20,7 @@ import { Trash2 } from "lucide-react";
 // Types
 import { ItemType, NameType } from "@/types";
 import FormInput from "../../reusables/form-fields/FormInput/FormInput";
+import { Label } from "@/components/ui/label";
 
 type SingleItemProps = {
   name: NameType;
@@ -102,11 +103,47 @@ const VoucherSingleItem = ({
     <div
       style={style}
       {...attributes}
-      className={` rounded-lg p-2 ${boxDragClasses}`}
+      className={` md:rounded-lg md:p-2 ${boxDragClasses}`}
     >
+      {/* Mobile view */}
+      <div className="md:hidden flex flex-col gap-3 p-3 border border-neutral-200 rounded-lg mb-2">
+        <div className="flex justify-between items-center">
+          <div className="font-medium text-neutral-700">#{index + 1}</div>
+          <div className="flex items-center gap-1">
+            {fields.length > 0 && (
+              <BaseButton
+                className="p-1 bg-white text-red-500 hover:bg-red-50 size-8"
+                variant="destructive"
+                onClick={() => removeField(index)}
+              >
+                <Trash2 className="w-4 h-4" />
+              </BaseButton>
+            )}
+          </div>
+        </div>
+
+        <div className="w-full mb-3 ">
+          <FormInput
+            name={`${name}[${index}].description`}
+            placeholder="Item description"
+            vertical
+          />
+        </div>
+
+        <div className="w-full">
+          <Label className="text-label mb-1 block">Total</Label>
+          <FormInput
+            name={`${name}[${index}].total`}
+            value={`${total}`}
+            readOnly
+            placeholder="Item total"
+            className="font-medium"
+          />
+        </div>
+      </div>
       <div
         className="
-        flex flex-row gap-3  
+        hidden md:flex flex-row gap-3  
         "
         key={index}
       >
@@ -121,7 +158,7 @@ const VoucherSingleItem = ({
           />
         </div>
 
-        <div className="w-1/4">
+        <div className="flex-1">
           <FormInput
             name={`${name}[${index}].unitPrice`}
             type="number"

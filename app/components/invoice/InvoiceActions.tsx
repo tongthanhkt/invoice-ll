@@ -39,7 +39,7 @@ const InvoiceActions = () => {
         </BaseButton>
       </CardHeader>
 
-      <div className="flex flex-col items-center gap-4 p-3 sm:p-4 bg-white">
+      <div className="flex flex-col items-center gap-4 p-3 sm:p-4 lg:pb-0 bg-white rounded-b-lg">
         <div className="w-full">
           {/* Live preview and Final pdf */}
           <PdfViewer />

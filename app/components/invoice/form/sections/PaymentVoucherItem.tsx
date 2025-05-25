@@ -92,13 +92,48 @@ const PaymentVoucherItem = () => {
           Expense Item
         </h3>
       </div>
-      <div className="flex flex-row items-center px-2 font-medium text-neutral-700 w-full gap-3 bg-neutral-100 py-3 rounded-t-lg border border-b-0 border-solid border-neutral-200 text-label">
+      <div className="hidden md:flex flex-row items-center px-2 font-medium text-neutral-700 w-full gap-3 bg-neutral-100 py-3 rounded-t-lg border border-b-0 border-solid border-neutral-200 text-label">
         <div className="w-10">No.</div>
         <div className="w-1/2">Description</div>
         <div className="w-1/4">Amount</div>
         <div className="max-w-[32px] w-full"></div>
       </div>
-      <div className="border border-t-0 border-solid rounded-b-lg -mt-4 border-neutral-200 py-2">
+      <div className="hidden md:block border border-t-0 border-solid rounded-b-lg -mt-4 border-neutral-200 py-2">
+        {fields?.length ? (
+          <DndContext
+            sensors={sensors}
+            collisionDetection={closestCenter}
+            onDragStart={(event) => {
+              const { active } = event;
+              setActiveId(active.id);
+            }}
+            onDragEnd={handleDragEnd}
+          >
+            <SortableContext
+              items={fields}
+              strategy={verticalListSortingStrategy}
+            >
+              {fields.map((field, index) => (
+                <VoucherSingleItem
+                  key={field.id}
+                  name={ITEMS_NAME}
+                  index={index}
+                  fields={fields}
+                  field={field}
+                  moveFieldUp={moveFieldUp}
+                  moveFieldDown={moveFieldDown}
+                  removeField={removeField}
+                />
+              ))}
+            </SortableContext>
+          </DndContext>
+        ) : (
+          <div className="text-neutral-500 text-center text-sm">No data</div>
+        )}
+      </div>
+
+      {/* Mobile view */}
+      <div className="md:hidden -mt-2">
         {fields?.length ? (
           <DndContext
             sensors={sensors}

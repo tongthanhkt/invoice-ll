@@ -232,6 +232,7 @@ const InvoiceMain = () => {
               onClick={toggleMobileActions}
               className="h-14 w-14 rounded-full bg-blue-600 hover:bg-blue-700 text-white shadow-lg flex items-center justify-center"
               aria-label="Preview Invoice"
+              type="button"
             >
               {mobileActionsVisible ? <X size={24} /> : <FileText size={24} />}
             </Button>
@@ -257,7 +258,11 @@ const InvoiceMain = () => {
               >
                 <div className="flex justify-between items-center mb-4">
                   <h3 className="text-lg font-bold">Invoice Actions</h3>
-                  <Button variant="ghost" onClick={toggleMobileActions}>
+                  <Button
+                    variant="ghost"
+                    onClick={toggleMobileActions}
+                    type="button"
+                  >
                     <X size={24} />
                   </Button>
                 </div>
