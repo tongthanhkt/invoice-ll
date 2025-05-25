@@ -41,17 +41,13 @@ jobs:
           # Tạo thư mục deploy
           mkdir -p deploy
 
-          # Copy nội dung từ .next/standalone (chứa server.js và app compiled)
-          cp -r .next/standalone/* deploy/
-
-          # Copy thư mục static vào đúng vị trí .next/static/
-          mkdir -p deploy/.next
-          cp -r .next/static deploy/.next/static
+          # Copy toàn bộ thư mục .next (bao gồm cả BUILD_ID, static, server.js, v.v.)
+          cp -r .next deploy/.next
 
           # Copy thư mục public nếu có
           cp -r public deploy/public || echo "No public folder, skipping..."
 
-          # Copy các file cấu hình
+          # Copy các file cấu hình và môi trường
           cp .env package.json package-lock.json deploy/
 
           echo "📁 Deployment folder prepared"
