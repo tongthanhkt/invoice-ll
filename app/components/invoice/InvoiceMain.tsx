@@ -88,7 +88,7 @@ const DOCUMENT_TYPES = [
 const InvoiceMain = () => {
   const { handleSubmit, watch, setValue, reset } =
     useFormContext<InvoiceType>();
-  const { onFormSubmit } = useInvoiceContext();
+  const { onFormSubmit, removeFinalPdf } = useInvoiceContext();
   const [selectedType, setSelectedType] = useState(DOCUMENT_TYPES[0]); // Default to Payment voucher
   const [renderKey, setRenderKey] = useState(0); // Add key for forcing re-render
   const [sidebarMinimized, setSidebarMinimized] = useState(false);
@@ -124,6 +124,7 @@ const InvoiceMain = () => {
     setValue("receiver.zipCode", "");
     setValue("receiver.city", "");
     setValue("details.items", []);
+    removeFinalPdf();
     // // Force re-render of InvoiceActions and InvoiceTemplate
     setRenderKey((prev) => prev + 1);
   };
