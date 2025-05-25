@@ -38,15 +38,22 @@ jobs:
           npm run build
       - name: 📂 Prepare Deployment Folder
         run: |
-          mkdir deploy
+          # Tạo thư mục deploy
+          mkdir -p deploy
+
+          # Copy nội dung từ .next/standalone (chứa server.js và app compiled)
           cp -r .next/standalone/* deploy/
-          mkdir deploy/.next
+
+          # Copy thư mục static vào đúng vị trí .next/static/
+          mkdir -p deploy/.next
           cp -r .next/static deploy/.next/static
-          mkdir deploy/public
-          cp -r public deploy/public
-          cp .env deploy/.env
-          cp package.json deploy/package.json
-          cp package-lock.json deploy/package-lock.json
+
+          # Copy thư mục public nếu có
+          cp -r public deploy/public || echo "No public folder, skipping..."
+
+          # Copy các file cấu hình
+          cp .env package.json package-lock.json deploy/
+
           echo "📁 Deployment folder prepared"
 
       - name: 🔐 Write SSH Private Key
