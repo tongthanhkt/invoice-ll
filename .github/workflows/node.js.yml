@@ -67,6 +67,7 @@ jobs:
             set -e
             cd ~/${{ vars.REMOTE_PATH }}
             npm ci --omit=dev
+            pm2 restart invoice-production
           EOF
 
       - name: ✅ Done
