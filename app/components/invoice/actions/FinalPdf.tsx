@@ -40,7 +40,9 @@ export default function FinalPdf() {
             className="text-neutral-700 hover:text-blue-600 flex items-center gap-1.5"
           >
             <MoveLeft className="w-4 h-4" />
-            <span className="w-max">Back to editor</span>
+            <span className="w-max">
+              Back <span className="hidden sm:inline">to editor</span>
+            </span>
           </BaseButton>
         </div>
 
