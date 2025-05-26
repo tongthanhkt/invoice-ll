@@ -60,16 +60,16 @@ const InvoiceForm = ({ payersData, receiversData }: InvoiceFormProps) => {
         {/* Voucher Details */}
         <VoucherSection numberTitle="Invoice Number">
           <div className="grid grid-cols-2 sm:grid-cols-2 gap-4 sm:gap-6">
-            <div className="space-y-2">
-              <Label className="text-label font-medium text-neutral-700">
+            <div className="space-y-1">
+              <Label className="!text-label font-medium text-neutral-700">
                 Date
               </Label>
               <div className="bg-white text-gray-600">
                 <DatePickerFormField name="details.invoiceDate" />
               </div>
             </div>
-            <div className="space-y-2">
-              <Label className="text-label font-medium text-neutral-700">
+            <div className="space-y-1">
+              <Label className="!text-label font-medium text-neutral-700">
                 Due Date
               </Label>
               <div className="bg-white text-gray-600">

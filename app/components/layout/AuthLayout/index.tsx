@@ -60,8 +60,7 @@ export const AuthLayout = ({
               Generate &amp; Manage Your Invoices Instantly
             </h1>
             <p className="text-sm text-neutral-500">
-              Easily generate, store, and organize all your receipts and
-              invoices with just one click.
+              Easily generate, store, and organize all your receipts.
               <br />
               Simplify your accounting and never lose a bill again!
             </p>

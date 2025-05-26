@@ -102,7 +102,7 @@ export const InvoiceContextProvider = ({
       },
       details: {
         currency: "",
-        invoiceNumber: "",
+        invoiceNumber: "0001",
         invoiceDate: new Date().toISOString(),
         dueDate: new Date(Date.now() + 30 * 24 * 60 * 60 * 1000).toISOString(),
         language: "",
@@ -218,10 +218,7 @@ export const InvoiceContextProvider = ({
   const downloadPdf = () => {
     // Only download if there is an invoice
     if (invoicePdf instanceof Blob && invoicePdf.size > 0) {
-      const fileName = prompt(
-        "Enter filename for your document:",
-        "invoice.pdf"
-      );
+      const fileName = prompt("Enter filename:", "invoice.pdf");
 
       if (fileName) {
         const url = window.URL.createObjectURL(invoicePdf);

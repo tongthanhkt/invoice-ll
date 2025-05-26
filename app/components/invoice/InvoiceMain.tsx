@@ -113,7 +113,7 @@ const InvoiceMain = () => {
     const templateNumber = type === "Payment voucher" ? 1 : 2;
 
     setValue("details.pdfTemplate", templateNumber);
-    setValue("details.invoiceNumber", "");
+    setValue("details.invoiceNumber", "0001");
     setValue("details.invoiceDate", new Date().toISOString());
     setValue("payer.name", "");
     setValue("payer.address", "");

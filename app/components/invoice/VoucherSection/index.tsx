@@ -19,7 +19,7 @@ export const VoucherSection = ({
       <div className="space-y-2">
         <FormInput
           name="details.invoiceNumber"
-          placeholder="Enter voucher number"
+          placeholder="No"
           label={numberTitle}
         />
       </div>

@@ -26,7 +26,8 @@ export default function RegisterPage() {
         "Your profile information will be the information in the future documents (purchase order/payment voucher, etc.)"
       }
     >
-      {isProfile ? <CreateProfile /> : <CreateAccount />}
+      {/* {isProfile ? <CreateProfile /> : <CreateAccount />} */}
+      <CreateAccount />
       {/* <CreateProfile /> */}
     </AuthLayout>
   );

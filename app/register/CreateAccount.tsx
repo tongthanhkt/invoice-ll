@@ -26,7 +26,6 @@ export const CreateAccount = () => {
       const res = await spinnerService.executePromises(
         register({ name, email, password })
       );
-      console.log("🚀 ~ handleSubmit ~ res:", res);
 
       if (res.error) {
         toast({
@@ -35,7 +34,7 @@ export const CreateAccount = () => {
         });
         return;
       }
-      router.push(`/register?userId=${res.data.user._id}`);
+      // router.push(`/register?userId=${res.data.user._id}`);
     } catch (error) {
       toast({
         variant: "destructive",
@@ -57,8 +56,8 @@ export const CreateAccount = () => {
           name="name"
           type="text"
           required
-          placeholder="Please enter your fullname"
-          label="Fullname"
+          placeholder="Please enter your Full Name"
+          label="Full Name"
           value={name}
           onChange={(e) => setName(e.target.value)}
         />
