@@ -35,6 +35,7 @@ export const CreateAccount = () => {
         return;
       }
       // router.push(`/register?userId=${res.data.user._id}`);
+      router.push("/login");
     } catch (error) {
       toast({
         variant: "destructive",

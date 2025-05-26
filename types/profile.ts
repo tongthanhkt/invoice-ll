@@ -15,5 +15,6 @@ export interface ProfileRequest {
   };
   payerAddress: {
     id: string;
+    address: string;
   };
 }

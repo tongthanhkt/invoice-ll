@@ -34,12 +34,11 @@ export async function GET(request: Request) {
     }).sort({ createdAt: 1 });
 
     if (!firstPayer || !firstPayerEmail) {
-      return new NextResponse(
-        JSON.stringify({ message: "NO_PAYER_OR_PAYER_EMAIL_FOUND" }),
-        {
-          status: 400,
-        }
-      );
+      return NextResponse.json({
+        payer: null,
+        payerEmail: null,
+        payerAddress: null,
+      });
     }
 
     const firstPayerAddress = await UserPayerAddress.findOne({
@@ -91,9 +90,10 @@ export async function PUT(request: Request) {
     await connectDB();
     const existingEmail = await UserPayerEmail.findOne({
       email: payerEmail.email,
+      user_id: decoded.userId,
     });
 
-    if (existingEmail) {
+    if (existingEmail && existingEmail?._id?.toString() !== payerEmail.id) {
       return NextResponse.json(
         { error: "Email already exists" },
         { status: 400 }
@@ -102,17 +102,27 @@ export async function PUT(request: Request) {
 
     // Update payer information
     await Promise.all([
-      UserPayer.findByIdAndUpdate(payer.id, { name: payer.name }),
-      UserPayerEmail.findByIdAndUpdate(payerEmail.id, {
-        email: payerEmail.email,
-      }),
+      payer.id
+        ? UserPayer.findByIdAndUpdate(payer.id, { name: payer.name })
+        : UserPayer.create({
+            name: payer.name,
+            user_id: decoded.userId,
+          }),
+      payerEmail.id
+        ? UserPayerEmail.findByIdAndUpdate(payerEmail.id, {
+            email: payerEmail.email,
+          })
+        : UserPayerEmail.create({
+            user_id: decoded.userId,
+            email: payerEmail.email,
+          }),
       payerAddress?.id
         ? UserPayerAddress.findByIdAndUpdate(payerAddress.id, {
             address: payerAddress.address,
           })
         : payerAddress?.address
         ? UserPayerAddress.create({
-            userId: decoded.userId,
+            user_id: decoded.userId,
             address: payerAddress.address,
           })
         : Promise.resolve(),

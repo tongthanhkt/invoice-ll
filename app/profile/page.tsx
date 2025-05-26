@@ -24,27 +24,26 @@ export default function Profile() {
   useEffect(() => {
     if (firstPayer) {
       reset({
-        name: firstPayer.payer.name,
-        email: firstPayer.payerEmail.email,
-        address: firstPayer.payerAddress.address,
+        name: firstPayer.payer?.name || "",
+        email: firstPayer.payerEmail?.email || "",
+        address: firstPayer.payerAddress?.address || "",
       });
     }
   }, [firstPayer]);
 
   const onSubmit = async (data: ProfileForm) => {
-    if (!firstPayer) return;
-
     const submitData: ProfileRequest = {
       payer: {
-        id: firstPayer?.payer._id,
+        id: firstPayer?.payer?._id || "",
         name: data.name,
       },
       payerEmail: {
-        id: firstPayer?.payerEmail._id,
+        id: firstPayer?.payerEmail?._id || "",
         email: data.email,
       },
       payerAddress: {
-        id: firstPayer?.payerAddress._id,
+        id: firstPayer?.payerAddress?._id || "",
+        address: data.address,
       },
     };
 
