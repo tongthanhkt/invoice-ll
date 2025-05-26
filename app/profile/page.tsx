@@ -85,6 +85,10 @@ export default function Profile() {
           <div className="text-2xl font-bold text-blue-500 text-center">
             Update profile
           </div>
+          <div className="text-center text-neutral-500 text-sm -mt-2">
+            Your profile information will be used in the future documents
+            purchase order/payment voucher, etc.
+          </div>
           <FormInput name="name" label="Name" required />
           <FormInput name="email" label="Payer Email" type="email" required />
           <FormInput name="address" label="Payer Address" />

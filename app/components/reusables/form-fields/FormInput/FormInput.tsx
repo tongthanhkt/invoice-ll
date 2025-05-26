@@ -13,6 +13,9 @@ import {
 } from "@/components/ui/form";
 import { Input, InputProps } from "@/components/ui/input";
 import styles from "./styles.module.scss";
+import { useState } from "react";
+import { Eye, EyeOff } from "lucide-react";
+import { Button } from "@/components/ui/button";
 
 type FormInputProps = {
   name: string;
@@ -20,6 +23,7 @@ type FormInputProps = {
   labelHelper?: string;
   placeholder?: string;
   vertical?: boolean;
+  type?: string;
 } & InputProps;
 
 const FormInput = ({
@@ -28,56 +32,64 @@ const FormInput = ({
   labelHelper,
   placeholder,
   vertical = true,
+  type,
   ...props
 }: FormInputProps) => {
   const { control } = useFormContext();
+  const [showPassword, setShowPassword] = useState(false);
 
-  const verticalInput = (
-    <FormField
-      control={control}
-      name={name}
-      render={({ field }) => (
-        <FormItem className="w-full">
-          <div className={`${styles.input} w-full`}>
-            {label && (
-              <FormLabel className={`${styles.input__label} truncate`}>
-                {label}
-              </FormLabel>
-            )}
+  const togglePasswordVisibility = () => {
+    setShowPassword(!showPassword);
+  };
 
-            {labelHelper && (
-              <span className="text-label text-neutral-500 truncate">
-                {" "}
-                {labelHelper}
-              </span>
-            )}
-
-            <FormControl>
-              <Input
-                {...field}
-                placeholder={placeholder}
-                className={`${styles.input__field} text-sm sm:text-base h-9 sm:h-10`}
-                {...props}
-              />
-            </FormControl>
-            <FormMessage className="text-label sm:text-sm" />
-          </div>
-        </FormItem>
+  const renderInput = (field: any) => (
+    <div className="relative w-full">
+      <Input
+        {...field}
+        placeholder={placeholder}
+        className={`${styles.input__field} text-sm sm:text-base h-9 sm:h-10 ${
+          type === "password" ? "pr-10" : ""
+        }`}
+        type={type === "password" ? (showPassword ? "text" : "password") : type}
+        {...props}
+      />
+      {type === "password" && (
+        <Button
+          type="button"
+          variant="ghost"
+          size="sm"
+          className="absolute right-2 top-1/2 -translate-y-1/2 h-6 w-6 p-0"
+          onClick={togglePasswordVisibility}
+        >
+          {showPassword ? (
+            <EyeOff className="h-4 w-4" />
+          ) : (
+            <Eye className="h-4 w-4" />
+          )}
+        </Button>
       )}
-    />
+    </div>
   );
 
-  const horizontalInput = (
+  return (
     <FormField
       control={control}
       name={name}
       render={({ field }) => (
         <FormItem className="w-full">
           <div
-            className={`${styles.input} sm:flex-row sm:items-center sm:gap-4`}
+            className={`${styles.input} ${
+              vertical ? "w-full" : "sm:flex-row sm:items-center sm:gap-4"
+            }`}
           >
             {label && (
-              <FormLabel className="flex-shrink-0 sm:w-1/3 truncate">{`${label}:`}</FormLabel>
+              <FormLabel
+                className={`${
+                  vertical ? styles.input__label : "flex-shrink-0 sm:w-1/3"
+                } truncate`}
+              >
+                {vertical ? label : `${label}:`}
+              </FormLabel>
             )}
             {labelHelper && (
               <span className="text-label text-neutral-500 truncate">
@@ -86,15 +98,8 @@ const FormInput = ({
               </span>
             )}
 
-            <div className="flex-1 w-full">
-              <FormControl>
-                <Input
-                  {...field}
-                  placeholder={placeholder}
-                  className={`${styles.input__field} text-sm sm:text-base h-9 sm:h-10 w-full`}
-                  {...props}
-                />
-              </FormControl>
+            <div className={`${!vertical && "flex-1"} w-full`}>
+              <FormControl>{renderInput(field)}</FormControl>
               <FormMessage className="text-label sm:text-sm" />
             </div>
           </div>
@@ -102,7 +107,6 @@ const FormInput = ({
       )}
     />
   );
-  return vertical ? verticalInput : horizontalInput;
 };
 
 export default FormInput;
