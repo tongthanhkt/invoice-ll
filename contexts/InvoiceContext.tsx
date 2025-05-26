@@ -218,20 +218,23 @@ export const InvoiceContextProvider = ({
   const downloadPdf = () => {
     // Only download if there is an invoice
     if (invoicePdf instanceof Blob && invoicePdf.size > 0) {
-      // Create a blob URL to trigger the download
-      const url = window.URL.createObjectURL(invoicePdf);
+      const fileName = prompt(
+        "Enter filename for your document:",
+        "invoice.pdf"
+      );
 
-      // Create an anchor element to initiate the download
-      const a = document.createElement("a");
-      a.href = url;
-      a.download = "invoice.pdf";
-      document.body.appendChild(a);
+      if (fileName) {
+        const url = window.URL.createObjectURL(invoicePdf);
 
-      // Trigger the download
-      a.click();
+        const a = document.createElement("a");
+        a.href = url;
+        a.download = fileName.endsWith(".pdf") ? fileName : `${fileName}.pdf`;
+        document.body.appendChild(a);
 
-      // Clean up the URL object
-      window.URL.revokeObjectURL(url);
+        a.click();
+
+        window.URL.revokeObjectURL(url);
+      }
     }
   };
 
