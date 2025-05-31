@@ -1,17 +1,18 @@
 import { NextResponse } from "next/server";
 import connectDB from "@/app/lib/mongodb";
 import jwt from "jsonwebtoken";
-import ClientInfoTemplate from "@/app/models/ClientInfoTemplate";
+import Company from "@/app/models/Company";
 import { z } from "zod";
 
 // Define validation schema
-const clientInfoTemplateSchema = z.object({
+const companySchema = z.object({
   name: z.string().min(1, "Name is required"),
   email: z.string().email("Invalid email format"),
   user_id: z.string().min(1, "User ID is required"),
   address: z.string().optional(),
+  city: z.string().optional(),
+  zipcode: z.string().optional(),
   phone_number: z.string().optional(),
-  company_name: z.string().optional(),
 });
 
 export async function POST(request: Request) {
@@ -36,7 +37,7 @@ export async function POST(request: Request) {
     const payload = await request.json();
 
     // Validate payload
-    const validationResult = clientInfoTemplateSchema.safeParse(payload);
+    const validationResult = companySchema.safeParse(payload);
     if (!validationResult.success) {
       return NextResponse.json(
         { error: validationResult.error.errors },
@@ -44,31 +45,33 @@ export async function POST(request: Request) {
       );
     }
 
-    const { name, address, phone_number, company_name, email } =
+    const { name, address, city, zipcode, phone_number, email } =
       validationResult.data;
     await connectDB();
 
-    // Create new template
-    const newTemplate = await ClientInfoTemplate.create({
+    // Create new company
+    const newCompany = await Company.create({
       user_id: decoded.userId,
       name,
       address,
+      city,
+      zipcode,
       phone_number,
-      company_name,
       email,
     });
 
     return NextResponse.json({
-      id: newTemplate._id,
-      name: newTemplate.name,
-      address: newTemplate.address,
-      phone_number: newTemplate.phone_number,
-      company_name: newTemplate.company_name,
-      email: newTemplate.email,
-      user_id: newTemplate.user_id,
+      id: newCompany._id,
+      name: newCompany.name,
+      address: newCompany.address,
+      city: newCompany.city,
+      zipcode: newCompany.zipcode,
+      phone_number: newCompany.phone_number,
+      email: newCompany.email,
+      user_id: newCompany.user_id,
     });
   } catch (error) {
-    console.error("Error creating template:", error);
+    console.error("Error creating company:", error);
     return NextResponse.json(
       { error: "Internal Server Error" },
       { status: 500 }
@@ -97,24 +100,23 @@ export async function GET(request: Request) {
 
     await connectDB();
 
-    // Get all templates for the user
-    const templates = await ClientInfoTemplate.find({
-      user_id: decoded.userId,
-    });
+    // Get all companies for the user
+    const companies = await Company.find({ user_id: decoded.userId });
 
     return NextResponse.json(
-      templates.map((template) => ({
-        id: template._id,
-        name: template.name,
-        address: template.address,
-        phone_number: template.phone_number,
-        company_name: template.company_name,
-        email: template.email,
-        user_id: template.user_id,
+      companies.map((company) => ({
+        id: company._id,
+        name: company.name,
+        address: company.address,
+        city: company.city,
+        zipcode: company.zipcode,
+        phone_number: company.phone_number,
+        email: company.email,
+        user_id: company.user_id,
       }))
     );
   } catch (error) {
-    console.error("Error fetching templates:", error);
+    console.error("Error fetching companies:", error);
     return NextResponse.json(
       { error: "Internal Server Error" },
       { status: 500 }

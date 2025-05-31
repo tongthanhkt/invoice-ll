@@ -1,30 +1,31 @@
 import mongoose from "mongoose";
 
-const clientInfoTemplateSchema = new mongoose.Schema({
+const companySchema = new mongoose.Schema({
   email: {
     type: String,
     required: [true, "Email is required"],
-    unique: true,
     trim: true,
     lowercase: true,
   },
-
-  // contact name
   name: {
     type: String,
     required: [true, "Name is required"],
     trim: true,
   },
-  user_id: { type: String, require: true },
+  user_id: {
+    type: String,
+    required: [true, "User ID is required"],
+  },
   address: { type: String },
+  city: { type: String },
+  zipcode: { type: String },
   phone_number: { type: String },
-  company_name: { type: String },
   createdAt: {
     type: Date,
     default: Date.now,
   },
 });
 
-// Create and export the User Info Template model
-export default mongoose.models.ClientInfoTemplate ||
-  mongoose.model("ClientInfoTemplate", clientInfoTemplateSchema);
+// Create and export the Company model
+export default mongoose.models.Company ||
+  mongoose.model("Company", companySchema);
