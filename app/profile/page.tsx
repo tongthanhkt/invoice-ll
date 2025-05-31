@@ -4,70 +4,62 @@ import { Button } from "@/components/ui/button";
 import { toast } from "@/components/ui/use-toast";
 import { containerVariants } from "@/constants/animationVariants";
 import { useQuerySpinner } from "@/hooks";
+import { spinnerService, useUpdatePayerMutation } from "@/services";
 import {
-  spinnerService,
-  useFirstPayerQuery,
-  useUpdatePayerMutation,
-} from "@/services";
-import { useGetUserInfoTemplatesQuery } from "@/services/userInfoService";
-import { ProfileForm, ProfileRequest } from "@/types/profile";
+  useCreateUserInfoTemplateMutation,
+  useGetUserInfoTemplatesQuery,
+  useUpdateUserInfoTemplateMutation,
+} from "@/services/userInfoService";
+import { ProfileForm } from "@/types/profile";
+import { UseInfoRequest } from "@/types/useInfo";
 import { motion } from "framer-motion";
 import { User } from "lucide-react";
 import { useEffect } from "react";
 import { FormProvider, useForm } from "react-hook-form";
 
-// Define company form type
-type CompanyForm = {
-  name: string;
-  email: string;
-  address: string;
-  city: string;
-  zipcode: string;
-  phone_number: string;
-};
-
 export default function Profile() {
-  const { data: firstPayer } = useQuerySpinner(useFirstPayerQuery());
   const { data: defaultTemplate } = useQuerySpinner(
     useGetUserInfoTemplatesQuery("default=true")
   );
-  console.log("🚀 ~ Profile ~ defaultTemplate:", defaultTemplate);
+
+  const [createUserInfoTemplate] = useCreateUserInfoTemplateMutation();
+  const [updateUserInfoTemplate] = useUpdateUserInfoTemplateMutation();
+
   const [updatePayer] = useUpdatePayerMutation();
 
   const profileMethods = useForm<ProfileForm>();
   const { reset: resetProfile } = profileMethods;
 
   useEffect(() => {
-    if (firstPayer) {
+    if (defaultTemplate) {
       resetProfile({
-        name: firstPayer.payer?.name || "",
-        email: firstPayer.payerEmail?.email || "",
-        address: firstPayer.payerAddress?.address || "",
+        name: defaultTemplate.name || "",
+        email: defaultTemplate.email || "",
+        address: defaultTemplate.address || "",
       });
     }
-  }, [firstPayer]);
+  }, [defaultTemplate]);
 
   const onSubmitProfile = async (data: ProfileForm) => {
-    const submitData: ProfileRequest = {
-      payer: {
-        id: firstPayer?.payer?._id || "",
-        name: data.name,
-      },
-      payerEmail: {
-        id: firstPayer?.payerEmail?._id || "",
-        email: data.email,
-      },
-      payerAddress: {
-        id: firstPayer?.payerAddress?._id || "",
-        address: data.address,
-      },
+    const submitData: UseInfoRequest = {
+      name: data.name,
+      address: data.address,
+      email: data.email,
+      isDefault: true,
     };
 
-    const result = await spinnerService.executePromises(
-      updatePayer(submitData)
-    );
+    let result;
+    if (!defaultTemplate) {
+      result = await spinnerService.executePromises(
+        createUserInfoTemplate(submitData)
+      );
+    } else {
+      result = await spinnerService.executePromises(
+        updateUserInfoTemplate({ id: defaultTemplate.id, data: submitData })
+      );
+    }
 
-    if (result.error) {
+    if (result?.error) {
       toast({
         description:
           "data" in result.error

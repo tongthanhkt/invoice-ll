@@ -28,6 +28,7 @@ type CompanyForm = {
 export default function MyCompany() {
   const companyMethods = useForm<CompanyForm>();
   const [updateCompany] = useUpdateCompanyMutation();
+
   const { data: company } = useQuerySpinner(useGetCompanyQuery());
 
   useEffect(() => {
