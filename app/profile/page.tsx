@@ -9,6 +9,7 @@ import {
   useFirstPayerQuery,
   useUpdatePayerMutation,
 } from "@/services";
+import { useGetUserInfoTemplatesQuery } from "@/services/userInfoService";
 import { ProfileForm, ProfileRequest } from "@/types/profile";
 import { motion } from "framer-motion";
 import { User } from "lucide-react";
@@ -27,6 +28,10 @@ type CompanyForm = {
 
 export default function Profile() {
   const { data: firstPayer } = useQuerySpinner(useFirstPayerQuery());
+  const { data: defaultTemplate } = useQuerySpinner(
+    useGetUserInfoTemplatesQuery("default=true")
+  );
+  console.log("🚀 ~ Profile ~ defaultTemplate:", defaultTemplate);
   const [updatePayer] = useUpdatePayerMutation();
 
   const profileMethods = useForm<ProfileForm>();
