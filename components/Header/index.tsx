@@ -13,7 +13,7 @@ import {
   useGetProfileQuery,
   useLogoutMutation,
 } from "@/services";
-import { ChevronDown, LogOut, User } from "lucide-react";
+import { Building2, ChevronDown, LogOut, User } from "lucide-react";
 import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
 import { memo, useCallback, useMemo, useState } from "react";
@@ -163,6 +163,13 @@ const Header = memo(function Header() {
                       My Account
                     </DropdownMenuItem>
                     <DropdownMenuItem
+                      className="cursor-pointer"
+                      onClick={() => handleNavigation("/my-company")}
+                    >
+                      <Building2 className="mr-2 h-4 w-4" />
+                      My Company
+                    </DropdownMenuItem>
+                    <DropdownMenuItem
                       className="cursor-pointer text-red-600 focus:text-red-600"
                       onClick={handleLogout}
                     >
@@ -218,6 +225,15 @@ const Header = memo(function Header() {
                     <User className="w-4 h-4 mr-2" />
                     My Account
                   </button>
+                </div>
+                <div className="px-4 py-2 border-t border-gray-100">
+                  <Link
+                    href="/my-company"
+                    className="w-full text-left flex items-center text-neutral-600 hover:text-neutral-700 font-medium"
+                  >
+                    <Building2 className="w-4 h-4 mr-2" />
+                    My Company
+                  </Link>
                 </div>
                 <div className="px-4 py-2">
                   <button
