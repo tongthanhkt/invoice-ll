@@ -4,7 +4,7 @@ import { Button } from "@/components/ui/button";
 import { toast } from "@/components/ui/use-toast";
 import { containerVariants } from "@/constants/animationVariants";
 import { useQuerySpinner } from "@/hooks";
-import { spinnerService, useUpdatePayerMutation } from "@/services";
+import { spinnerService } from "@/services";
 import {
   useCreateUserInfoTemplateMutation,
   useGetUserInfoTemplatesQuery,
@@ -24,8 +24,6 @@ export default function Profile() {
 
   const [createUserInfoTemplate] = useCreateUserInfoTemplateMutation();
   const [updateUserInfoTemplate] = useUpdateUserInfoTemplateMutation();
-
-  const [updatePayer] = useUpdatePayerMutation();
 
   const profileMethods = useForm<ProfileForm>();
   const { reset: resetProfile } = profileMethods;

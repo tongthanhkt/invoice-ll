@@ -9,6 +9,8 @@ import { useFormContext } from "react-hook-form";
 import { AppSelect } from "../../reusables/form-fields/AppSelect";
 import { PayerCombined } from "../InvoiceMain";
 import { SectionContainer } from "../SectionContainer";
+import BaseButton from "../../reusables/BaseButton";
+import { UserInfoModal } from "../../reusables/UserInfoModal";
 
 interface Payer {
   _id: string;
@@ -58,7 +60,17 @@ export const PayerSection = ({ payersData }: PayerSectionProps) => {
     useState<SelectOption | null>(null);
 
   return (
-    <SectionContainer title="Payer Details">
+    <SectionContainer
+      title="Payer Details"
+      actionEl={
+        <UserInfoModal
+          title="Payer Details"
+          description="Payer Details"
+          children={<div>Payer Details</div>}
+          trigger={<div>Payer Details</div>}
+        />
+      }
+    >
       <AppSelect
         label="Payer"
         value={selectedPayer}
