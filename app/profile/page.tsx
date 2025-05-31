@@ -4,54 +4,63 @@ import { Button } from "@/components/ui/button";
 import { toast } from "@/components/ui/use-toast";
 import { containerVariants } from "@/constants/animationVariants";
 import { useQuerySpinner } from "@/hooks";
+import { spinnerService } from "@/services";
 import {
-  spinnerService,
-  useFirstPayerQuery,
-  useUpdatePayerMutation,
-} from "@/services";
-import { ProfileForm, ProfileRequest } from "@/types/profile";
+  useCreateUserInfoTemplateMutation,
+  useGetUserInfoTemplatesQuery,
+  useUpdateUserInfoTemplateMutation,
+} from "@/services/userInfoService";
+import { ProfileForm } from "@/types/profile";
+import { UserInfo, UserInfoRequest } from "@/types/useInfo";
 import { motion } from "framer-motion";
+import { User } from "lucide-react";
 import { useEffect } from "react";
 import { FormProvider, useForm } from "react-hook-form";
 
 export default function Profile() {
-  const { data: firstPayer } = useQuerySpinner(useFirstPayerQuery());
-  const [updatePayer] = useUpdatePayerMutation();
+  const { data: defaultTemplate } = useQuerySpinner(
+    useGetUserInfoTemplatesQuery("default=true")
+  );
 
-  const methods = useForm<ProfileForm>();
-  const { reset } = methods;
+  const [createUserInfoTemplate] = useCreateUserInfoTemplateMutation();
+  const [updateUserInfoTemplate] = useUpdateUserInfoTemplateMutation();
+
+  const profileMethods = useForm<ProfileForm>();
+  const { reset: resetProfile } = profileMethods;
 
   useEffect(() => {
-    if (firstPayer) {
-      reset({
-        name: firstPayer.payer?.name || "",
-        email: firstPayer.payerEmail?.email || "",
-        address: firstPayer.payerAddress?.address || "",
+    if (defaultTemplate) {
+      resetProfile({
+        name: (defaultTemplate as UserInfo).name || "",
+        email: (defaultTemplate as UserInfo).email || "",
+        address: (defaultTemplate as UserInfo).address || "",
       });
     }
-  }, [firstPayer]);
+  }, [defaultTemplate]);
 
-  const onSubmit = async (data: ProfileForm) => {
-    const submitData: ProfileRequest = {
-      payer: {
-        id: firstPayer?.payer?._id || "",
-        name: data.name,
-      },
-      payerEmail: {
-        id: firstPayer?.payerEmail?._id || "",
-        email: data.email,
-      },
-      payerAddress: {
-        id: firstPayer?.payerAddress?._id || "",
-        address: data.address,
-      },
+  const onSubmitProfile = async (data: ProfileForm) => {
+    const submitData: UserInfoRequest = {
+      name: data.name,
+      address: data.address,
+      email: data.email,
+      isDefault: true,
     };
 
-    const result = await spinnerService.executePromises(
-      updatePayer(submitData)
-    );
+    let result;
+    if (!defaultTemplate) {
+      result = await spinnerService.executePromises(
+        createUserInfoTemplate(submitData)
+      );
+    } else {
+      result = await spinnerService.executePromises(
+        updateUserInfoTemplate({
+          id: (defaultTemplate as UserInfo).id,
+          data: submitData,
+        })
+      );
+    }
 
-    if (result.error) {
+    if (result?.error) {
       toast({
         description:
           "data" in result.error
@@ -71,31 +80,52 @@ export default function Profile() {
   };
 
   return (
-    <FormProvider {...methods}>
-      <motion.form
-        className="space-y-4 w-full flex items-center justify-center h-[calc(100vh_-64px)]"
-        variants={containerVariants}
-        initial="hidden"
-        animate="visible"
-        exit="exit"
-        onSubmit={methods.handleSubmit(onSubmit)}
-      >
-        <motion.div className="flex flex-col gap-4 max-w-md w-full p-6 rounded-lg shadow-md mx-8">
-          <div className="text-2xl font-bold text-blue-500 text-center">
-            Update profile
-          </div>
-          <div className="text-center text-neutral-500 text-sm -mt-2">
-            Your profile information will be used in the future documents
-            purchase order/payment voucher, etc.
-          </div>
-          <FormInput name="name" label="Name" required />
-          <FormInput name="email" label="Payer Email" type="email" required />
-          <FormInput name="address" label="Payer Address" />
-          <Button type="submit" className="bg-blue-500 hover:bg-blue-600">
-            Save
-          </Button>
-        </motion.div>
-      </motion.form>
-    </FormProvider>
+    <div className="min-h-[calc(100vh-64px)] flex items-center justify-center bg-gradient-to-br from-blue-50 to-white py-8 px-2">
+      <div className="w-full max-w-6xl flex flex-col md:flex-row gap-8">
+        {/* Profile Form */}
+        <FormProvider {...profileMethods}>
+          <motion.form
+            className="flex-1"
+            variants={containerVariants}
+            initial="hidden"
+            animate="visible"
+            exit="exit"
+            onSubmit={profileMethods.handleSubmit(onSubmitProfile)}
+          >
+            <div className="flex flex-col gap-8 max-w-lg w-full mx-auto p-8 rounded-2xl shadow-xl bg-white border border-gray-100">
+              <div className="flex items-center gap-4 mb-2">
+                <div className="w-12 h-12 rounded-full bg-blue-100 flex items-center justify-center">
+                  <User className="w-7 h-7 text-blue-500" />
+                </div>
+                <div>
+                  <div className="text-2xl font-bold text-gray-800">
+                    Update profile
+                  </div>
+                  <div className="text-sm text-gray-500">
+                    Your profile information will be used in future documents
+                  </div>
+                </div>
+              </div>
+              <div className="space-y-5">
+                <FormInput name="name" label="Name" required />
+                <FormInput
+                  name="email"
+                  label="Payer Email"
+                  type="email"
+                  required
+                />
+                <FormInput name="address" label="Payer Address" />
+              </div>
+              <Button
+                type="submit"
+                className="w-full bg-blue-500 hover:bg-blue-600 text-white font-semibold py-3 rounded-lg transition-colors text-base"
+              >
+                Save Profile
+              </Button>
+            </div>
+          </motion.form>
+        </FormProvider>
+      </div>
+    </div>
   );
 }
