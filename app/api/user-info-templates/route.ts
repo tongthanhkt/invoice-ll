@@ -74,3 +74,46 @@ export async function POST(request: Request) {
     );
   }
 }
+
+export async function GET(request: Request) {
+  try {
+    // Get token from cookies
+    const token = request.headers
+      .get("cookie")
+      ?.split(";")
+      .find((c) => c.trim().startsWith("token="))
+      ?.split("=")[1];
+
+    if (!token) {
+      return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
+    }
+
+    // Verify token
+    const decoded = jwt.verify(
+      token,
+      process.env.JWT_SECRET || "your-secret-key"
+    ) as { userId: string };
+
+    await connectDB();
+
+    // Get all templates for the user
+    const templates = await UserInfoTemplate.find({ user_id: decoded.userId });
+
+    return NextResponse.json(
+      templates.map((template) => ({
+        id: template._id,
+        name: template.name,
+        address: template.address,
+        phone_number: template.phone_number,
+        isDefault: template.isDefault,
+        email: template.email,
+      }))
+    );
+  } catch (error) {
+    console.error("Error fetching templates:", error);
+    return NextResponse.json(
+      { error: "Internal Server Error" },
+      { status: 500 }
+    );
+  }
+}
