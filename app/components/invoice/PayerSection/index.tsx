@@ -11,6 +11,7 @@ import { PayerCombined } from "../InvoiceMain";
 import { SectionContainer } from "../SectionContainer";
 import BaseButton from "../../reusables/BaseButton";
 import { UserInfoModal } from "../../reusables/UserInfoModal";
+import { Plus } from "lucide-react";
 
 interface Payer {
   _id: string;
@@ -64,10 +65,17 @@ export const PayerSection = ({ payersData }: PayerSectionProps) => {
       title="Payer Details"
       actionEl={
         <UserInfoModal
-          title="Payer Details"
-          description="Payer Details"
-          children={<div>Payer Details</div>}
-          trigger={<div>Payer Details</div>}
+          title="Add a new payer"
+          description="Add a new payer to your invoice. This information will be saved for future use."
+          trigger={
+            <BaseButton
+              tooltipLabel="Add a new item to the list"
+              className="bg-white rounded-lg text-blue-500 hover:bg-blue-50 border-0 py-0 h-9 w-fit ml-auto flex items-center gap-2 -mr-2"
+            >
+              <Plus />
+              Add item
+            </BaseButton>
+          }
         />
       }
     >

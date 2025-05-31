@@ -10,25 +10,23 @@ import {
   DialogTrigger,
 } from "@/components/ui/dialog";
 import { toast } from "@/components/ui/use-toast";
+import { spinnerService } from "@/services";
 import { useCreateUserInfoTemplateMutation } from "@/services/userInfoService";
 import { ProfileForm } from "@/types/profile";
 import { motion } from "framer-motion";
+import { useState } from "react";
 import { FormProvider, useForm } from "react-hook-form";
 import FormInput from "../form-fields/FormInput/FormInput";
+import { User, UserPlus2 } from "lucide-react";
 
 interface ModalProps {
   title: string;
   description: string;
-  children: React.ReactNode;
   trigger: React.ReactNode;
 }
 
-export const UserInfoModal = ({
-  title,
-  description,
-  children,
-  trigger,
-}: ModalProps) => {
+export const UserInfoModal = ({ title, description, trigger }: ModalProps) => {
+  const [open, setOpen] = useState(false);
   const modalForm = useForm<ProfileForm>();
 
   const [createUserInfoTemplate] = useCreateUserInfoTemplateMutation();
@@ -38,7 +36,9 @@ export const UserInfoModal = ({
     e.stopPropagation();
 
     const data = modalForm.getValues();
-    const result = await createUserInfoTemplate(data);
+    const result = await spinnerService.executePromises(
+      createUserInfoTemplate(data)
+    );
 
     if (result?.error) {
       toast({
@@ -52,19 +52,29 @@ export const UserInfoModal = ({
       });
       return;
     }
+
+    // Close modal after successful submission
+    setOpen(false);
+    // Reset form after closing
+    modalForm.reset();
   };
 
   return (
-    <Dialog>
+    <Dialog open={open} onOpenChange={setOpen}>
       <DialogTrigger asChild>{trigger}</DialogTrigger>
-      <DialogContent className="sm:max-w-[425px]">
+      <DialogContent className="sm:max-w-[450px]">
         <FormProvider {...modalForm}>
           <motion.form
             onSubmit={handleModalSubmit}
             className="flex flex-col gap-2"
           >
             <DialogHeader>
-              <DialogTitle>{title}</DialogTitle>
+              <DialogTitle className="flex items-center gap-2 border-0 border-b border-solid border-neutral-200 pb-2 text-base text-neutral-800 ">
+                <div className="w-8 h-8 flex items-center justify-center rounded-lg bg-blue-50 ">
+                  <UserPlus2 className="w-5 h-5 text-blue-500" />
+                </div>
+                {title}
+              </DialogTitle>
               <DialogDescription>{description}</DialogDescription>
             </DialogHeader>
             <div className="grid gap-4">
@@ -73,12 +83,14 @@ export const UserInfoModal = ({
                 name="name"
                 type="text"
                 placeholder="Enter the name of the payer"
+                required
               />
               <FormInput
                 label="Email"
                 name="email"
                 type="email"
                 placeholder="Enter the email of the payer"
+                required
               />
               <FormInput
                 label="Address"
