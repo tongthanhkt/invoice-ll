@@ -1,9 +1,18 @@
 "use client";
 import FormInput from "@/app/components/reusables/form-fields/FormInput/FormInput";
 import { Button } from "@/components/ui/button";
+import { toast } from "@/components/ui/use-toast";
 import { containerVariants } from "@/constants/animationVariants";
+import { useQuerySpinner } from "@/hooks";
+import { spinnerService } from "@/services";
+import {
+  useGetCompanyQuery,
+  useUpdateCompanyMutation,
+} from "@/services/companyService";
+import { ICompanyRequest } from "@/types/company";
 import { motion } from "framer-motion";
 import { Building2 } from "lucide-react";
+import { useEffect } from "react";
 import { FormProvider, useForm } from "react-hook-form";
 
 // Define company form type
@@ -18,35 +27,48 @@ type CompanyForm = {
 
 export default function MyCompany() {
   const companyMethods = useForm<CompanyForm>();
-  const { reset: resetCompany } = companyMethods;
+  const [updateCompany] = useUpdateCompanyMutation();
+  const { data: company } = useQuerySpinner(useGetCompanyQuery());
+
+  useEffect(() => {
+    if (company) {
+      companyMethods.reset({
+        name: company.name,
+        email: company.email,
+        address: company.address,
+        city: company.city,
+        zipcode: company.zipcode,
+        phone_number: company.phone_number,
+      });
+    }
+  }, [company]);
 
   const onSubmitCompany = async (data: CompanyForm) => {
-    console.log("🚀 ~ onSubmitCompany ~ data:", data);
-    // try {
-    //   const response = await fetch("/api/company", {
-    //     method: "POST",
-    //     headers: {
-    //       "Content-Type": "application/json",
-    //     },
-    //     body: JSON.stringify(data),
-    //   });
-    //   if (!response.ok) {
-    //     const error = await response.json();
-    //     throw new Error(error.error || "Failed to create company");
-    //   }
-    //   toast({
-    //     title: "Company created",
-    //     description: "Your company has been created successfully",
-    //     variant: "default",
-    //   });
-    //   resetCompany();
-    // } catch (error) {
-    //   toast({
-    //     description:
-    //       error instanceof Error ? error.message : "An error occurred",
-    //     variant: "destructive",
-    //   });
-    // }
+    const formattedData: ICompanyRequest = {
+      ...data,
+      id: company?.id,
+    };
+    const result = await spinnerService.executePromises(
+      updateCompany(formattedData)
+    );
+
+    if (result.error) {
+      toast({
+        description:
+          "data" in result.error
+            ? (result.error.data as { error: string }).error
+            : "message" in result.error
+            ? result.error.message
+            : "An error occurred",
+        variant: "destructive",
+      });
+      return;
+    }
+    toast({
+      title: "Company updated",
+      description: "Your company has been updated successfully",
+      variant: "default",
+    });
   };
 
   return (

@@ -8,7 +8,6 @@ import { z } from "zod";
 const companySchema = z.object({
   name: z.string().min(1, "Name is required"),
   email: z.string().email("Invalid email format"),
-  user_id: z.string().min(1, "User ID is required"),
   address: z.string().optional(),
   city: z.string().optional(),
   id: z.string().optional(),
@@ -125,23 +124,25 @@ export async function GET(request: Request) {
 
     await connectDB();
 
-    // Get all companies for the user
-    const companies = await Company.find({ user_id: decoded.userId });
+    // Get current company for the user
+    const company = await Company.findOne({ user_id: decoded.userId });
 
-    return NextResponse.json(
-      companies.map((company) => ({
-        id: company._id,
-        name: company.name,
-        address: company.address,
-        city: company.city,
-        zipcode: company.zipcode,
-        phone_number: company.phone_number,
-        email: company.email,
-        user_id: company.user_id,
-      }))
-    );
+    if (!company) {
+      return NextResponse.json({ error: "Company not found" }, { status: 404 });
+    }
+
+    return NextResponse.json({
+      id: company._id,
+      name: company.name,
+      address: company.address,
+      city: company.city,
+      zipcode: company.zipcode,
+      phone_number: company.phone_number,
+      email: company.email,
+      user_id: company.user_id,
+    });
   } catch (error) {
-    console.error("Error fetching companies:", error);
+    console.error("Error fetching company:", error);
     return NextResponse.json(
       { error: "Internal Server Error" },
       { status: 500 }
