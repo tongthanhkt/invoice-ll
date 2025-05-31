@@ -1,15 +1,16 @@
 import { api } from "@/app/store/api";
-import { UseInfo, UseInfoRequest } from "@/types/useInfo";
+import { UserInfoRequest } from "@/types/useInfo";
+import { UserInfo } from "@/types/useInfo";
 
 const userInfoService = api.injectEndpoints({
   endpoints: (builder) => ({
-    getUserInfoTemplates: builder.query<UseInfo, string>({
+    getUserInfoTemplates: builder.query<UserInfo[] | UserInfo, string>({
       query: (defaultTemplate) => `/user-info-templates?${defaultTemplate}`,
       providesTags: ["payers"],
     }),
     updateUserInfoTemplate: builder.mutation<
       unknown,
-      { id: string; data: UseInfoRequest }
+      { id: string; data: UserInfoRequest }
     >({
       query: ({ id, data }) => ({
         url: `/user-info-templates/${id}`,
@@ -18,7 +19,7 @@ const userInfoService = api.injectEndpoints({
       }),
       invalidatesTags: ["payers"],
     }),
-    createUserInfoTemplate: builder.mutation<unknown, UseInfoRequest>({
+    createUserInfoTemplate: builder.mutation<unknown, UserInfoRequest>({
       query: (data) => ({
         url: "/user-info-templates",
         method: "POST",

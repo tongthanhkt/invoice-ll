@@ -1,4 +1,4 @@
-export interface UseInfo {
+export interface UserInfo {
   id: string;
   name: string;
   address: string;
@@ -8,7 +8,7 @@ export interface UseInfo {
   user_id: string;
 }
 
-export interface UseInfoRequest {
+export interface UserInfoRequest {
   name: string;
   address: string;
   email: string;

@@ -11,7 +11,7 @@ import {
   useUpdateUserInfoTemplateMutation,
 } from "@/services/userInfoService";
 import { ProfileForm } from "@/types/profile";
-import { UseInfoRequest } from "@/types/useInfo";
+import { UserInfo, UserInfoRequest } from "@/types/useInfo";
 import { motion } from "framer-motion";
 import { User } from "lucide-react";
 import { useEffect } from "react";
@@ -31,15 +31,15 @@ export default function Profile() {
   useEffect(() => {
     if (defaultTemplate) {
       resetProfile({
-        name: defaultTemplate.name || "",
-        email: defaultTemplate.email || "",
-        address: defaultTemplate.address || "",
+        name: (defaultTemplate as UserInfo).name || "",
+        email: (defaultTemplate as UserInfo).email || "",
+        address: (defaultTemplate as UserInfo).address || "",
       });
     }
   }, [defaultTemplate]);
 
   const onSubmitProfile = async (data: ProfileForm) => {
-    const submitData: UseInfoRequest = {
+    const submitData: UserInfoRequest = {
       name: data.name,
       address: data.address,
       email: data.email,
@@ -53,7 +53,10 @@ export default function Profile() {
       );
     } else {
       result = await spinnerService.executePromises(
-        updateUserInfoTemplate({ id: defaultTemplate.id, data: submitData })
+        updateUserInfoTemplate({
+          id: (defaultTemplate as UserInfo).id,
+          data: submitData,
+        })
       );
     }
 
