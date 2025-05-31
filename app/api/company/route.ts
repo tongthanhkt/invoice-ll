@@ -11,6 +11,7 @@ const companySchema = z.object({
   user_id: z.string().min(1, "User ID is required"),
   address: z.string().optional(),
   city: z.string().optional(),
+  id: z.string().optional(),
   zipcode: z.string().optional(),
   phone_number: z.string().optional(),
 });
@@ -45,33 +46,57 @@ export async function POST(request: Request) {
       );
     }
 
-    const { name, address, city, zipcode, phone_number, email } =
+    const { id, name, address, city, zipcode, phone_number, email } =
       validationResult.data;
     await connectDB();
 
-    // Create new company
-    const newCompany = await Company.create({
-      user_id: decoded.userId,
-      name,
-      address,
-      city,
-      zipcode,
-      phone_number,
-      email,
-    });
+    let company;
+    if (id) {
+      // Update existing company
+      company = await Company.findOneAndUpdate(
+        { _id: id, user_id: decoded.userId },
+        {
+          name,
+          address,
+          city,
+          zipcode,
+          phone_number,
+          email,
+        },
+        { new: true }
+      );
+
+      if (!company) {
+        return NextResponse.json(
+          { error: "Company not found or unauthorized" },
+          { status: 404 }
+        );
+      }
+    } else {
+      // Create new company
+      company = await Company.create({
+        user_id: decoded.userId,
+        name,
+        address,
+        city,
+        zipcode,
+        phone_number,
+        email,
+      });
+    }
 
     return NextResponse.json({
-      id: newCompany._id,
-      name: newCompany.name,
-      address: newCompany.address,
-      city: newCompany.city,
-      zipcode: newCompany.zipcode,
-      phone_number: newCompany.phone_number,
-      email: newCompany.email,
-      user_id: newCompany.user_id,
+      id: company._id,
+      name: company.name,
+      address: company.address,
+      city: company.city,
+      zipcode: company.zipcode,
+      phone_number: company.phone_number,
+      email: company.email,
+      user_id: company.user_id,
     });
   } catch (error) {
-    console.error("Error creating company:", error);
+    console.error("Error handling company:", error);
     return NextResponse.json(
       { error: "Internal Server Error" },
       { status: 500 }
