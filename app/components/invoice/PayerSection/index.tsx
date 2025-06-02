@@ -8,15 +8,7 @@ import BaseButton from "../../reusables/BaseButton";
 import { AppSelect } from "../../reusables/form-fields/AppSelect";
 import FormInput from "../../reusables/form-fields/FormInput/FormInput";
 import { UserInfoModal } from "../../reusables/UserInfoModal";
-import { PayerCombined } from "../InvoiceMain";
 import { SectionContainer } from "../SectionContainer";
-
-interface Payer {
-  _id: string;
-  name: string;
-  emails: string[];
-  addresses: string[];
-}
 
 interface SelectOption {
   value: string;
@@ -24,11 +16,7 @@ interface SelectOption {
   __isNew__?: boolean;
 }
 
-interface PayerSectionProps {
-  payersData?: PayerCombined;
-}
-
-export const PayerSection = ({ payersData }: PayerSectionProps) => {
+export const PayerSection = () => {
   const methods = useFormContext();
   const { setValue } = methods;
 
@@ -63,11 +51,11 @@ export const PayerSection = ({ payersData }: PayerSectionProps) => {
           description="Add a new payer to your invoice. This information will be saved for future use."
           trigger={
             <BaseButton
-              tooltipLabel="Add a new item to the list"
+              tooltipLabel="Add a new payer to the list"
               className="bg-white rounded-lg text-blue-500 hover:bg-blue-50 border-0 py-0 h-9 w-fit ml-auto flex items-center gap-2 -mr-2"
             >
               <Plus />
-              Add item
+              Add payer
             </BaseButton>
           }
         />

@@ -18,6 +18,8 @@ import { useState } from "react";
 import { FormProvider, useForm } from "react-hook-form";
 import FormInput from "../form-fields/FormInput/FormInput";
 import { User, UserPlus2 } from "lucide-react";
+import { useCreateClientInfoTemplateMutation } from "@/services/clientInfoService";
+import { ClientInfoForm } from "@/types/client";
 
 interface ModalProps {
   title: string;
@@ -25,11 +27,15 @@ interface ModalProps {
   trigger: React.ReactNode;
 }
 
-export const UserInfoModal = ({ title, description, trigger }: ModalProps) => {
+export const ClientModalInfo = ({
+  title,
+  description,
+  trigger,
+}: ModalProps) => {
   const [open, setOpen] = useState(false);
-  const modalForm = useForm<ProfileForm>();
+  const modalForm = useForm<ClientInfoForm>();
 
-  const [createUserInfoTemplate] = useCreateUserInfoTemplateMutation();
+  const [createClientInfoTemplate] = useCreateClientInfoTemplateMutation();
 
   const handleModalSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -37,7 +43,7 @@ export const UserInfoModal = ({ title, description, trigger }: ModalProps) => {
 
     const data = modalForm.getValues();
     const result = await spinnerService.executePromises(
-      createUserInfoTemplate(data)
+      createClientInfoTemplate(data)
     );
 
     if (result?.error) {
@@ -62,7 +68,7 @@ export const UserInfoModal = ({ title, description, trigger }: ModalProps) => {
   return (
     <Dialog open={open} onOpenChange={setOpen}>
       <DialogTrigger asChild>{trigger}</DialogTrigger>
-      <DialogContent className="max-w-[450px] [&>button]:hidden rounded-lg w-[calc(100%-2rem)] sm:w-full">
+      <DialogContent className="max-w-xl [&>button]:hidden rounded-lg w-[calc(100%-2rem)] sm:w-full">
         <FormProvider {...modalForm}>
           <motion.form
             onSubmit={handleModalSubmit}
@@ -99,25 +105,43 @@ export const UserInfoModal = ({ title, description, trigger }: ModalProps) => {
               </button>
             </DialogHeader>
             <div className="grid gap-4">
-              <FormInput
-                label="Name"
-                name="name"
-                type="text"
-                placeholder="Enter the name of the payer"
-                required
-              />
-              <FormInput
-                label="Email"
-                name="email"
-                type="email"
-                placeholder="Enter the email of the payer"
-                required
-              />
+              <div className="grid grid-cols-2 gap-4">
+                <FormInput
+                  label="Contact Name"
+                  name="name"
+                  type="text"
+                  placeholder="Enter the name of the receiver"
+                  required
+                />
+                <FormInput
+                  label="Company Name"
+                  name="company_name"
+                  type="text"
+                  placeholder="Enter the company name of the receiver"
+                  required
+                />
+              </div>
+              <div className="grid grid-cols-2 gap-4">
+                <FormInput
+                  label="Email"
+                  name="email"
+                  type="email"
+                  placeholder="Enter the email of the receiver"
+                  required
+                />
+                <FormInput
+                  label="Phone Number"
+                  name="phone_number"
+                  type="text"
+                  placeholder="Enter the phone number of the receiver"
+                  required
+                />
+              </div>
               <FormInput
                 label="Address"
                 name="address"
                 type="text"
-                placeholder="Enter the address of the payer"
+                placeholder="Enter the address of the receiver"
               />
             </div>
             <DialogFooter className="mt-4 flex flex-row gap-3 justify-end">

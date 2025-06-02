@@ -8,7 +8,6 @@ import { z } from "zod";
 const clientInfoTemplateSchema = z.object({
   name: z.string().min(1, "Name is required"),
   email: z.string().email("Invalid email format"),
-  user_id: z.string().min(1, "User ID is required"),
   address: z.string().optional(),
   phone_number: z.string().optional(),
   company_name: z.string().optional(),
@@ -47,7 +46,6 @@ export async function POST(request: Request) {
     const { name, address, phone_number, company_name, email } =
       validationResult.data;
     await connectDB();
-
     // Create new template
     const newTemplate = await ClientInfoTemplate.create({
       user_id: decoded.userId,

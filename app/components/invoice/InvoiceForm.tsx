@@ -18,26 +18,7 @@ import { PayerSection } from "./PayerSection";
 import { ReceiverSection } from "./ReceiverSection";
 import { VoucherSection } from "./VoucherSection";
 
-interface Payer {
-  _id: string;
-  name: string;
-  emails: string[];
-  addresses: string[];
-}
-
-interface Receiver {
-  _id: string;
-  name: string;
-  emails: string[];
-  addresses?: string[];
-}
-
-interface InvoiceFormProps {
-  payersData?: PayerCombined;
-  receiversData?: ReceiverCombined;
-}
-
-const InvoiceForm = ({ payersData, receiversData }: InvoiceFormProps) => {
+const InvoiceForm = () => {
   const { control } = useFormContext();
 
   // Get invoice number variable
@@ -80,10 +61,10 @@ const InvoiceForm = ({ payersData, receiversData }: InvoiceFormProps) => {
         </VoucherSection>
 
         {/* Payer Details */}
-        <PayerSection payersData={payersData} />
+        <PayerSection />
 
         {/* Receiver Details */}
-        <ReceiverSection receiversData={receiversData} />
+        <ReceiverSection />
 
         {/* Items Table */}
         <InvoiceItemTable />

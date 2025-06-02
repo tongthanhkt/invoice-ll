@@ -19,14 +19,10 @@ import { VoucherItemTable } from "./VoucherItemTable";
 import { VoucherSection } from "./VoucherSection";
 
 interface PaymentVoucherFormProps {
-  payersData?: PayerCombined;
   receiversData?: ReceiverCombined;
 }
 
-const PaymentVoucherForm = ({
-  payersData,
-  receiversData,
-}: PaymentVoucherFormProps) => {
+const PaymentVoucherForm = () => {
   const { control } = useFormContext();
 
   // Get invoice number variable
@@ -62,10 +58,10 @@ const PaymentVoucherForm = ({
         </VoucherSection>
 
         {/* Payer Details */}
-        <PayerSection payersData={payersData} />
+        <PayerSection />
 
         {/* Receiver Details */}
-        <ReceiverSection receiversData={receiversData} />
+        <ReceiverSection />
 
         {/* Items Table */}
         <VoucherItemTable />

@@ -1,21 +1,14 @@
-import {
-  useCreateReceiverAddressMutation,
-  useCreateReceiverEmailMutation,
-  useCreateReceiverMutation,
-} from "@/services";
-import { spinnerService } from "@/services/spinner.service";
-import { useEffect, useState } from "react";
+import { useQuerySpinner } from "@/hooks";
+import { useGetClientInfoTemplatesQuery } from "@/services/clientInfoService";
+import { ClientInfoTemplate } from "@/types/client";
+import { Plus } from "lucide-react";
+import { useState } from "react";
 import { useFormContext } from "react-hook-form";
+import BaseButton from "../../reusables/BaseButton";
+import { ClientModalInfo } from "../../reusables/ClientModalInfo";
 import { AppSelect } from "../../reusables/form-fields/AppSelect";
-import { ReceiverCombined } from "../InvoiceMain";
+import FormInput from "../../reusables/form-fields/FormInput/FormInput";
 import { SectionContainer } from "../SectionContainer";
-
-interface Receiver {
-  _id: string;
-  name: string;
-  emails: string[];
-  addresses?: string[];
-}
 
 interface SelectOption {
   value: string;
@@ -23,147 +16,44 @@ interface SelectOption {
   __isNew__?: boolean;
 }
 
-interface ReceiverSectionProps {
-  receiversData?: ReceiverCombined;
-}
-
-export const ReceiverSection = ({ receiversData }: ReceiverSectionProps) => {
+export const ReceiverSection = () => {
   const methods = useFormContext();
   const { setValue } = methods;
 
-  // Initialize with data from props
-  const [receivers, setReceivers] = useState<Receiver[]>([]);
-  const [receiverEmails, setReceiverEmails] = useState<SelectOption[]>([]);
-  const [receiverAddresses, setReceiverAddresses] = useState<SelectOption[]>(
-    []
+  const { data: receivers } = useQuerySpinner(
+    useGetClientInfoTemplatesQuery("")
   );
-
-  // Update state when props change
-  useEffect(() => {
-    if (receiversData?.receivers) {
-      setReceivers(receiversData.receivers);
-    }
-
-    if (receiversData?.emails) {
-      const emailOptions = receiversData.emails.map((email) => ({
-        value: email.email,
-        label: email.email,
-      }));
-      setReceiverEmails(emailOptions);
-    }
-
-    if (receiversData?.addresses) {
-      const addressOptions = receiversData.addresses.map((address) => ({
-        value: address.address,
-        label: address.address,
-      }));
-      setReceiverAddresses(addressOptions);
-    }
-  }, [receiversData]);
 
   // Initialize select options
   const [selectedReceiver, setSelectedReceiver] = useState<SelectOption | null>(
     null
   );
-  const [selectedReceiverEmail, setSelectedReceiverEmail] =
-    useState<SelectOption | null>(null);
-  const [selectedReceiverAddress, setSelectedReceiverAddress] =
-    useState<SelectOption | null>(null);
-
-  const [createReceiver] = useCreateReceiverMutation();
-  const [createReceiverEmail] = useCreateReceiverEmailMutation();
-  const [createReceiverAddress] = useCreateReceiverAddressMutation();
-
-  // Thay thế các hàm onCreateOption
-  const handleCreateReceiver = async (inputValue: string) => {
-    try {
-      const newReceiver = await spinnerService.executePromises(
-        createReceiver({ name: inputValue })
-      );
-
-      const { id = "", name = "" } = newReceiver.data || {};
-
-      if (!id || !name) {
-        throw new Error("Failed to create receiver");
-      }
-
-      setSelectedReceiver({
-        value: id,
-        label: name,
-      });
-      setValue("receiver.name", name);
-      return {
-        value: id,
-        label: name,
-      };
-    } catch (error) {
-      console.error("Error creating receiver:", error);
-      return null;
-    }
-  };
-
-  const handleCreateReceiverEmail = async (inputValue: string) => {
-    try {
-      const response = await spinnerService.executePromises(
-        createReceiverEmail({ email: inputValue })
-      );
-
-      if (!response) {
-        throw new Error("Failed to create receiver email");
-      }
-
-      const { email = "" } = response.data || {};
-
-      setSelectedReceiverEmail({
-        value: email,
-        label: email,
-      });
-      setValue("receiver.email", email);
-      return {
-        value: email,
-        label: email,
-      };
-    } catch (error) {
-      console.error("Error creating receiver email:", error);
-      return null;
-    }
-  };
-
-  const handleCreateReceiverAddress = async (inputValue: string) => {
-    try {
-      const response = await spinnerService.executePromises(
-        createReceiverAddress({ address: inputValue })
-      );
-
-      if (!response) {
-        throw new Error("Failed to create receiver address");
-      }
-
-      const { address = "" } = response.data || {};
-
-      setSelectedReceiverAddress({
-        value: address,
-        label: address,
-      });
-      setValue("receiver.address", address);
-      return {
-        value: address,
-        label: address,
-      };
-    } catch (error) {
-      console.error("Error creating receiver address:", error);
-      return null;
-    }
-  };
 
   return (
-    <SectionContainer title="Receiver Details">
+    <SectionContainer
+      title="Receiver Details"
+      actionEl={
+        <ClientModalInfo
+          title="Add a new receiver"
+          description="Add a new receiver to your invoice. This information will be saved for future use."
+          trigger={
+            <BaseButton
+              tooltipLabel="Add a new receiver to the list"
+              className="bg-white rounded-lg text-blue-500 hover:bg-blue-50 border-0 py-0 h-9 w-fit ml-auto flex items-center gap-2 -mr-2"
+            >
+              <Plus />
+              Add receiver
+            </BaseButton>
+          }
+        />
+      }
+    >
       <div className="flex flex-col space-y-4">
         <AppSelect
           label="Receiver"
           value={selectedReceiver}
-          options={receivers.map((receiver: Receiver) => ({
-            value: receiver._id,
+          options={receivers?.map((receiver: ClientInfoTemplate) => ({
+            value: receiver.id,
             label: receiver.name,
           }))}
           placeholder="Select or create receiver"
@@ -171,55 +61,30 @@ export const ReceiverSection = ({ receiversData }: ReceiverSectionProps) => {
             setSelectedReceiver(option);
             if (!option) {
               setValue("receiver.name", "");
-            } else if (option?.__isNew__) {
-              setValue("receiver.name", option.label);
-            } else {
-              setValue("receiver.name", option.label);
-            }
-          }}
-          onCreateOption={handleCreateReceiver}
-          isSearchable={true}
-          isClearable={true}
-        />
-
-        <AppSelect
-          label="Receiver Email"
-          value={selectedReceiverEmail}
-          options={receiverEmails}
-          placeholder="Select or create email"
-          onChange={(option: any) => {
-            setSelectedReceiverEmail(option);
-            if (!option) {
               setValue("receiver.email", "");
-            } else if (option?.__isNew__) {
-              setValue("receiver.email", option.label);
+              setValue("receiver.address", "");
             } else {
-              setValue("receiver.email", option.value);
+              setValue("receiver.name", option.label);
+              const curReceiver = (receivers as ClientInfoTemplate[]).find(
+                (receiver) => receiver.id === option.value
+              );
+              setValue("receiver.email", curReceiver?.email || "");
+              setValue("receiver.address", curReceiver?.address || "");
             }
           }}
-          onCreateOption={handleCreateReceiverEmail}
           isSearchable={true}
           isClearable={true}
         />
 
-        <AppSelect
+        <FormInput
+          name="receiver.email"
+          label="Receiver Email"
+          placeholder="Enter your receiver email"
+        />
+        <FormInput
+          name="receiver.address"
           label="Receiver Address"
-          value={selectedReceiverAddress}
-          options={receiverAddresses}
-          placeholder="Select or create address"
-          onChange={(option: any) => {
-            setSelectedReceiverAddress(option);
-            if (!option) {
-              setValue("receiver.address", "");
-            } else if (option?.__isNew__) {
-              setValue("receiver.address", option.label);
-            } else {
-              setValue("receiver.address", option.value);
-            }
-          }}
-          onCreateOption={handleCreateReceiverAddress}
-          isSearchable={true}
-          isClearable={true}
+          placeholder="Enter the address of the receiver"
         />
       </div>
     </SectionContainer>

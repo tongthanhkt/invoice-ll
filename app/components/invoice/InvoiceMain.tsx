@@ -10,12 +10,6 @@ import { useInvoiceContext } from "@/contexts/InvoiceContext";
 import { InvoiceType } from "@/types";
 
 import { Button } from "@/components/ui/button";
-import { FileText, X } from "lucide-react";
-import { useEffect, useState } from "react";
-import InvoiceActions from "./InvoiceActions";
-import InvoiceForm from "./InvoiceForm";
-import PaymentVoucherForm from "./PaymentVoucherForm";
-import SidebarNavigation from "./SidebarNavigation";
 import {
   actionsVariants,
   containerVariants,
@@ -26,8 +20,12 @@ import {
   mobileOverlayVariants,
   tooltipVariants,
 } from "@/constants/animationVariants";
-import { useQuerySpinner } from "@/hooks";
-import { useCombinedPayersQuery, useCombinedReceiversQuery } from "@/services";
+import { FileText, X } from "lucide-react";
+import { useState } from "react";
+import InvoiceActions from "./InvoiceActions";
+import InvoiceForm from "./InvoiceForm";
+import PaymentVoucherForm from "./PaymentVoucherForm";
+import SidebarNavigation from "./SidebarNavigation";
 
 export interface PayerCombined {
   payers: Payer[];
@@ -86,14 +84,12 @@ const DOCUMENT_TYPES = [
 ];
 
 const InvoiceMain = () => {
-  const { handleSubmit, watch, setValue, reset } =
-    useFormContext<InvoiceType>();
+  const { handleSubmit, setValue } = useFormContext<InvoiceType>();
   const { onFormSubmit, removeFinalPdf } = useInvoiceContext();
   const [selectedType, setSelectedType] = useState(DOCUMENT_TYPES[0]); // Default to Payment voucher
   const [renderKey, setRenderKey] = useState(0); // Add key for forcing re-render
   const [sidebarMinimized, setSidebarMinimized] = useState(false);
   const [mobileActionsVisible, setMobileActionsVisible] = useState(false);
-  const [formLoaded, setFormLoaded] = useState(false);
 
   // Set form as loaded after a short delay for animations
   // useEffect(() => {
@@ -103,9 +99,6 @@ const InvoiceMain = () => {
 
   //   return () => clearTimeout(timer);
   // }, []);
-
-  const { data: payers } = useQuerySpinner(useCombinedPayersQuery());
-  const { data: receivers } = useQuerySpinner(useCombinedReceiversQuery());
 
   const handleTypeSelect = (type: string) => {
     setSelectedType(type);
@@ -140,13 +133,11 @@ const InvoiceMain = () => {
   const renderForm = () => {
     switch (selectedType) {
       case "Payment voucher":
-        return (
-          <PaymentVoucherForm payersData={payers} receiversData={receivers} />
-        );
+        return <PaymentVoucherForm />;
       case "Invoice":
-        return <InvoiceForm payersData={payers} receiversData={receivers} />;
+        return <InvoiceForm />;
       default:
-        return <InvoiceForm payersData={payers} receiversData={receivers} />;
+        return <InvoiceForm />;
     }
   };
 
