@@ -4,10 +4,7 @@ import InvoiceLayout from "./InvoiceLayout";
 const InvoiceTemplate3 = () => {
   return (
     <InvoiceLayout>
-      <div
-        style={{ fontFamily: '"Times New Roman", Times, serif' }}
-        className="px-12"
-      >
+      <div style={{ fontFamily: '"Times New Roman", Times, serif' }}>
         <h1 className="text-center font-bold mb-6 text-2xl">
           Service Agreement
         </h1>
