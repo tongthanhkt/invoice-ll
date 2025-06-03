@@ -25,12 +25,14 @@ interface ModalProps {
   title: string;
   description: string;
   trigger: React.ReactNode;
+  angel?: string;
 }
 
 export const ClientModalInfo = ({
   title,
   description,
   trigger,
+  angel,
 }: ModalProps) => {
   const [open, setOpen] = useState(false);
   const modalForm = useForm<ClientInfoForm>();
@@ -110,14 +112,18 @@ export const ClientModalInfo = ({
                   label="Contact Name"
                   name="name"
                   type="text"
-                  placeholder="Enter the name of the receiver"
+                  placeholder={`Enter the ${
+                    angel?.toLowerCase() || "receiver"
+                  } name`}
                   required
                 />
                 <FormInput
                   label="Company Name"
                   name="company_name"
                   type="text"
-                  placeholder="Enter the company name of the receiver"
+                  placeholder={`Enter the ${
+                    angel?.toLowerCase() || "receiver"
+                  } company name`}
                   required
                 />
               </div>
@@ -126,14 +132,18 @@ export const ClientModalInfo = ({
                   label="Email"
                   name="email"
                   type="email"
-                  placeholder="Enter the email of the receiver"
+                  placeholder={`Enter the ${
+                    angel?.toLowerCase() || "receiver"
+                  } email`}
                   required
                 />
                 <FormInput
                   label="Phone Number"
                   name="phone_number"
                   type="text"
-                  placeholder="Enter the phone number of the receiver"
+                  placeholder={`Enter the ${
+                    angel?.toLowerCase() || "receiver"
+                  } phone number`}
                   required
                 />
               </div>
@@ -141,7 +151,9 @@ export const ClientModalInfo = ({
                 label="Address"
                 name="address"
                 type="text"
-                placeholder="Enter the address of the receiver"
+                placeholder={`Enter the ${
+                  angel?.toLowerCase() || "receiver"
+                } address`}
               />
             </div>
             <DialogFooter className="mt-4 flex flex-row gap-3 justify-end">

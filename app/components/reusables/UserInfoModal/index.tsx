@@ -23,9 +23,15 @@ interface ModalProps {
   title: string;
   description: string;
   trigger: React.ReactNode;
+  angel?: string;
 }
 
-export const UserInfoModal = ({ title, description, trigger }: ModalProps) => {
+export const UserInfoModal = ({
+  title,
+  description,
+  trigger,
+  angel,
+}: ModalProps) => {
   const [open, setOpen] = useState(false);
   const modalForm = useForm<ProfileForm>();
 
@@ -103,21 +109,25 @@ export const UserInfoModal = ({ title, description, trigger }: ModalProps) => {
                 label="Name"
                 name="name"
                 type="text"
-                placeholder="Enter the name of the payer"
+                placeholder={`Enter the ${angel?.toLowerCase() || "payer"}`}
                 required
               />
               <FormInput
                 label="Email"
                 name="email"
                 type="email"
-                placeholder="Enter the email of the payer"
+                placeholder={`Enter the ${
+                  angel?.toLowerCase() || "payer"
+                } email`}
                 required
               />
               <FormInput
                 label="Address"
                 name="address"
                 type="text"
-                placeholder="Enter the address of the payer"
+                placeholder={`Enter the ${
+                  angel?.toLowerCase() || "payer"
+                } address`}
               />
             </div>
             <DialogFooter className="mt-4 flex flex-row gap-3 justify-end">

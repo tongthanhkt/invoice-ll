@@ -16,7 +16,24 @@ interface SelectOption {
   __isNew__?: boolean;
 }
 
-export const PayerSection = () => {
+type PayerSectionProps = {
+  title?: string;
+  label?: {
+    name?: string;
+    email?: string;
+    address?: string;
+    addBtn?: string;
+  };
+};
+export const PayerSection = ({
+  title = "Payer Details",
+  label = {
+    name: "Payer",
+    email: "Payer Email",
+    address: "Payer Address",
+    addBtn: "Add Payer",
+  },
+}: PayerSectionProps) => {
   const methods = useFormContext();
   const { setValue } = methods;
 
@@ -44,31 +61,36 @@ export const PayerSection = () => {
 
   return (
     <SectionContainer
-      title="Payer Details"
+      title={title}
       actionEl={
         <UserInfoModal
-          title="Add a new payer"
-          description="Add a new payer to your invoice. This information will be saved for future use."
+          title={`Add a new ${label.name?.toLowerCase() || "payer"}`}
+          description={`Add a new ${
+            label.name?.toLowerCase() || "payer"
+          } to your invoice. This information will be saved for future use.`}
           trigger={
             <BaseButton
-              tooltipLabel="Add a new payer to the list"
+              tooltipLabel={`Add a new ${
+                label.name?.toLowerCase() || "payer"
+              } to the list`}
               className="bg-white rounded-lg text-blue-500 hover:bg-blue-50 border-0 py-0 h-9 w-fit ml-auto flex items-center gap-2 -mr-2"
             >
               <Plus />
-              Add payer
+              {label.addBtn || "Add payer"}
             </BaseButton>
           }
+          angel={label.name}
         />
       }
     >
       <AppSelect
-        label="Payer"
+        label={label.name || "Payer"}
         value={selectedPayer}
         options={(payers as UserInfo[])?.map((payer) => ({
           value: payer.id,
           label: payer.name,
         }))}
-        placeholder="Select or create payer"
+        placeholder={`Select or create ${label.name?.toLowerCase() || "payer"}`}
         onChange={(option: any) => {
           setSelectedPayer(option);
           if (!option) {
@@ -89,13 +111,17 @@ export const PayerSection = () => {
       />
       <FormInput
         name="payer.email"
-        label="Payer Email"
-        placeholder="Enter your payer email"
+        label={label.email || "Payer Email"}
+        placeholder={`Enter your ${
+          label.email?.toLowerCase() || "payer email"
+        }`}
       />
       <FormInput
         name="payer.address"
-        label="Payer Address"
-        placeholder="Enter the address of the payer"
+        label={label.address || "Payer Address"}
+        placeholder={`Enter the ${
+          label.address?.toLowerCase() || "payer address"
+        }`}
       />
     </SectionContainer>
   );

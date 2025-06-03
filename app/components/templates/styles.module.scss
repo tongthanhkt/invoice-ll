@@ -1,0 +1,51 @@
+.title {
+  text-align: center;
+  font-weight: bold;
+  margin-bottom: 24px;
+  font-size: 1.5rem;
+}
+
+.sectionList {
+  margin-left: 0;
+  padding-left: 1.5rem;
+  font-size: 1rem;
+  list-style-type: decimal;
+}
+
+.section {
+  margin-bottom: 1.5rem;
+}
+
+.blank {
+  display: inline-block;
+  min-width: 120px;
+  border-bottom: 1px solid #333;
+  height: 1.2em;
+  vertical-align: middle;
+  margin: 0 2px;
+}
+
+.pageBreak {
+  page-break-after: always;
+  margin: 32px 0;
+}
+
+.signatureBlock {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 2rem;
+  gap: 2rem;
+}
+
+.signature {
+  margin-top: 60px;
+}
+
+@media print {
+  .pageBreak {
+    page-break-after: always;
+  }
+  .section {
+    break-inside: avoid;
+  }
+}

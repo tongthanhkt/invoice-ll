@@ -8,7 +8,7 @@ export const InvoiceContainer = ({
   children,
 }: {
   title: string;
-  invoiceLabel: string;
+  invoiceLabel?: string;
   children: React.ReactNode;
 }) => {
   return (
@@ -21,14 +21,16 @@ export const InvoiceContainer = ({
                 {title}
               </span>
             </CardTitle>
-            <Badge
-              variant="secondary"
-              className="h-9 rounded-full px-3 bg-gray-50 self-start sm:self-auto hover:bg-gray-50"
-            >
-              <p className="text-sm font-medium text-gray-900">
-                {invoiceLabel}
-              </p>
-            </Badge>
+            {invoiceLabel && (
+              <Badge
+                variant="secondary"
+                className="h-9 rounded-full px-3 bg-gray-50 self-start sm:self-auto hover:bg-gray-50"
+              >
+                <p className="text-sm font-medium text-gray-900">
+                  {invoiceLabel}
+                </p>
+              </Badge>
+            )}
           </div>
         </CardHeader>
         <CardContent className="p-4 sm:p-6 sn:pb-10 bg-white  h-[calc(100vh_-_400px)] sm:h-[calc(100vh_-_196px)] overflow-y-auto rounded-b-lg">
