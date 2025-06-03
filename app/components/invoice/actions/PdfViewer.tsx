@@ -22,6 +22,7 @@ const PdfViewer = () => {
 
   const [debouncedWatch] = useDebounce(watch, 1000);
   const formValues = debouncedWatch();
+  console.log("🚀 ~ PdfViewer ~ formValues:", formValues);
 
   return (
     <div className="mb-3">

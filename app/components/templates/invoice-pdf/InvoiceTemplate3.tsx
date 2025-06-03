@@ -1,7 +1,17 @@
 import React from "react";
 import InvoiceLayout from "./InvoiceLayout";
+import { DATE_OPTIONS } from "@/lib/variables";
+import { formatNumberWithCommas } from "@/lib/helpers";
 
-const InvoiceTemplate3 = () => {
+const InvoiceTemplate3 = ({
+  receipt,
+  payer,
+  receiver,
+}: {
+  receipt: any;
+  payer: any;
+  receiver: any;
+}) => {
   return (
     <InvoiceLayout>
       <div style={{ fontFamily: '"Times New Roman", Times, serif' }}>
@@ -11,16 +21,15 @@ const InvoiceTemplate3 = () => {
         <p>
           This Service Agreement (the <strong>"Agreement")</strong> is entered
           into{" "}
-          <span className="inline-block min-w-[120px] border-b border-gray-700 h-[1.2em] align-middle mx-1"></span>{" "}
+          {new Date(receipt?.invoiceDate).toLocaleDateString(
+            "en-US",
+            DATE_OPTIONS
+          )}{" "}
           (the <strong>"Effective Date")</strong>) by and between{" "}
-          <span className="inline-block min-w-[120px] border-b border-gray-700 h-[1.2em] align-middle mx-1"></span>{" "}
-          (the <strong>"Customer")</strong>) located at{" "}
-          <span className="inline-block min-w-[120px] border-b border-gray-700 h-[1.2em] align-middle mx-1"></span>{" "}
-          and{" "}
-          <span className="inline-block min-w-[120px] border-b border-gray-700 h-[1.2em] align-middle mx-1"></span>{" "}
-          (the <strong>"Service Provider")</strong>) located at{" "}
-          <span className="inline-block min-w-[120px] border-b border-gray-700 h-[1.2em] align-middle mx-1"></span>
-          , also individually referred to as the <strong>"Party"</strong>, and
+          {receiver?.name} (the <strong>"Customer")</strong>) located at{" "}
+          {receiver?.address} and {payer?.name} (the{" "}
+          <strong>"Service Provider")</strong>) located at {payer?.address},
+          also individually referred to as the <strong>"Party"</strong>, and
           collectively the <strong>"Parties"</strong>.
         </p>
 
@@ -28,36 +37,33 @@ const InvoiceTemplate3 = () => {
           <li className="mb-6">
             <strong>Services.</strong> The Service Provider shall perform the
             services listed in this Section 1 (the "Services").
-            <ol className="pl-6 list-decimal">
-              <li>
-                <span className="inline-block min-w-[120px] border-b border-gray-700 h-[1.2em] align-middle mx-1"></span>
-              </li>
-              <li>
-                <span className="inline-block min-w-[120px] border-b border-gray-700 h-[1.2em] align-middle mx-1"></span>
-              </li>
-              <li>
-                <span className="inline-block min-w-[120px] border-b border-gray-700 h-[1.2em] align-middle mx-1"></span>
-              </li>
+            <ol className="pl-6 ">
+              {receipt?.services?.map(
+                (service: { name: string }, index: number) => (
+                  <li key={`${service} ${index}`}>
+                    1.{index + 1}. {service.name}
+                  </li>
+                )
+              )}
             </ol>
           </li>
           <li className="mb-6">
             <strong>Compensation.</strong> The Customer agrees to pay the
-            Service Provider $
-            <span className="inline-block min-w-[120px] border-b border-gray-700 h-[1.2em] align-middle mx-1"></span>{" "}
-            as payment for the Services provided. This fee will be paid in
-            accordance with the following schedule:
-            <ul className="pl-6 list-disc">
+            Service Provider {receipt?.cost?.total}$ as payment for the Services
+            provided. This fee will be paid in accordance with the following
+            schedule:
+            <ul className="pl-6 list-none">
               <li>
                 Total Cost of the Services:{" "}
-                <span className="inline-block min-w-[120px] border-b border-gray-700 h-[1.2em] align-middle mx-1"></span>
+                {formatNumberWithCommas(Number(receipt?.cost?.total))}
               </li>
               <li>
                 Amount Due at Signing:{" "}
-                <span className="inline-block min-w-[120px] border-b border-gray-700 h-[1.2em] align-middle mx-1"></span>
+                {formatNumberWithCommas(Number(receipt?.cost?.paid))}
               </li>
               <li>
                 Amount Due at Completion:{" "}
-                <span className="inline-block min-w-[120px] border-b border-gray-700 h-[1.2em] align-middle mx-1"></span>
+                {formatNumberWithCommas(Number(receipt?.cost?.remaining))}
               </li>
             </ul>
           </li>
@@ -73,32 +79,40 @@ const InvoiceTemplate3 = () => {
           <li className="mb-6">
             <strong>Payment.</strong> The Service Provider shall submit an
             invoice to the Customer every{" "}
-            <span className="inline-block min-w-[40px] border-b border-gray-700 h-[1.2em] align-middle mx-1"></span>{" "}
+            {receipt?.payment?.frequency || (
+              <span className="inline-block min-w-[40px] border-b border-gray-700 h-[1.2em] align-middle mx-1"></span>
+            )}{" "}
             days. Invoices shall be paid within{" "}
-            <span className="inline-block min-w-[40px] border-b border-gray-700 h-[1.2em] align-middle mx-1"></span>{" "}
+            {receipt?.payment?.dueDate || (
+              <span className="inline-block min-w-[40px] border-b border-gray-700 h-[1.2em] align-middle mx-1"></span>
+            )}{" "}
             days from the date of the invoice. Payments may be made by credit
             card/electronic transfer/check as follows:
             <ul className="pl-6 list-disc">
-              {[...Array(5)].map((_, i) => (
-                <li key={i}>
-                  <span className="inline-block min-w-[120px] border-b border-gray-700 h-[1.2em] align-middle mx-1"></span>
-                </li>
-              ))}
+              {receipt?.payment?.methods?.map(
+                (method: string, index: number) => (
+                  <li key={index}>{method}</li>
+                )
+              )}
             </ul>
           </li>
           <li className="mb-6">
             <strong>Term.</strong> The term of this Agreement shall commence on
             the Effective Date, as stated above, and continue for{" "}
-            <span className="inline-block min-w-[80px] border-b border-gray-700 h-[1.2em] align-middle mx-1"></span>{" "}
-            days/months/years, unless otherwise terminated per the terms of this
-            Agreement.
+            {receipt.term?.duration || (
+              <span className="inline-block min-w-[80px] border-b border-gray-700 h-[1.2em] align-middle mx-1"></span>
+            )}{" "}
+            {receipt.term?.unit || "days/months/years"} , unless otherwise
+            terminated per the terms of this Agreement.
           </li>
           <li className="mb-6">
             <strong>Termination.</strong>
             <ol className="pl-6 list-decimal">
               <li>
                 Either Party may terminate the Agreement at any time upon{" "}
-                <span className="inline-block min-w-[40px] border-b border-gray-700 h-[1.2em] align-middle mx-1"></span>{" "}
+                {receipt.noticePeriod || (
+                  <span className="inline-block min-w-[40px] border-b border-gray-700 h-[1.2em] align-middle mx-1"></span>
+                )}{" "}
                 days prior written notice to the other Party. In the event the
                 Customer terminates the Agreement, the Customer shall still
                 remain obligated to pay the Service Provider for any Services
@@ -138,9 +152,14 @@ const InvoiceTemplate3 = () => {
             <strong>Dispute Resolution.</strong>
             <ol className="pl-6 list-decimal">
               <li>
-                <strong>Choice of Law.</strong> ... this Agreement shall be
-                governed by{" "}
-                <span className="inline-block min-w-[120px] border-b border-gray-700 h-[1.2em] align-middle mx-1"></span>{" "}
+                <strong>Choice of Law.</strong> The Parties agree that this
+                Agreement shall be governed by the State and/or Country in which
+                the duties of this Agreement are expected to take place. In the
+                event that the duties of this Agreement are to take place in
+                multiple States and/or Countries, this Agreement shall be by{" "}
+                {receipt?.appliedLaw || (
+                  <span className="inline-block min-w-[120px] border-b border-gray-700 h-[1.2em] align-middle mx-1"></span>
+                )}{" "}
                 law.
               </li>
               <li>
@@ -197,25 +216,39 @@ const InvoiceTemplate3 = () => {
               receipt requested or by certified or registered mail with return
               receipt requested. Notices shall be sent as follows:
             </p>
-            <div className="mb-2">
+            <div className="mb-2 mt-4">
               <strong>Customer</strong>
-              <br />
-              {[...Array(4)].map((_, i) => (
-                <span
-                  key={i}
-                  className="inline-block min-w-[200px] border-b border-gray-700 h-[1.2em] align-middle my-1 block"
-                ></span>
-              ))}
+              <div className="-mt-4 ml-4">
+                <br />
+                {receiver?.name || (
+                  <span className="inline-block min-w-[100px] border-b border-gray-700 h-[1.2em] align-middle my-1 block"></span>
+                )}
+                <br />
+                {receiver?.email || (
+                  <span className="inline-block min-w-[100px] border-b border-gray-700 h-[1.2em] align-middle my-1 block"></span>
+                )}
+                <br />
+                {receiver?.address || (
+                  <span className="inline-block min-w-[100px] border-b border-gray-700 h-[1.2em] align-middle my-1 block"></span>
+                )}
+              </div>
             </div>
-            <div>
+            <div className="mt-4">
               <strong>Service Provider</strong>
-              <br />
-              {[...Array(4)].map((_, i) => (
-                <span
-                  key={i}
-                  className="inline-block min-w-[200px] border-b border-gray-700 h-[1.2em] align-middle my-1 block"
-                ></span>
-              ))}
+              <div className="-mt-4 ml-4">
+                <br />
+                {payer?.name || (
+                  <span className="inline-block min-w-[100px] border-b border-gray-700 h-[1.2em] align-middle my-1 block"></span>
+                )}
+                <br />
+                {payer?.email || (
+                  <span className="inline-block min-w-[100px] border-b border-gray-700 h-[1.2em] align-middle my-1 block"></span>
+                )}
+                <br />
+                {payer?.address || (
+                  <span className="inline-block min-w-[100px] border-b border-gray-700 h-[1.2em] align-middle my-1 block"></span>
+                )}
+              </div>
             </div>
           </li>
         </ol>
@@ -224,37 +257,48 @@ const InvoiceTemplate3 = () => {
         <div className="my-8 break-after-page"></div>
 
         <div className="mb-6">
-          <p>
-            <em>
-              [The remainder of this page is intentionally left blank. Signature
-              page follows.]
-            </em>
-          </p>
-          <h2 className="text-lg font-bold mt-8 mb-4">Signatures</h2>
-          <div className="flex flex-row justify-between gap-8 mt-8">
+          <h2 className=" mt-8">
+            The Parties agree to the terms and conditions set forth above as
+            demonstrated by their signatures as follows:
+          </h2>
+          <div className="flex flex-col gap-8 mt-4 pl-10">
             <div>
               <strong>Customer</strong>
               <br />
               Signed:{" "}
-              <span className="inline-block min-w-[200px] border-b border-gray-700 h-[1.2em] align-middle mx-1"></span>
+              <span className="inline-block min-w-[100px] border-b border-gray-700 h-[1.2em] align-middle mx-1"></span>
               <br />
               Name:{" "}
-              <span className="inline-block min-w-[200px] border-b border-gray-700 h-[1.2em] align-middle mx-1"></span>
+              {receiver?.name || (
+                <span className="inline-block min-w-[100px] border-b border-gray-700 h-[1.2em] align-middle mx-1"></span>
+              )}
               <br />
               Date:{" "}
-              <span className="inline-block min-w-[200px] border-b border-gray-700 h-[1.2em] align-middle mx-1"></span>
+              {new Date(receipt?.invoiceDate).toLocaleDateString(
+                "en-US",
+                DATE_OPTIONS
+              ) || (
+                <span className="inline-block min-w-[100px] border-b border-gray-700 h-[1.2em] align-middle mx-1"></span>
+              )}
             </div>
             <div>
               <strong>Service Provider</strong>
               <br />
               Signed:{" "}
-              <span className="inline-block min-w-[200px] border-b border-gray-700 h-[1.2em] align-middle mx-1"></span>
+              <span className="inline-block min-w-[100px] border-b border-gray-700 h-[1.2em] align-middle mx-1"></span>
               <br />
               Name:{" "}
-              <span className="inline-block min-w-[200px] border-b border-gray-700 h-[1.2em] align-middle mx-1"></span>
+              {payer?.name || (
+                <span className="inline-block min-w-[100px] border-b border-gray-700 h-[1.2em] align-middle mx-1"></span>
+              )}
               <br />
               Date:{" "}
-              <span className="inline-block min-w-[200px] border-b border-gray-700 h-[1.2em] align-middle mx-1"></span>
+              {new Date(receipt?.invoiceDate).toLocaleDateString(
+                "en-US",
+                DATE_OPTIONS
+              ) || (
+                <span className="inline-block min-w-[100px] border-b border-gray-700 h-[1.2em] align-middle mx-1"></span>
+              )}
             </div>
           </div>
         </div>

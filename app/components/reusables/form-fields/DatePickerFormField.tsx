@@ -6,13 +6,12 @@ import { useState } from "react";
 import { useFormContext } from "react-hook-form";
 
 // ShadCn
-import { Button, buttonVariants } from "@/components/ui/button";
+import { Button } from "@/components/ui/button";
 import { Calendar } from "@/components/ui/calendar";
 import {
   FormControl,
   FormField,
   FormItem,
-  FormLabel,
   FormMessage,
 } from "@/components/ui/form";
 import {
@@ -31,10 +30,9 @@ import { DATE_OPTIONS } from "@/lib/variables";
 import { CalendarIcon } from "lucide-react";
 
 // Types
-import { NameType } from "@/types";
 
 type DatePickerFormFieldProps = {
-  name: NameType;
+  name: string;
   label?: string;
 };
 

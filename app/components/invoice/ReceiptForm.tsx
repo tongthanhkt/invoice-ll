@@ -6,7 +6,7 @@ import { PayerSection } from "./PayerSection";
 import { ReceiverSection } from "./ReceiverSection";
 import { useFieldArray, useFormContext } from "react-hook-form";
 import BaseButton from "../reusables/BaseButton";
-import { Plus } from "lucide-react";
+import { Plus, Trash2 } from "lucide-react";
 import FormInput from "../reusables/form-fields/FormInput/FormInput";
 import { SectionContainer } from "./SectionContainer";
 import { Checkbox } from "@/components/ui/checkbox";
@@ -19,7 +19,7 @@ import {
 } from "@/components/ui/select";
 
 export const ReceiptForm = () => {
-  const { control } = useFormContext();
+  const { control, watch, setValue } = useFormContext();
   const {
     fields: services,
     append,
@@ -27,17 +27,12 @@ export const ReceiptForm = () => {
     move,
   } = useFieldArray({
     control: control,
-    name: "detail.services",
+    name: "receipt.services",
   });
 
-  // console.log('fields', fields);
   const addNewField = () => {
     append({
       name: "",
-      description: "",
-      quantity: 1,
-      unitPrice: 0,
-      total: 0,
     });
   };
 
@@ -52,7 +47,7 @@ export const ReceiptForm = () => {
           Effective Date
         </Label>
         <div className="bg-white text-gray-600">
-          <DatePickerFormField name="details.invoiceDate" />
+          <DatePickerFormField name="receipt.invoiceDate" />
         </div>
       </div>
       <PayerSection />
@@ -61,10 +56,19 @@ export const ReceiptForm = () => {
       <SectionContainer title="Services">
         <div className="flex flex-col gap-4">
           {services.map((service, index) => (
-            <FormInput
-              key={service.id}
-              name={`detail.services.${index}.name`}
-            />
+            <div>
+              <FormInput
+                key={service.id}
+                name={`receipt.services.${index}.name`}
+              />
+              <BaseButton
+                className="p-1 bg-white text-red-500 hover:bg-red-50 size-8"
+                variant="destructive"
+                onClick={() => removeField(index)}
+              >
+                <Trash2 className="w-4 h-4" />
+              </BaseButton>
+            </div>
           ))}
         </div>
 
@@ -81,17 +85,17 @@ export const ReceiptForm = () => {
       <SectionContainer title="Compensation">
         <FormInput
           label="Total Cost of the Services"
-          name="detail.cost.total"
+          name="receipt.cost.total"
           type="number"
         />
         <FormInput
           label="Amount Due at Signing"
-          name="detail.cost.paid"
+          name="receipt.cost.paid"
           type="number"
         />
         <FormInput
           label="Amount Due at Completion"
-          name="detail.cost.remaining"
+          name="receipt.cost.remaining"
           type="number"
         />
       </SectionContainer>
@@ -99,19 +103,15 @@ export const ReceiptForm = () => {
       <SectionContainer title="Payment">
         <FormInput
           label="Frequency of sending invoices"
-          name="detail.payment.frequency"
+          name="receipt.payment.frequency"
           type="number"
         />
         <FormInput
           label="Invoice payment due date (within ___ days)"
-          name="detail.payment.dueDate"
+          name="receipt.payment.dueDate"
           type="number"
         />
-        <FormInput
-          label="Payment method"
-          name="detail.payment.method"
-          type="text"
-        />
+
         <div className="space-y-2">
           <label className="text-sm font-medium text-gray-700">
             Payment methods
@@ -121,9 +121,24 @@ export const ReceiptForm = () => {
               <div key={method} className="flex items-center space-x-2">
                 <Checkbox
                   id={method}
-                  name="detail.payment.methods"
+                  name="receipt.payment.methods"
                   value={method}
                   className="h-4 w-4 rounded border-gray-300 text-blue-600 focus:ring-blue-500"
+                  onCheckedChange={(checked) => {
+                    const currentMethods =
+                      watch("receipt.payment.methods") || [];
+                    if (checked) {
+                      setValue("receipt.payment.methods", [
+                        ...currentMethods,
+                        method,
+                      ]);
+                    } else {
+                      setValue(
+                        "receipt.payment.methods",
+                        currentMethods.filter((m: string) => m !== method)
+                      );
+                    }
+                  }}
                 />
                 <label htmlFor={method} className="text-sm text-gray-700">
                   {method}
@@ -138,12 +153,18 @@ export const ReceiptForm = () => {
           </label>
           <div className="flex items-center gap-4">
             <FormInput
-              name="detail.term.duration"
+              name="receipt.term.duration"
               type="number"
               className="w-24"
             />
 
-            <Select name="detail.term.unit" defaultValue="days">
+            <Select
+              name="receipt.term.unit"
+              defaultValue="days"
+              onValueChange={(value) => {
+                setValue("receipt.term.unit", value);
+              }}
+            >
               <SelectTrigger className="w-full border border-gray-200 bg-white">
                 <SelectValue placeholder="Select document type" />
               </SelectTrigger>
@@ -157,7 +178,7 @@ export const ReceiptForm = () => {
         </div>
         <div className="space-y-2">
           <FormInput
-            name="detail.noticePeriod"
+            name="receipt.noticePeriod"
             type="number"
             placeholder="Enter number of days"
             label="Number of days notice before termination"
@@ -165,7 +186,7 @@ export const ReceiptForm = () => {
         </div>
         <div className="space-y-2">
           <FormInput
-            name="detail.appliedLaw"
+            name="receipt.appliedLaw"
             type="text"
             placeholder="Enter number of days"
             label="Applied Law"
@@ -174,12 +195,12 @@ export const ReceiptForm = () => {
       </SectionContainer>
       <SectionContainer title="Signature">
         <FormInput
-          name="detail.signature.clientDate"
+          name="receipt.signature.clientDate"
           type="text"
           placeholder="Enter client signature"
         />
         <FormInput
-          name="detail.signature.providerDate"
+          name="receipt.signature.providerDate"
           type="text"
           placeholder="Enter provider signature"
         />
