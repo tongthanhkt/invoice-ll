@@ -101,10 +101,26 @@ export const ReceiptForm = () => {
         </SectionContainer>
 
         {/* Payer Details */}
-        <PayerSection />
+        <PayerSection
+          title="Provider Details"
+          label={{
+            name: "Provider",
+            email: "Provider Email",
+            address: "Provider Address",
+            addBtn: "Add Provider",
+          }}
+        />
 
         {/* Receiver Details */}
-        <ReceiverSection />
+        <ReceiverSection
+          title="Customer Details"
+          label={{
+            name: "Customer",
+            email: "Customer Email",
+            address: "Customer Address",
+            addBtn: "Add Customer",
+          }}
+        />
 
         {/* Services Section */}
         <SectionContainer
@@ -149,22 +165,22 @@ export const ReceiptForm = () => {
         <SectionContainer title="Compensation">
           <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
             <FormInput
-              label="Total Service Cost"
+              label="Total"
               name="receipt.cost.total"
               type="number"
-              placeholder="Enter total amount"
+              defaultValue="0"
             />
             <FormInput
               label="Initial Payment"
               name="receipt.cost.paid"
               type="number"
-              placeholder="Enter initial payment"
+              defaultValue="0"
             />
             <FormInput
-              label="Remaining Balance"
+              label="Remaining"
               name="receipt.cost.remaining"
               type="number"
-              placeholder="Enter remaining amount"
+              defaultValue="0"
             />
           </div>
         </SectionContainer>
@@ -174,16 +190,16 @@ export const ReceiptForm = () => {
           <div className="space-y-4">
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
               <FormInput
-                label="Billing Frequency (in days)"
+                label="Billing Frequency "
                 name="receipt.payment.frequency"
                 type="number"
-                placeholder="Enter billing frequency"
+                placeholder="Billing frequency (in days)"
               />
               <FormInput
-                label="Payment Due Period (in days)"
+                label="Due Period"
                 name="receipt.payment.dueDate"
                 type="number"
-                placeholder="Enter payment due period"
+                placeholder="Due period (in days)"
               />
             </div>
 

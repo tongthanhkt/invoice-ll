@@ -16,7 +16,13 @@ interface SelectOption {
   __isNew__?: boolean;
 }
 
-export const ReceiverSection = () => {
+export const ReceiverSection = ({
+  title,
+  label,
+}: {
+  title?: string;
+  label?: { name?: string; email?: string; address?: string; addBtn?: string };
+}) => {
   const methods = useFormContext();
   const { setValue } = methods;
 
@@ -31,32 +37,39 @@ export const ReceiverSection = () => {
 
   return (
     <SectionContainer
-      title="Receiver Details"
+      title={title || "Receiver Details"}
       actionEl={
         <ClientModalInfo
-          title="Add a new receiver"
-          description="Add a new receiver to your invoice. This information will be saved for future use."
+          title={`Add a new ${label?.name?.toLowerCase() || "receiver"}`}
+          description={`Add a new ${
+            label?.name?.toLowerCase() || "receiver"
+          } to your invoice. This information will be saved for future use.`}
           trigger={
             <BaseButton
-              tooltipLabel="Add a new receiver to the list"
+              tooltipLabel={`Add a new ${
+                label?.name?.toLowerCase() || "receiver"
+              } to the list`}
               className="bg-white rounded-lg text-blue-500 hover:bg-blue-50 border-0 py-0 h-9 w-fit ml-auto flex items-center gap-2 -mr-2"
             >
               <Plus />
-              Add receiver
+              {label?.addBtn || "Add receiver"}
             </BaseButton>
           }
+          angel={label?.name}
         />
       }
     >
       <div className="flex flex-col space-y-4">
         <AppSelect
-          label="Receiver"
+          label={label?.name || "Receiver"}
           value={selectedReceiver}
           options={receivers?.map((receiver: ClientInfoTemplate) => ({
             value: receiver.id,
             label: receiver.name,
           }))}
-          placeholder="Select or create receiver"
+          placeholder={`Select or create ${
+            label?.name?.toLowerCase() || "receiver"
+          }`}
           onChange={(option: any) => {
             setSelectedReceiver(option);
             if (!option) {
@@ -78,13 +91,17 @@ export const ReceiverSection = () => {
 
         <FormInput
           name="receiver.email"
-          label="Receiver Email"
-          placeholder="Enter your receiver email"
+          label={label?.email || "Receiver Email"}
+          placeholder={`Enter your ${
+            label?.email?.toLowerCase() || "receiver email"
+          }`}
         />
         <FormInput
           name="receiver.address"
-          label="Receiver Address"
-          placeholder="Enter the address of the receiver"
+          label={label?.address || "Receiver Address"}
+          placeholder={`Enter the ${
+            label?.address?.toLowerCase() || "receiver address"
+          }`}
         />
       </div>
     </SectionContainer>
