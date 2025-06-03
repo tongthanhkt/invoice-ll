@@ -26,6 +26,7 @@ import InvoiceActions from "./InvoiceActions";
 import InvoiceForm from "./InvoiceForm";
 import PaymentVoucherForm from "./PaymentVoucherForm";
 import SidebarNavigation from "./SidebarNavigation";
+import { ReceiptForm } from "./ReceiptForm";
 
 export interface PayerCombined {
   payers: Payer[];
@@ -87,6 +88,7 @@ const InvoiceMain = () => {
   const { handleSubmit, setValue } = useFormContext<InvoiceType>();
   const { onFormSubmit, removeFinalPdf } = useInvoiceContext();
   const [selectedType, setSelectedType] = useState(DOCUMENT_TYPES[0]); // Default to Payment voucher
+  console.log("🚀 ~ InvoiceMain ~ selectedType:", selectedType);
   const [renderKey, setRenderKey] = useState(0); // Add key for forcing re-render
   const [sidebarMinimized, setSidebarMinimized] = useState(false);
   const [mobileActionsVisible, setMobileActionsVisible] = useState(false);
@@ -106,6 +108,9 @@ const InvoiceMain = () => {
     const templateNumber = type === "Payment voucher" ? 1 : 2;
 
     setValue("details.pdfTemplate", templateNumber);
+    if (type === "Receipt") {
+      setValue("details.pdfTemplate", 3);
+    }
     setValue("details.invoiceNumber", "0001");
     setValue("details.invoiceDate", new Date().toISOString());
     setValue("payer.name", "");
@@ -136,6 +141,8 @@ const InvoiceMain = () => {
         return <PaymentVoucherForm />;
       case "Invoice":
         return <InvoiceForm />;
+      case "Receipt":
+        return <ReceiptForm />;
       default:
         return <InvoiceForm />;
     }
