@@ -24,7 +24,6 @@ export const ReceiptForm = () => {
     fields: services,
     append,
     remove,
-    move,
   } = useFieldArray({
     control: control,
     name: "receipt.services",
@@ -42,169 +41,232 @@ export const ReceiptForm = () => {
 
   return (
     <InvoiceContainer title="Receipt">
-      <div className="space-y-1">
-        <Label className="!text-label font-medium text-neutral-700">
-          Effective Date
-        </Label>
-        <div className="bg-white text-gray-600">
-          <DatePickerFormField name="receipt.invoiceDate" />
-        </div>
-      </div>
-      <PayerSection />
-      <ReceiverSection />
-
-      <SectionContainer title="Services">
-        <div className="flex flex-col gap-4">
-          {services.map((service, index) => (
-            <div>
-              <FormInput
-                key={service.id}
-                name={`receipt.services.${index}.name`}
-              />
-              <BaseButton
-                className="p-1 bg-white text-red-500 hover:bg-red-50 size-8"
-                variant="destructive"
-                onClick={() => removeField(index)}
-              >
-                <Trash2 className="w-4 h-4" />
-              </BaseButton>
+      <div className="space-y-4">
+        {/* Date Section */}
+        <SectionContainer title="Receipt Details">
+          <div className="grid grid-cols-2 sm:grid-cols-2 gap-4 sm:gap-6">
+            <div className="space-y-1">
+              <Label className="!text-label font-medium text-neutral-700">
+                Receipt Date
+              </Label>
+              <div className="bg-white text-gray-600">
+                <DatePickerFormField name="receipt.invoiceDate" />
+              </div>
             </div>
-          ))}
-        </div>
-
-        <BaseButton
-          tooltipLabel="Add a new item to the list"
-          onClick={addNewField}
-          className="bg-white rounded-lg text-blue-500 hover:bg-blue-50 border-0 py-0 h-9 w-fit ml-auto flex items-center gap-2 -mr-2"
-        >
-          <Plus />
-          Add item
-        </BaseButton>
-      </SectionContainer>
-
-      <SectionContainer title="Compensation">
-        <FormInput
-          label="Total Cost of the Services"
-          name="receipt.cost.total"
-          type="number"
-        />
-        <FormInput
-          label="Amount Due at Signing"
-          name="receipt.cost.paid"
-          type="number"
-        />
-        <FormInput
-          label="Amount Due at Completion"
-          name="receipt.cost.remaining"
-          type="number"
-        />
-      </SectionContainer>
-
-      <SectionContainer title="Payment">
-        <FormInput
-          label="Frequency of sending invoices"
-          name="receipt.payment.frequency"
-          type="number"
-        />
-        <FormInput
-          label="Invoice payment due date (within ___ days)"
-          name="receipt.payment.dueDate"
-          type="number"
-        />
-
-        <div className="space-y-2">
-          <label className="text-sm font-medium text-gray-700">
-            Payment methods
-          </label>
-          <div className="flex flex-wrap gap-4">
-            {["Credit Card", "Electronic Transfer", "Check"].map((method) => (
-              <div key={method} className="flex items-center space-x-2">
-                <Checkbox
-                  id={method}
-                  name="receipt.payment.methods"
-                  value={method}
-                  className="h-4 w-4 rounded border-gray-300 text-blue-600 focus:ring-blue-500"
-                  onCheckedChange={(checked) => {
-                    const currentMethods =
-                      watch("receipt.payment.methods") || [];
-                    if (checked) {
-                      setValue("receipt.payment.methods", [
-                        ...currentMethods,
-                        method,
-                      ]);
-                    } else {
-                      setValue(
-                        "receipt.payment.methods",
-                        currentMethods.filter((m: string) => m !== method)
-                      );
-                    }
-                  }}
+            <div className="space-y-1">
+              <Label className="!text-label font-medium text-neutral-700">
+                Contract Duration
+              </Label>
+              <div className="flex items-center gap-4">
+                <FormInput
+                  name="receipt.term.duration"
+                  type="number"
+                  className="w-24"
+                  placeholder="Duration"
                 />
-                <label htmlFor={method} className="text-sm text-gray-700">
-                  {method}
-                </label>
+                <Select
+                  name="receipt.term.unit"
+                  defaultValue="days"
+                  onValueChange={(value) => {
+                    setValue("receipt.term.unit", value);
+                  }}
+                >
+                  <SelectTrigger className="w-full bg-white text-label border border-solid h-9 border-neutral-300 rounded-lg hover:border-blue-400 outline-0 focus:ring-0 focus:ring-offset-0 text-neutral-700">
+                    <SelectValue placeholder="Select time unit" />
+                  </SelectTrigger>
+                  <SelectContent>
+                    <SelectItem
+                      value="days"
+                      className="text-gray-700 hover:text-gray-900 px-3 sm:px-4 !py-1 hover:bg-gray-50 rounded-lg hover:cursor-pointer my-1 text-label  transition-all duration-150 data-[state=checked]:!bg-blue-100 data-[state=checked]:!text-blue-600 data-[state=checked]:hover:text-blue-600 data-[state=checked]:hover:bg-blue-100  data-[highlighted]:!bg-blue-50 data-[highlighted]:shadow-sm !pl-7"
+                    >
+                      Days
+                    </SelectItem>
+                    <SelectItem
+                      value="months"
+                      className="text-gray-700 hover:text-gray-900 px-3 sm:px-4 !py-1 hover:bg-gray-50 rounded-lg hover:cursor-pointer my-1 text-label transition-all duration-150 data-[state=checked]:!bg-blue-100 data-[state=checked]:!text-blue-600 data-[state=checked]:hover:text-blue-600 data-[state=checked]:hover:bg-blue-100  data-[highlighted]:!bg-blue-50 data-[highlighted]:shadow-sm !pl-7"
+                    >
+                      Months
+                    </SelectItem>
+                    <SelectItem
+                      value="years"
+                      className="text-gray-700 hover:text-gray-900 px-3 sm:px-4 !py-1 hover:bg-gray-50 rounded-lg hover:cursor-pointer my-1 text-label  transition-all duration-150 data-[state=checked]:!bg-blue-100 data-[state=checked]:!text-blue-600 data-[state=checked]:hover:text-blue-600 data-[state=checked]:hover:bg-blue-100  data-[highlighted]:!bg-blue-50 data-[highlighted]:shadow-sm !pl-7"
+                    >
+                      Years
+                    </SelectItem>
+                  </SelectContent>
+                </Select>
+              </div>
+            </div>
+          </div>
+        </SectionContainer>
+
+        {/* Payer Details */}
+        <PayerSection />
+
+        {/* Receiver Details */}
+        <ReceiverSection />
+
+        {/* Services Section */}
+        <SectionContainer
+          title="Services"
+          actionEl={
+            <BaseButton
+              tooltipLabel="Add a new service to the list"
+              onClick={addNewField}
+              className="bg-white rounded-lg text-blue-500 hover:bg-blue-50 border-0 py-0 h-9 w-fit ml-auto flex items-center gap-2 mt-4"
+            >
+              <Plus />
+              Add Service
+            </BaseButton>
+          }
+        >
+          <div className="space-y-4">
+            {services.map((service, index) => (
+              <div key={service.id} className="flex items-center gap-2">
+                <FormInput
+                  name={`receipt.services.${index}.name`}
+                  className="flex-1"
+                  placeholder="Enter service description"
+                />
+                <BaseButton
+                  className="p-1 bg-white text-red-500 hover:bg-red-50 size-8"
+                  variant="destructive"
+                  onClick={() => removeField(index)}
+                >
+                  <Trash2 className="w-4 h-4" />
+                </BaseButton>
               </div>
             ))}
+            {services.length === 0 && (
+              <p className="text-gray-500 text-label text-center">
+                No services added yet.
+              </p>
+            )}
           </div>
-        </div>
-        <div className="space-y-2">
-          <label className="text-sm font-medium text-gray-700">
-            Term Duration
-          </label>
-          <div className="flex items-center gap-4">
-            <FormInput
-              name="receipt.term.duration"
-              type="number"
-              className="w-24"
-            />
+        </SectionContainer>
 
-            <Select
-              name="receipt.term.unit"
-              defaultValue="days"
-              onValueChange={(value) => {
-                setValue("receipt.term.unit", value);
-              }}
-            >
-              <SelectTrigger className="w-full border border-gray-200 bg-white">
-                <SelectValue placeholder="Select document type" />
-              </SelectTrigger>
-              <SelectContent>
-                <SelectItem value="days">Days</SelectItem>
-                <SelectItem value="months">Months</SelectItem>
-                <SelectItem value="years">Years</SelectItem>
-              </SelectContent>
-            </Select>
+        {/* Compensation Section */}
+        <SectionContainer title="Compensation">
+          <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
+            <FormInput
+              label="Total Service Cost"
+              name="receipt.cost.total"
+              type="number"
+              placeholder="Enter total amount"
+            />
+            <FormInput
+              label="Initial Payment"
+              name="receipt.cost.paid"
+              type="number"
+              placeholder="Enter initial payment"
+            />
+            <FormInput
+              label="Remaining Balance"
+              name="receipt.cost.remaining"
+              type="number"
+              placeholder="Enter remaining amount"
+            />
           </div>
-        </div>
-        <div className="space-y-2">
-          <FormInput
-            name="receipt.noticePeriod"
-            type="number"
-            placeholder="Enter number of days"
-            label="Number of days notice before termination"
-          />
-        </div>
-        <div className="space-y-2">
-          <FormInput
-            name="receipt.appliedLaw"
-            type="text"
-            placeholder="Enter number of days"
-            label="Applied Law"
-          />
-        </div>
-      </SectionContainer>
-      <SectionContainer title="Signature">
-        <FormInput
-          name="receipt.signature.clientDate"
-          type="text"
-          placeholder="Enter client signature"
-        />
-        <FormInput
-          name="receipt.signature.providerDate"
-          type="text"
-          placeholder="Enter provider signature"
-        />
-      </SectionContainer>
+        </SectionContainer>
+
+        {/* Payment Section */}
+        <SectionContainer title="Payment Terms">
+          <div className="space-y-4">
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+              <FormInput
+                label="Billing Frequency (in days)"
+                name="receipt.payment.frequency"
+                type="number"
+                placeholder="Enter billing frequency"
+              />
+              <FormInput
+                label="Payment Due Period (in days)"
+                name="receipt.payment.dueDate"
+                type="number"
+                placeholder="Enter payment due period"
+              />
+            </div>
+
+            <div className="space-y-2">
+              <Label className="!text-label font-medium text-neutral-700">
+                Accepted Payment Methods
+              </Label>
+              <div className="flex flex-wrap gap-4">
+                {["Credit Card", "Electronic Transfer", "Check"].map(
+                  (method) => (
+                    <div key={method} className="flex items-center space-x-2">
+                      <Checkbox
+                        id={method}
+                        name="receipt.payment.methods"
+                        value={method}
+                        className="h-4 w-4 rounded border-gray-300 text-blue-600 focus:ring-blue-500 "
+                        onCheckedChange={(checked) => {
+                          const currentMethods =
+                            watch("receipt.payment.methods") || [];
+                          if (checked) {
+                            setValue("receipt.payment.methods", [
+                              ...currentMethods,
+                              method,
+                            ]);
+                          } else {
+                            setValue(
+                              "receipt.payment.methods",
+                              currentMethods.filter((m: string) => m !== method)
+                            );
+                          }
+                        }}
+                      />
+                      <label
+                        htmlFor={method}
+                        className="text-label text-gray-700"
+                      >
+                        {method}
+                      </label>
+                    </div>
+                  )
+                )}
+              </div>
+            </div>
+
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+              <FormInput
+                name="receipt.noticePeriod"
+                type="number"
+                placeholder="Enter number of days"
+                label="Termination Notice Period"
+              />
+              <FormInput
+                name="receipt.appliedLaw"
+                type="text"
+                placeholder="Enter governing law"
+                label="Governing Law"
+              />
+            </div>
+          </div>
+        </SectionContainer>
+
+        {/* Signature Section */}
+        <SectionContainer title="Signatures">
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+            <div className="space-y-1">
+              <Label className="!text-label font-medium text-neutral-700">
+                Receipt Date
+              </Label>
+              <div className="bg-white text-gray-600">
+                <DatePickerFormField name="receipt.signature.clientDate" />
+              </div>
+            </div>
+            <div className="space-y-1">
+              <Label className="!text-label font-medium text-neutral-700">
+                Receipt Date
+              </Label>
+              <div className="bg-white text-gray-600">
+                <DatePickerFormField name="receipt.signature.providerDate" />
+              </div>
+            </div>
+          </div>
+        </SectionContainer>
+      </div>
     </InvoiceContainer>
   );
 };

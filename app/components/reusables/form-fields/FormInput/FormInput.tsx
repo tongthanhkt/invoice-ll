@@ -33,6 +33,7 @@ const FormInput = ({
   placeholder,
   vertical = true,
   type,
+  className,
   ...props
 }: FormInputProps) => {
   const { control } = useFormContext();
@@ -49,7 +50,7 @@ const FormInput = ({
         placeholder={placeholder}
         className={`${styles.input__field} text-sm sm:text-base h-9 sm:h-10 ${
           type === "password" ? "pr-10" : ""
-        }`}
+        } ${className}`}
         type={type === "password" ? (showPassword ? "text" : "password") : type}
         {...props}
       />

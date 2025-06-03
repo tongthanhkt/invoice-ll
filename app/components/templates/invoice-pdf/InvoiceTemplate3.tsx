@@ -99,10 +99,10 @@ const InvoiceTemplate3 = ({
           <li className="mb-6">
             <strong>Term.</strong> The term of this Agreement shall commence on
             the Effective Date, as stated above, and continue for{" "}
-            {receipt.term?.duration || (
+            {receipt?.term?.duration || (
               <span className="inline-block min-w-[80px] border-b border-gray-700 h-[1.2em] align-middle mx-1"></span>
             )}{" "}
-            {receipt.term?.unit || "days/months/years"} , unless otherwise
+            {receipt?.term?.unit || "days/months/years"} , unless otherwise
             terminated per the terms of this Agreement.
           </li>
           <li className="mb-6">
@@ -110,7 +110,7 @@ const InvoiceTemplate3 = ({
             <ol className="pl-6 list-decimal">
               <li>
                 Either Party may terminate the Agreement at any time upon{" "}
-                {receipt.noticePeriod || (
+                {receipt?.noticePeriod || (
                   <span className="inline-block min-w-[40px] border-b border-gray-700 h-[1.2em] align-middle mx-1"></span>
                 )}{" "}
                 days prior written notice to the other Party. In the event the
@@ -274,7 +274,7 @@ const InvoiceTemplate3 = ({
               )}
               <br />
               Date:{" "}
-              {new Date(receipt?.invoiceDate).toLocaleDateString(
+              {new Date(receipt?.signature?.clientDate).toLocaleDateString(
                 "en-US",
                 DATE_OPTIONS
               ) || (
@@ -293,7 +293,7 @@ const InvoiceTemplate3 = ({
               )}
               <br />
               Date:{" "}
-              {new Date(receipt?.invoiceDate).toLocaleDateString(
+              {new Date(receipt?.signature?.providerDate).toLocaleDateString(
                 "en-US",
                 DATE_OPTIONS
               ) || (
