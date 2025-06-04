@@ -72,7 +72,7 @@ export const ReceiptForm = () => {
         <ReceiverSection
           title={"Bill To"}
           label={{
-            name: "Name",
+            name: "Billing",
             email: "Email",
             address: "Address",
             addBtn: "Add Billing",

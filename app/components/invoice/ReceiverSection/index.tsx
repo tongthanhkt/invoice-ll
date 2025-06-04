@@ -92,16 +92,12 @@ export const ReceiverSection = ({
         <FormInput
           name="receiver.email"
           label={label?.email || "Receiver Email"}
-          placeholder={`Enter your ${
-            label?.email?.toLowerCase() || "receiver email"
-          }`}
+          placeholder={`Enter the email`}
         />
         <FormInput
           name="receiver.address"
           label={label?.address || "Receiver Address"}
-          placeholder={`Enter the ${
-            label?.address?.toLowerCase() || "receiver address"
-          }`}
+          placeholder={`Enter the address`}
         />
       </div>
     </SectionContainer>

@@ -154,6 +154,7 @@ export const ClientModalInfo = ({
                 placeholder={`Enter the ${
                   angel?.toLowerCase() || "receiver"
                 } address`}
+                required
               />
             </div>
             <DialogFooter className="mt-4 flex flex-row gap-3 justify-end">
