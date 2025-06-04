@@ -25,7 +25,7 @@ import { ItemType, NameType } from "@/types";
 import FormInput from "../../reusables/form-fields/FormInput/FormInput";
 
 type SingleItemProps = {
-  name: NameType;
+  name: string;
   index: number;
   fields: ItemType[];
   field: FieldArrayWithId<ItemType>;

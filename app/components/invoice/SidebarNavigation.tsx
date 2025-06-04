@@ -11,6 +11,7 @@ import {
   Receipt,
   ScrollText,
   ReceiptIcon,
+  ContactIcon,
 } from "lucide-react";
 import { useState } from "react";
 
@@ -79,6 +80,12 @@ const DOCUMENT_TYPES: DocumentType[] = [
   {
     id: "serviceAgreement",
     label: "Service Agreement",
+    icon: ContactIcon,
+    enabled: true,
+  },
+  {
+    id: "receipt",
+    label: "Receipt",
     icon: ReceiptIcon,
     enabled: true,
   },
