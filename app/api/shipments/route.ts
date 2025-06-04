@@ -63,6 +63,13 @@ export async function POST(request: Request) {
     });
   } catch (error) {
     console.error("Error creating shipment:", error);
+    if (error instanceof Error) {
+      console.error("Error details:", {
+        name: error.name,
+        message: error.message,
+        stack: error.stack,
+      });
+    }
     return NextResponse.json(
       { error: "Internal Server Error" },
       { status: 500 }

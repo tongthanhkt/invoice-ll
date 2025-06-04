@@ -18,6 +18,6 @@ export const api = createApi({
       return headers;
     },
   }),
-  tagTypes: ["Profile", "payers", "receivers", "company", "client"],
+  tagTypes: ["Profile", "payers", "receivers", "company", "client", "shipment"],
   endpoints: () => ({}),
 });

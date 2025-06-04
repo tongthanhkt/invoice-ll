@@ -9,28 +9,11 @@ import { ReceiverSection } from "./ReceiverSection";
 import { Label } from "@/components/ui/label";
 import DatePickerFormField from "../reusables/form-fields/DatePickerFormField";
 import ReceiptItems from "./form/sections/ReceiptItems";
+import { ShipmentSection } from "./ShipmentSection";
 
 export const ReceiptForm = () => {
   const { data: company } = useQuerySpinner(useGetCompanyQuery());
-  const { control, watch, setValue } = useFormContext();
-  const {
-    fields: items,
-    append,
-    remove,
-  } = useFieldArray({
-    control: control,
-    name: "receipt.items",
-  });
-
-  const addNewField = () => {
-    append({
-      name: "",
-    });
-  };
-
-  const removeField = (index: number) => {
-    remove(index);
-  };
+  const { setValue } = useFormContext();
 
   useEffect(() => {
     if (company) {
@@ -70,6 +53,14 @@ export const ReceiptForm = () => {
           email: "Email",
           address: "Address",
           addBtn: "Add Billing",
+        }}
+      />
+      <ShipmentSection
+        title={"Ship To"}
+        label={{
+          name: "Name",
+          address: "Address",
+          addBtn: "Add Shipment",
         }}
       />
       <ReceiptItems />
