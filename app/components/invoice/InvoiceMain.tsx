@@ -28,6 +28,7 @@ import PaymentVoucherForm from "./PaymentVoucherForm";
 import SidebarNavigation from "./SidebarNavigation";
 import { ServiceAgreementForm } from "./ServiceAgreementForm";
 import { ReceiptForm } from "./ReceiptForm";
+import { DeliveryReceiptForm } from "./DeliveryReceiptForm";
 
 export interface PayerCombined {
   payers: Payer[];
@@ -114,6 +115,10 @@ const InvoiceMain = () => {
     if (type === "Receipt") {
       setValue("details.pdfTemplate", 4);
     }
+    if (type === "Delivery Receipt") {
+      setValue("details.pdfTemplate", 5);
+    }
+
     setValue("details.invoiceNumber", "0001");
     setValue("details.invoiceDate", new Date().toISOString());
     setValue("payer.name", "");
@@ -148,6 +153,8 @@ const InvoiceMain = () => {
         return <ServiceAgreementForm />;
       case "Receipt":
         return <ReceiptForm />;
+      case "Delivery Receipt":
+        return <DeliveryReceiptForm />;
       default:
         return <InvoiceForm />;
     }

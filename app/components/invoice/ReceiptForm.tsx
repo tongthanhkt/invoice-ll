@@ -1,14 +1,14 @@
-import { useQuerySpinner } from "@/hooks";
-import { InvoiceContainer } from "./InvoiceContainer";
-import { SectionContainer } from "./SectionContainer";
-import { useGetCompanyQuery } from "@/services";
-import FormInput from "../reusables/form-fields/FormInput/FormInput";
-import { useFieldArray, useFormContext } from "react-hook-form";
-import { useEffect, useMemo } from "react";
-import { ReceiverSection } from "./ReceiverSection";
 import { Label } from "@/components/ui/label";
+import { useQuerySpinner } from "@/hooks";
+import { useGetCompanyQuery } from "@/services";
+import { useEffect, useMemo } from "react";
+import { useFormContext } from "react-hook-form";
 import DatePickerFormField from "../reusables/form-fields/DatePickerFormField";
+import FormInput from "../reusables/form-fields/FormInput/FormInput";
 import ReceiptItems from "./form/sections/ReceiptItems";
+import { InvoiceContainer } from "./InvoiceContainer";
+import { ReceiverSection } from "./ReceiverSection";
+import { SectionContainer } from "./SectionContainer";
 import { ShipmentSection } from "./ShipmentSection";
 
 export const ReceiptForm = () => {
@@ -48,7 +48,7 @@ export const ReceiptForm = () => {
                   Receipt Date
                 </Label>
                 <div className="bg-white text-gray-600 ">
-                  <DatePickerFormField name="receipt.date" />
+                  <DatePickerFormField name="details.invoiceDate" />
                 </div>
               </div>
             </div>
