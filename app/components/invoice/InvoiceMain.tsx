@@ -108,7 +108,7 @@ const InvoiceMain = () => {
     const templateNumber = type === "Payment voucher" ? 1 : 2;
 
     setValue("details.pdfTemplate", templateNumber);
-    if (type === "Receipt") {
+    if (type === "Service Agreement") {
       setValue("details.pdfTemplate", 3);
     }
     setValue("details.invoiceNumber", "0001");
@@ -141,7 +141,7 @@ const InvoiceMain = () => {
         return <PaymentVoucherForm />;
       case "Invoice":
         return <InvoiceForm />;
-      case "Receipt":
+      case "Service Agreement":
         return <ReceiptForm />;
       default:
         return <InvoiceForm />;

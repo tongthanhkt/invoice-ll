@@ -77,8 +77,8 @@ const DOCUMENT_TYPES: DocumentType[] = [
     enabled: false,
   },
   {
-    id: "receipt",
-    label: "Receipt",
+    id: "serviceAgreement",
+    label: "Service Agreement",
     icon: ReceiptIcon,
     enabled: true,
   },

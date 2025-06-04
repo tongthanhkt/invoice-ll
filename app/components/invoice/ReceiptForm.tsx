@@ -26,7 +26,7 @@ export const ReceiptForm = () => {
     remove,
   } = useFieldArray({
     control: control,
-    name: "receipt.services",
+    name: "serviceAgreement.services",
   });
 
   const addNewField = () => {
@@ -40,17 +40,17 @@ export const ReceiptForm = () => {
   };
 
   return (
-    <InvoiceContainer title="Receipt">
+    <InvoiceContainer title="Service Agreement">
       <div className="space-y-4">
         {/* Date Section */}
-        <SectionContainer title="Receipt Details">
+        <SectionContainer title="Details">
           <div className="grid grid-cols-2 sm:grid-cols-2 gap-4 sm:gap-6">
             <div className="space-y-1">
               <Label className="!text-label font-medium text-neutral-700">
-                Receipt Date
+                Agreement Date
               </Label>
               <div className="bg-white text-gray-600">
-                <DatePickerFormField name="receipt.invoiceDate" />
+                <DatePickerFormField name="serviceAgreement.invoiceDate" />
               </div>
             </div>
             <div className="space-y-1">
@@ -59,16 +59,16 @@ export const ReceiptForm = () => {
               </Label>
               <div className="flex items-center gap-4">
                 <FormInput
-                  name="receipt.term.duration"
+                  name="serviceAgreement.term.duration"
                   type="number"
                   className="w-24"
                   placeholder="Duration"
                 />
                 <Select
-                  name="receipt.term.unit"
+                  name="serviceAgreement.term.unit"
                   defaultValue="days"
                   onValueChange={(value) => {
-                    setValue("receipt.term.unit", value);
+                    setValue("serviceAgreement.term.unit", value);
                   }}
                 >
                   <SelectTrigger className="w-full bg-white text-label border border-solid h-9 border-neutral-300 rounded-lg hover:border-blue-400 outline-0 focus:ring-0 focus:ring-offset-0 text-neutral-700">
@@ -140,7 +140,7 @@ export const ReceiptForm = () => {
             {services.map((service, index) => (
               <div key={service.id} className="flex items-center gap-2">
                 <FormInput
-                  name={`receipt.services.${index}.name`}
+                  name={`serviceAgreement.services.${index}.name`}
                   className="flex-1"
                   placeholder="Enter service description"
                 />
@@ -166,19 +166,19 @@ export const ReceiptForm = () => {
           <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
             <FormInput
               label="Total"
-              name="receipt.cost.total"
+              name="serviceAgreement.cost.total"
               type="number"
               defaultValue="0"
             />
             <FormInput
               label="Initial Payment"
-              name="receipt.cost.paid"
+              name="serviceAgreement.cost.paid"
               type="number"
               defaultValue="0"
             />
             <FormInput
               label="Remaining"
-              name="receipt.cost.remaining"
+              name="serviceAgreement.cost.remaining"
               type="number"
               defaultValue="0"
             />
@@ -191,13 +191,13 @@ export const ReceiptForm = () => {
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
               <FormInput
                 label="Billing Frequency "
-                name="receipt.payment.frequency"
+                name="serviceAgreement.payment.frequency"
                 type="number"
                 placeholder="Billing frequency (in days)"
               />
               <FormInput
                 label="Due Period"
-                name="receipt.payment.dueDate"
+                name="serviceAgreement.payment.dueDate"
                 type="number"
                 placeholder="Due period (in days)"
               />
@@ -213,20 +213,20 @@ export const ReceiptForm = () => {
                     <div key={method} className="flex items-center space-x-2">
                       <Checkbox
                         id={method}
-                        name="receipt.payment.methods"
+                        name="serviceAgreement.payment.methods"
                         value={method}
                         className="h-4 w-4 rounded border-gray-300 text-blue-600 focus:ring-blue-500 "
                         onCheckedChange={(checked) => {
                           const currentMethods =
-                            watch("receipt.payment.methods") || [];
+                            watch("serviceAgreement.payment.methods") || [];
                           if (checked) {
-                            setValue("receipt.payment.methods", [
+                            setValue("serviceAgreement.payment.methods", [
                               ...currentMethods,
                               method,
                             ]);
                           } else {
                             setValue(
-                              "receipt.payment.methods",
+                              "serviceAgreement.payment.methods",
                               currentMethods.filter((m: string) => m !== method)
                             );
                           }
@@ -246,13 +246,13 @@ export const ReceiptForm = () => {
 
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
               <FormInput
-                name="receipt.noticePeriod"
+                name="serviceAgreement.noticePeriod"
                 type="number"
                 placeholder="Enter number of days"
                 label="Termination Notice Period"
               />
               <FormInput
-                name="receipt.appliedLaw"
+                name="serviceAgreement.appliedLaw"
                 type="text"
                 placeholder="Enter governing law"
                 label="Governing Law"
@@ -266,18 +266,18 @@ export const ReceiptForm = () => {
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
             <div className="space-y-1">
               <Label className="!text-label font-medium text-neutral-700">
-                Receipt Date
+                Client Signature Date
               </Label>
               <div className="bg-white text-gray-600">
-                <DatePickerFormField name="receipt.signature.clientDate" />
+                <DatePickerFormField name="serviceAgreement.signature.clientDate" />
               </div>
             </div>
             <div className="space-y-1">
               <Label className="!text-label font-medium text-neutral-700">
-                Receipt Date
+                Provider Signature Date
               </Label>
               <div className="bg-white text-gray-600">
-                <DatePickerFormField name="receipt.signature.providerDate" />
+                <DatePickerFormField name="serviceAgreement.signature.providerDate" />
               </div>
             </div>
           </div>
