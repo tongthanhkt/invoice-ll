@@ -4,11 +4,11 @@ import { DATE_OPTIONS } from "@/lib/variables";
 import { formatNumberWithCommas } from "@/lib/helpers";
 
 const InvoiceTemplate3 = ({
-  receipt,
+  serviceAgreement,
   payer,
   receiver,
 }: {
-  receipt: any;
+  serviceAgreement: any;
   payer: any;
   receiver: any;
 }) => {
@@ -21,7 +21,7 @@ const InvoiceTemplate3 = ({
         <p>
           This Service Agreement (the <strong>"Agreement")</strong> is entered
           into{" "}
-          {new Date(receipt?.invoiceDate).toLocaleDateString(
+          {new Date(serviceAgreement?.invoiceDate).toLocaleDateString(
             "en-US",
             DATE_OPTIONS
           )}{" "}
@@ -38,7 +38,7 @@ const InvoiceTemplate3 = ({
             <strong>Services.</strong> The Service Provider shall perform the
             services listed in this Section 1 (the "Services").
             <ol className="pl-6 ">
-              {receipt?.services?.map(
+              {serviceAgreement?.services?.map(
                 (service: { name: string }, index: number) => (
                   <li key={`${service} ${index}`}>
                     1.{index + 1}. {service.name}
@@ -49,21 +49,23 @@ const InvoiceTemplate3 = ({
           </li>
           <li className="mb-6">
             <strong>Compensation.</strong> The Customer agrees to pay the
-            Service Provider {receipt?.cost?.total}$ as payment for the Services
-            provided. This fee will be paid in accordance with the following
-            schedule:
+            Service Provider {serviceAgreement?.cost?.total}$ as payment for the
+            Services provided. This fee will be paid in accordance with the
+            following schedule:
             <ul className="pl-6 list-none">
               <li>
                 Total Cost of the Services:{" "}
-                {formatNumberWithCommas(Number(receipt?.cost?.total))}
+                {formatNumberWithCommas(Number(serviceAgreement?.cost?.total))}
               </li>
               <li>
                 Amount Due at Signing:{" "}
-                {formatNumberWithCommas(Number(receipt?.cost?.paid))}
+                {formatNumberWithCommas(Number(serviceAgreement?.cost?.paid))}
               </li>
               <li>
                 Amount Due at Completion:{" "}
-                {formatNumberWithCommas(Number(receipt?.cost?.remaining))}
+                {formatNumberWithCommas(
+                  Number(serviceAgreement?.cost?.remaining)
+                )}
               </li>
             </ul>
           </li>
@@ -79,17 +81,17 @@ const InvoiceTemplate3 = ({
           <li className="mb-6">
             <strong>Payment.</strong> The Service Provider shall submit an
             invoice to the Customer every{" "}
-            {receipt?.payment?.frequency || (
+            {serviceAgreement?.payment?.frequency || (
               <span className="inline-block min-w-[40px] border-b border-gray-700 h-[1.2em] align-middle mx-1"></span>
             )}{" "}
             days. Invoices shall be paid within{" "}
-            {receipt?.payment?.dueDate || (
+            {serviceAgreement?.payment?.dueDate || (
               <span className="inline-block min-w-[40px] border-b border-gray-700 h-[1.2em] align-middle mx-1"></span>
             )}{" "}
             days from the date of the invoice. Payments may be made by credit
             card/electronic transfer/check as follows:
             <ul className="pl-6 list-disc">
-              {receipt?.payment?.methods?.map(
+              {serviceAgreement?.payment?.methods?.map(
                 (method: string, index: number) => (
                   <li key={index}>{method}</li>
                 )
@@ -99,18 +101,18 @@ const InvoiceTemplate3 = ({
           <li className="mb-6">
             <strong>Term.</strong> The term of this Agreement shall commence on
             the Effective Date, as stated above, and continue for{" "}
-            {receipt?.term?.duration || (
+            {serviceAgreement?.term?.duration || (
               <span className="inline-block min-w-[80px] border-b border-gray-700 h-[1.2em] align-middle mx-1"></span>
             )}{" "}
-            {receipt?.term?.unit || "days/months/years"} , unless otherwise
-            terminated per the terms of this Agreement.
+            {serviceAgreement?.term?.unit || "days/months/years"} , unless
+            otherwise terminated per the terms of this Agreement.
           </li>
           <li className="mb-6">
             <strong>Termination.</strong>
             <ol className="pl-6 list-decimal">
               <li>
                 Either Party may terminate the Agreement at any time upon{" "}
-                {receipt?.noticePeriod || (
+                {serviceAgreement?.noticePeriod || (
                   <span className="inline-block min-w-[40px] border-b border-gray-700 h-[1.2em] align-middle mx-1"></span>
                 )}{" "}
                 days prior written notice to the other Party. In the event the
@@ -157,7 +159,7 @@ const InvoiceTemplate3 = ({
                 the duties of this Agreement are expected to take place. In the
                 event that the duties of this Agreement are to take place in
                 multiple States and/or Countries, this Agreement shall be by{" "}
-                {receipt?.appliedLaw || (
+                {serviceAgreement?.appliedLaw || (
                   <span className="inline-block min-w-[120px] border-b border-gray-700 h-[1.2em] align-middle mx-1"></span>
                 )}{" "}
                 law.
@@ -213,8 +215,9 @@ const InvoiceTemplate3 = ({
             <strong>Notices.</strong>
             <p>
               All notices under this Agreement must be sent by email with read
-              receipt requested or by certified or registered mail with return
-              receipt requested. Notices shall be sent as follows:
+              serviceAgreement requested or by certified or registered mail with
+              return serviceAgreement requested. Notices shall be sent as
+              follows:
             </p>
             <div className="mb-2 mt-4">
               <strong>Customer</strong>
@@ -274,10 +277,9 @@ const InvoiceTemplate3 = ({
               )}
               <br />
               Date:{" "}
-              {new Date(receipt?.signature?.clientDate).toLocaleDateString(
-                "en-US",
-                DATE_OPTIONS
-              ) || (
+              {new Date(
+                serviceAgreement?.signature?.clientDate
+              ).toLocaleDateString("en-US", DATE_OPTIONS) || (
                 <span className="inline-block min-w-[100px] border-b border-gray-700 h-[1.2em] align-middle mx-1"></span>
               )}
             </div>
@@ -293,10 +295,9 @@ const InvoiceTemplate3 = ({
               )}
               <br />
               Date:{" "}
-              {new Date(receipt?.signature?.providerDate).toLocaleDateString(
-                "en-US",
-                DATE_OPTIONS
-              ) || (
+              {new Date(
+                serviceAgreement?.signature?.providerDate
+              ).toLocaleDateString("en-US", DATE_OPTIONS) || (
                 <span className="inline-block min-w-[100px] border-b border-gray-700 h-[1.2em] align-middle mx-1"></span>
               )}
             </div>

@@ -11,15 +11,13 @@ import {
 } from "@/components/ui/dialog";
 import { toast } from "@/components/ui/use-toast";
 import { spinnerService } from "@/services";
-import { useCreateUserInfoTemplateMutation } from "@/services/userInfoService";
-import { ProfileForm } from "@/types/profile";
+import { useCreateShipmentTemplateMutation } from "@/services/shipmentService";
+import { ShipmentForm } from "@/types/shipment";
 import { motion } from "framer-motion";
+import { UserPlus2 } from "lucide-react";
 import { useState } from "react";
 import { FormProvider, useForm } from "react-hook-form";
 import FormInput from "../form-fields/FormInput/FormInput";
-import { User, UserPlus2 } from "lucide-react";
-import { useCreateClientInfoTemplateMutation } from "@/services/clientInfoService";
-import { ClientInfoForm } from "@/types/client";
 
 interface ModalProps {
   title: string;
@@ -28,16 +26,11 @@ interface ModalProps {
   angel?: string;
 }
 
-export const ClientModalInfo = ({
-  title,
-  description,
-  trigger,
-  angel,
-}: ModalProps) => {
+export const ShipmentModal = ({ title, description, trigger }: ModalProps) => {
   const [open, setOpen] = useState(false);
-  const modalForm = useForm<ClientInfoForm>();
+  const modalForm = useForm<ShipmentForm>();
 
-  const [createClientInfoTemplate] = useCreateClientInfoTemplateMutation();
+  const [createShipmentTemplate] = useCreateShipmentTemplateMutation();
 
   const handleModalSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -45,7 +38,7 @@ export const ClientModalInfo = ({
 
     const data = modalForm.getValues();
     const result = await spinnerService.executePromises(
-      createClientInfoTemplate(data)
+      createShipmentTemplate(data)
     );
 
     if (result?.error) {
@@ -109,53 +102,36 @@ export const ClientModalInfo = ({
             <div className="grid gap-4">
               <div className="grid grid-cols-2 gap-4">
                 <FormInput
-                  label="Contact Name"
+                  label="Name"
                   name="name"
                   type="text"
-                  placeholder={`Enter the ${
-                    angel?.toLowerCase() || "receiver"
-                  } name`}
+                  placeholder={`Enter the name`}
                   required
                 />
                 <FormInput
                   label="Company Name"
                   name="company_name"
                   type="text"
-                  placeholder={`Enter the ${
-                    angel?.toLowerCase() || "receiver"
-                  } company name`}
+                  placeholder={`Enter the company name`}
                   required
                 />
               </div>
               <div className="grid grid-cols-2 gap-4">
                 <FormInput
-                  label="Email"
-                  name="email"
-                  type="email"
-                  placeholder={`Enter the ${
-                    angel?.toLowerCase() || "receiver"
-                  } email`}
-                  required
-                />
-                <FormInput
                   label="Phone Number"
                   name="phone_number"
                   type="text"
-                  placeholder={`Enter the ${
-                    angel?.toLowerCase() || "receiver"
-                  } phone number`}
+                  placeholder={`Enter the phone number`}
+                  required
+                />
+                <FormInput
+                  label="Address"
+                  name="address"
+                  type="text"
+                  placeholder={`Enter the address`}
                   required
                 />
               </div>
-              <FormInput
-                label="Address"
-                name="address"
-                type="text"
-                placeholder={`Enter the ${
-                  angel?.toLowerCase() || "receiver"
-                } address`}
-                required
-              />
             </div>
             <DialogFooter className="mt-4 flex flex-row gap-3 justify-end">
               <DialogClose asChild>

@@ -1,14 +1,6 @@
 import mongoose from "mongoose";
 
 const shipmentsSchema = new mongoose.Schema({
-  email: {
-    type: String,
-    required: [true, "Email is required"],
-    unique: true,
-    trim: true,
-    lowercase: true,
-  },
-
   // contact name
   name: {
     type: String,
