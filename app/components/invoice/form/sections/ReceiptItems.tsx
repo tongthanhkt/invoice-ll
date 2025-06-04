@@ -92,7 +92,7 @@ const ReceiptItems = () => {
       <section className="flex flex-col gap-4 w-full">
         <div className="flex justify-between items-center">
           <h3 className="text-sm font-semibold tracking-tight text-gray-900 ">
-            Expense Item
+            Receipt Items
           </h3>
         </div>
         <div className="hidden md:flex flex-row items-center px-2 font-medium text-neutral-700 w-full gap-3 bg-neutral-100 py-3 rounded-t-lg border border-b-0 border-solid border-neutral-200 text-label">
@@ -219,14 +219,38 @@ const ReceiptItems = () => {
 
         {/* Mobile tax section */}
         <div className="md:hidden flex flex-col items-start justify-end px-3 py-3 gap-3 border border-neutral-200 rounded-lg">
-          <div className="w-full font-medium mb-2">Tax</div>
-          <div className="w-full">
-            <FormInput
-              name="details.taxDetails.amount"
-              type="number"
-              placeholder="Tax amount"
-              vertical
-            />
+          <div className="w-full flex items-center justify-between">
+            <div className="w-full font-medium mb-2">Tax</div>
+            <div className="w-full">
+              <FormInput
+                name="details.taxDetails.amount"
+                type="number"
+                placeholder="Tax amount"
+                vertical
+              />
+            </div>
+          </div>
+          <div className="w-full flex items-center justify-between">
+            <div className="w-full font-medium mb-2">Discount</div>
+            <div className="w-full">
+              <FormInput
+                name="details.discountDetails.amount"
+                type="number"
+                placeholder="Discount amount"
+                vertical
+              />
+            </div>
+          </div>
+          <div className="w-full flex items-center justify-between">
+            <div className="w-full font-medium mb-2">Shipping/Handling</div>
+            <div className="w-full">
+              <FormInput
+                name="details.shippingDetails.cost"
+                type="number"
+                placeholder="Shipping/Handling amount"
+                vertical
+              />
+            </div>
           </div>
         </div>
 

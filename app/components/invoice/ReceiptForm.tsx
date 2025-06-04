@@ -4,7 +4,7 @@ import { SectionContainer } from "./SectionContainer";
 import { useGetCompanyQuery } from "@/services";
 import FormInput from "../reusables/form-fields/FormInput/FormInput";
 import { useFieldArray, useFormContext } from "react-hook-form";
-import { useEffect } from "react";
+import { useEffect, useMemo } from "react";
 import { ReceiverSection } from "./ReceiverSection";
 import { Label } from "@/components/ui/label";
 import DatePickerFormField from "../reusables/form-fields/DatePickerFormField";
@@ -13,7 +13,7 @@ import { ShipmentSection } from "./ShipmentSection";
 
 export const ReceiptForm = () => {
   const { data: company } = useQuerySpinner(useGetCompanyQuery());
-  const { setValue } = useFormContext();
+  const { setValue, watch } = useFormContext();
 
   useEffect(() => {
     if (company) {
@@ -25,45 +25,66 @@ export const ReceiptForm = () => {
       setValue("company.email", company.email);
     }
   }, [company]);
+
+  const receiptNumber = watch("details.invoiceNumber");
+
+  const invoiceLabel = useMemo(() => {
+    if (receiptNumber) {
+      return `#${receiptNumber}`;
+    } else {
+      return "New Receipt";
+    }
+  }, [receiptNumber]);
+
   return (
-    <InvoiceContainer title="Receipt">
-      <SectionContainer title="Details">
-        <FormInput name="receipt.number" label="Receipt Number" />
-        <div className="space-y-1">
-          <Label className="!text-label font-medium text-neutral-700">
-            Receipt Date
-          </Label>
-          <div className="bg-white text-gray-600">
-            <DatePickerFormField name="receipt.date" />
+    <InvoiceContainer title="Receipt" invoiceLabel={invoiceLabel}>
+      <div className="space-y-4">
+        <SectionContainer title="Details">
+          <div className="grid grid-cols-2 gap-4">
+            <FormInput name="details.invoiceNumber" label="Receipt Number" />
+            <div className="space-y-1 -mt-2">
+              <Label className="!text-label font-medium text-neutral-700">
+                Receipt Date
+              </Label>
+              <div className="bg-white text-gray-600 ">
+                <DatePickerFormField name="receipt.date" />
+              </div>
+            </div>
           </div>
-        </div>
-      </SectionContainer>
-      <SectionContainer title="Company Details">
-        <FormInput name="company.name" label="Company Name" />
-        <FormInput name="company.address" label="Company Address" />
-        <FormInput name="company.city" label="Company City" />
-        <FormInput name="company.zipCode" label="Company Zip Code" />
-        <FormInput name="company.phone" label="Company Phone" />
-        <FormInput name="company.email" label="Company Email" />
-      </SectionContainer>
-      <ReceiverSection
-        title={"Bill To"}
-        label={{
-          name: "Name",
-          email: "Email",
-          address: "Address",
-          addBtn: "Add Billing",
-        }}
-      />
-      <ShipmentSection
-        title={"Ship To"}
-        label={{
-          name: "Name",
-          address: "Address",
-          addBtn: "Add Shipment",
-        }}
-      />
-      <ReceiptItems />
+        </SectionContainer>
+        <SectionContainer title="Company Details">
+          <div className="space-y-4">
+            <FormInput name="company.name" label="Company Name" />
+            <FormInput name="company.address" label="Address" />
+            <div className="grid sm:grid-cols-2 gap-4">
+              <FormInput name="company.city" label="City" />
+              <FormInput name="company.zipCode" label="Zip Code" />
+            </div>
+            <div className="grid sm:grid-cols-2 gap-4">
+              <FormInput name="company.phone" label="Phone Number" />
+              <FormInput name="company.email" label="Email" />
+            </div>
+          </div>
+        </SectionContainer>
+        <ReceiverSection
+          title={"Bill To"}
+          label={{
+            name: "Name",
+            email: "Email",
+            address: "Address",
+            addBtn: "Add Billing",
+          }}
+        />
+        <ShipmentSection
+          title={"Ship To"}
+          label={{
+            name: "Name",
+            address: "Address",
+            addBtn: "Add Shipment",
+          }}
+        />
+        <ReceiptItems />
+      </div>
     </InvoiceContainer>
   );
 };
