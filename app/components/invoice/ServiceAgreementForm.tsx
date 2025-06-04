@@ -18,7 +18,7 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 
-export const ReceiptForm = () => {
+export const ServiceAgreementForm = () => {
   const { control, watch, setValue } = useFormContext();
   const {
     fields: services,

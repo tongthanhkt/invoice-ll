@@ -26,7 +26,7 @@ import InvoiceActions from "./InvoiceActions";
 import InvoiceForm from "./InvoiceForm";
 import PaymentVoucherForm from "./PaymentVoucherForm";
 import SidebarNavigation from "./SidebarNavigation";
-import { ReceiptForm } from "./ReceiptForm";
+import { ServiceAgreementForm } from "./ServiceAgreementForm";
 
 export interface PayerCombined {
   payers: Payer[];
@@ -142,7 +142,7 @@ const InvoiceMain = () => {
       case "Invoice":
         return <InvoiceForm />;
       case "Service Agreement":
-        return <ReceiptForm />;
+        return <ServiceAgreementForm />;
       default:
         return <InvoiceForm />;
     }
