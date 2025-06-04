@@ -19,9 +19,13 @@ interface SelectOption {
 export const ShipmentSection = ({
   title,
   label,
+  hideCompanyName = false,
+  hidePhoneNumber = false,
 }: {
   title?: string;
   label?: { name?: string; email?: string; address?: string; addBtn?: string };
+  hideCompanyName?: boolean;
+  hidePhoneNumber?: boolean;
 }) => {
   const methods = useFormContext();
   const { setValue } = methods;
@@ -89,16 +93,20 @@ export const ShipmentSection = ({
           isSearchable={true}
           isClearable={true}
         />
-        <FormInput
-          name="shipment.company_name"
-          label={"Company Name"}
-          placeholder={`Enter the company name`}
-        />
-        <FormInput
-          name="shipment.phone_number"
-          label={"Phone Number"}
-          placeholder={`Enter the phone number`}
-        />
+        {!hideCompanyName && (
+          <FormInput
+            name="shipment.company_name"
+            label={"Company Name"}
+            placeholder={`Enter the company name`}
+          />
+        )}
+        {!hidePhoneNumber && (
+          <FormInput
+            name="shipment.phone_number"
+            label={"Phone Number"}
+            placeholder={`Enter the phone number`}
+          />
+        )}
         <FormInput
           name="shipment.address"
           label={label?.address || "Address"}
