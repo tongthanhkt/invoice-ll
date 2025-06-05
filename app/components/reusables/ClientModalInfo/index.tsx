@@ -112,18 +112,14 @@ export const ClientModalInfo = ({
                   label="Contact Name"
                   name="name"
                   type="text"
-                  placeholder={`Enter the ${
-                    angel?.toLowerCase() || "receiver"
-                  } name`}
+                  placeholder={`Enter the name`}
                   required
                 />
                 <FormInput
                   label="Company Name"
                   name="company_name"
                   type="text"
-                  placeholder={`Enter the ${
-                    angel?.toLowerCase() || "receiver"
-                  } company name`}
+                  placeholder={`Enter the company name`}
                   required
                 />
               </div>
@@ -132,18 +128,14 @@ export const ClientModalInfo = ({
                   label="Email"
                   name="email"
                   type="email"
-                  placeholder={`Enter the ${
-                    angel?.toLowerCase() || "receiver"
-                  } email`}
+                  placeholder={`Enter the email`}
                   required
                 />
                 <FormInput
                   label="Phone Number"
                   name="phone_number"
                   type="text"
-                  placeholder={`Enter the ${
-                    angel?.toLowerCase() || "receiver"
-                  } phone number`}
+                  placeholder={`Enter the phone number`}
                   required
                 />
               </div>
@@ -151,9 +143,7 @@ export const ClientModalInfo = ({
                 label="Address"
                 name="address"
                 type="text"
-                placeholder={`Enter the ${
-                  angel?.toLowerCase() || "receiver"
-                } address`}
+                placeholder={`Enter the address`}
                 required
               />
             </div>

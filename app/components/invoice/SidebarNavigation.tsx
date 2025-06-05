@@ -13,6 +13,7 @@ import {
   ReceiptIcon,
   ContactIcon,
   TruckIcon,
+  BadgeCentIcon,
 } from "lucide-react";
 import { useState } from "react";
 
@@ -94,6 +95,12 @@ const DOCUMENT_TYPES: DocumentType[] = [
     id: "delivery-receipt",
     label: "Delivery Receipt",
     icon: TruckIcon,
+    enabled: true,
+  },
+  {
+    id: "sale-contract",
+    label: "Sale Contract",
+    icon: BadgeCentIcon,
     enabled: true,
   },
 ];
