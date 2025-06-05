@@ -60,9 +60,18 @@ export const SaleContractForm = () => {
             type="number"
           />
         </SectionContainer>
-        <Items hideTax title="Items" />
+        <Items
+          hideTax
+          title="Items"
+          fieldLabel={{
+            description: "Goods",
+          }}
+        />
         <SectionContainer title="Shipment Details">
-          <FormInput name="shipment.address" label="Shipment Address" />
+          <FormInput
+            name="saleContract.deliveryAddress"
+            label="Shipment Address"
+          />
           <div className="space-y-1 ">
             <Label className="!text-label font-medium text-neutral-700">
               Shipping method decided by

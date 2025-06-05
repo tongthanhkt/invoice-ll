@@ -194,13 +194,13 @@ const SidebarNavigation = ({
         }`}
       >
         {/* Toggle button positioned at the right edge of the sidebar */}
-        <div className="absolute -right-3 top-4 z-10">
+        <div className="sticky top-4 w-full flex justify-end">
           <BaseButton
             variant="outline"
             size="icon"
             onClick={toggleSidebar}
             tooltipLabel={minimized ? "Expand sidebar" : "Collapse sidebar"}
-            className="rounded-full w-6 h-6 p-0 flex items-center justify-center border border-gray-200 bg-white shadow-sm hover:bg-gray-50"
+            className="rounded-full -mr-4 w-6 h-6 p-0 flex items-center justify-center border border-gray-200 bg-white shadow-sm hover:bg-gray-50"
           >
             {minimized ? (
               <ChevronRight className="w-3 h-3" />
@@ -210,7 +210,7 @@ const SidebarNavigation = ({
           </BaseButton>
         </div>
 
-        <div className="flex flex-col gap-2 p-2 pl-0 mt-4">
+        <div className="flex flex-col gap-2 p-2 pl-0 -mt-4 h-[calc(100vh_-_150px)] overflow-y-auto overflow-x-clip">
           {DOCUMENT_TYPES.map((docType) => {
             const isSelected = docType.label === selectedType;
             const Icon = docType.icon;
