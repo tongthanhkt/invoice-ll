@@ -31,7 +31,21 @@ import { Plus } from "lucide-react";
 import FormInput from "@/app/components/reusables/form-fields/FormInput/FormInput";
 import { InvoiceType } from "@/types";
 
-const Items = () => {
+const Items = ({
+  hideTax,
+  title,
+  fieldLabel,
+}: {
+  hideTax?: boolean;
+  title?: string;
+  fieldLabel?: {
+    name?: string;
+    description?: string;
+    unitPrice?: string;
+    quantity?: string;
+    total?: string;
+  };
+}) => {
   const { control, setValue } = useFormContext<InvoiceType>();
 
   const ITEMS_NAME = "details.items";
@@ -90,15 +104,19 @@ const Items = () => {
     <section className="flex flex-col gap-4 w-full">
       <div className="flex justify-between items-center">
         <h3 className="text-sm font-semibold tracking-tight text-gray-900 ">
-          Expense Item
+          {title || "Expense Item"}
         </h3>
       </div>
       <div className="hidden md:flex flex-row items-center px-2 font-medium text-neutral-700 w-full gap-3 bg-neutral-100 py-3 rounded-t-lg border border-b-0 border-solid border-neutral-200 text-label">
         <div className="w-10">No.</div>
-        <div className="w-1/2">Description</div>
-        <div className="w-1/4 min-w-[60px]">Unit Price</div>
-        <div className="w-full max-w-[60px]">Quantity</div>
-        <div className="w-1/4">Total</div>
+        <div className="w-1/2">{fieldLabel?.description || "Description"}</div>
+        <div className="w-1/4 min-w-[60px]">
+          {fieldLabel?.unitPrice || "Unit Price"}
+        </div>
+        <div className="w-full max-w-[60px]">
+          {fieldLabel?.quantity || "Quantity"}
+        </div>
+        <div className="w-1/4">{fieldLabel?.total || "Total"}</div>
         <div className="max-w-[32px] w-full"></div>
       </div>
 
@@ -174,19 +192,21 @@ const Items = () => {
             No data
           </div>
         )}
-        <div className="flex flex-col sm:flex-row items-start sm:items-center justify-end px-2 pt-3 pb-1 gap-3 border-t border-neutral-200 mt-2">
-          <div className="w-full sm:w-1/4 text-left sm:text-right font-medium mb-2 sm:mb-0 text-sm">
-            Tax
+        {!hideTax && (
+          <div className="flex flex-col sm:flex-row items-start sm:items-center justify-end px-2 pt-3 pb-1 gap-3 border-t border-neutral-200 mt-2">
+            <div className="w-full sm:w-1/4 text-left sm:text-right font-medium mb-2 sm:mb-0 text-sm">
+              Tax
+            </div>
+            <div className="w-full sm:w-1/4">
+              <FormInput
+                name="details.taxDetails.amount"
+                type="number"
+                placeholder="Tax amount"
+                vertical
+              />
+            </div>
           </div>
-          <div className="w-full sm:w-1/4">
-            <FormInput
-              name="details.taxDetails.amount"
-              type="number"
-              placeholder="Tax amount"
-              vertical
-            />
-          </div>
-        </div>
+        )}
       </div>
 
       {/* Mobile tax section */}

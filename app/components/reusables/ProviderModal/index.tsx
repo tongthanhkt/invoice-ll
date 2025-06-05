@@ -11,15 +11,13 @@ import {
 } from "@/components/ui/dialog";
 import { toast } from "@/components/ui/use-toast";
 import { spinnerService } from "@/services";
-import { useCreateUserInfoTemplateMutation } from "@/services/userInfoService";
-import { ProfileForm } from "@/types/profile";
+import { useCreateProviderMutation } from "@/services/providerService";
+import { ProviderRequest } from "@/types/provider";
 import { motion } from "framer-motion";
 import { useState } from "react";
 import { FormProvider, useForm } from "react-hook-form";
 import FormInput from "../form-fields/FormInput/FormInput";
 import { User, UserPlus2 } from "lucide-react";
-import { useCreateClientInfoTemplateMutation } from "@/services/clientInfoService";
-import { ClientInfoForm } from "@/types/client";
 
 interface ModalProps {
   title: string;
@@ -28,25 +26,23 @@ interface ModalProps {
   angel?: string;
 }
 
-export const ClientModalInfo = ({
+export const ProviderModal = ({
   title,
   description,
   trigger,
   angel,
 }: ModalProps) => {
   const [open, setOpen] = useState(false);
-  const modalForm = useForm<ClientInfoForm>();
+  const modalForm = useForm<ProviderRequest>();
 
-  const [createClientInfoTemplate] = useCreateClientInfoTemplateMutation();
+  const [createProvider] = useCreateProviderMutation();
 
   const handleModalSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     e.stopPropagation();
 
     const data = modalForm.getValues();
-    const result = await spinnerService.executePromises(
-      createClientInfoTemplate(data)
-    );
+    const result = await spinnerService.executePromises(createProvider(data));
 
     if (result?.error) {
       toast({
@@ -70,7 +66,7 @@ export const ClientModalInfo = ({
   return (
     <Dialog open={open} onOpenChange={setOpen}>
       <DialogTrigger asChild>{trigger}</DialogTrigger>
-      <DialogContent className="max-w-xl [&>button]:hidden rounded-lg w-[calc(100%-2rem)] sm:w-full">
+      <DialogContent className="max-w-[450px] [&>button]:hidden rounded-lg w-[calc(100%-2rem)] sm:w-full">
         <FormProvider {...modalForm}>
           <motion.form
             onSubmit={handleModalSubmit}
@@ -107,44 +103,36 @@ export const ClientModalInfo = ({
               </button>
             </DialogHeader>
             <div className="grid gap-4">
-              <div className="grid grid-cols-2 gap-4">
-                <FormInput
-                  label="Contact Name"
-                  name="name"
-                  type="text"
-                  placeholder={`Enter the name`}
-                  required
-                />
-                <FormInput
-                  label="Company Name"
-                  name="company_name"
-                  type="text"
-                  placeholder={`Enter the company name`}
-                  required
-                />
-              </div>
-              <div className="grid grid-cols-2 gap-4">
-                <FormInput
-                  label="Email"
-                  name="email"
-                  type="email"
-                  placeholder={`Enter the email`}
-                  required
-                />
-                <FormInput
-                  label="Phone Number"
-                  name="phone_number"
-                  type="text"
-                  placeholder={`Enter the phone number`}
-                  required
-                />
-              </div>
+              <FormInput
+                label="Name"
+                name="name"
+                type="text"
+                placeholder={`Enter the ${angel?.toLowerCase() || "provider"}`}
+                required
+              />
+              <FormInput
+                label="Email"
+                name="email"
+                type="email"
+                placeholder={`Enter the ${
+                  angel?.toLowerCase() || "provider"
+                } email`}
+              />
+              <FormInput
+                label="Phone Number"
+                name="phone_number"
+                type="tel"
+                placeholder={`Enter the ${
+                  angel?.toLowerCase() || "provider"
+                } phone number`}
+              />
               <FormInput
                 label="Address"
                 name="address"
                 type="text"
-                placeholder={`Enter the address`}
-                required
+                placeholder={`Enter the ${
+                  angel?.toLowerCase() || "provider"
+                } address`}
               />
             </div>
             <DialogFooter className="mt-4 flex flex-row gap-3 justify-end">
