@@ -21,22 +21,28 @@ const InvoiceTemplate3 = ({
         <p>
           This Service Agreement (the <strong>"Agreement")</strong> is entered
           into{" "}
-          {new Date(serviceAgreement?.invoiceDate).toLocaleDateString(
-            "en-US",
-            DATE_OPTIONS
-          )}{" "}
-          (the <strong>"Effective Date")</strong>) by and between{" "}
-          {receiver?.name} (the <strong>"Customer")</strong>) located at{" "}
-          {receiver?.address} and {payer?.name} (the{" "}
-          <strong>"Service Provider")</strong>) located at {payer?.address},
-          also individually referred to as the <strong>"Party"</strong>, and
-          collectively the <strong>"Parties"</strong>.
+          {serviceAgreement?.invoiceDate
+            ? new Date(serviceAgreement?.invoiceDate).toLocaleDateString(
+                "en-US",
+                DATE_OPTIONS
+              )
+            : "________"}{" "}
+          (<strong>1</strong>)(the <strong>"Effective Date")</strong>) by and
+          between {receiver?.name || "________"} (<strong>2</strong>)(the{" "}
+          <strong>"Customer")</strong>) located at{" "}
+          {receiver?.address || "________"}(<strong>3</strong>) and{" "}
+          {payer?.name || "________"}(<strong>4</strong>)(the{" "}
+          <strong>"Service Provider")</strong>) located at{" "}
+          {payer?.address || "________"}(<strong>5</strong>), also individually
+          referred to as the <strong>"Party"</strong>, and collectively the{" "}
+          <strong>"Parties"</strong>.
         </p>
 
         <ol className="pl-6 text-base list-decimal">
           <li className="mb-6">
             <strong>Services.</strong> The Service Provider shall perform the
-            services listed in this Section 1 (the "Services").
+            services listed in this Section 1 (the "Services").{" "}
+            <strong>(6)</strong>
             <ol className="pl-6 ">
               {serviceAgreement?.services?.map(
                 (service: { name: string }, index: number) => (
@@ -51,21 +57,29 @@ const InvoiceTemplate3 = ({
             <strong>Compensation.</strong> The Customer agrees to pay the
             Service Provider {serviceAgreement?.cost?.total}$ as payment for the
             Services provided. This fee will be paid in accordance with the
-            following schedule:
+            following schedule: <strong>(7)</strong>
             <ul className="pl-6 list-none">
               <li>
                 Total Cost of the Services:{" "}
-                {formatNumberWithCommas(Number(serviceAgreement?.cost?.total))}
+                {serviceAgreement?.cost?.total
+                  ? formatNumberWithCommas(
+                      Number(serviceAgreement?.cost?.total)
+                    )
+                  : "________"}
               </li>
               <li>
                 Amount Due at Signing:{" "}
-                {formatNumberWithCommas(Number(serviceAgreement?.cost?.paid))}
+                {serviceAgreement?.cost?.paid
+                  ? formatNumberWithCommas(Number(serviceAgreement?.cost?.paid))
+                  : "________"}
               </li>
               <li>
                 Amount Due at Completion:{" "}
-                {formatNumberWithCommas(
-                  Number(serviceAgreement?.cost?.remaining)
-                )}
+                {serviceAgreement?.cost?.remaining
+                  ? formatNumberWithCommas(
+                      Number(serviceAgreement?.cost?.remaining)
+                    )
+                  : "________"}
               </li>
             </ul>
           </li>
@@ -84,12 +98,14 @@ const InvoiceTemplate3 = ({
             {serviceAgreement?.payment?.frequency || (
               <span className="inline-block min-w-[40px] border-b border-gray-700 h-[1.2em] align-middle mx-1"></span>
             )}{" "}
+            <strong>(8)</strong>
             days. Invoices shall be paid within{" "}
             {serviceAgreement?.payment?.dueDate || (
               <span className="inline-block min-w-[40px] border-b border-gray-700 h-[1.2em] align-middle mx-1"></span>
             )}{" "}
+            <strong>(9)</strong>
             days from the date of the invoice. Payments may be made by credit
-            card/electronic transfer/check as follows:
+            card/electronic transfer/check as follows: <strong>(10)</strong>
             <ul className="pl-6 list-disc">
               {serviceAgreement?.payment?.methods?.map(
                 (method: string, index: number) => (
@@ -104,6 +120,7 @@ const InvoiceTemplate3 = ({
             {serviceAgreement?.term?.duration || (
               <span className="inline-block min-w-[80px] border-b border-gray-700 h-[1.2em] align-middle mx-1"></span>
             )}{" "}
+            <strong>(11)</strong>
             {serviceAgreement?.term?.unit || "days/months/years"} , unless
             otherwise terminated per the terms of this Agreement.
           </li>
@@ -115,6 +132,7 @@ const InvoiceTemplate3 = ({
                 {serviceAgreement?.noticePeriod || (
                   <span className="inline-block min-w-[40px] border-b border-gray-700 h-[1.2em] align-middle mx-1"></span>
                 )}{" "}
+                <strong>(12)</strong>
                 days prior written notice to the other Party. In the event the
                 Customer terminates the Agreement, the Customer shall still
                 remain obligated to pay the Service Provider for any Services
@@ -162,6 +180,7 @@ const InvoiceTemplate3 = ({
                 {serviceAgreement?.appliedLaw || (
                   <span className="inline-block min-w-[120px] border-b border-gray-700 h-[1.2em] align-middle mx-1"></span>
                 )}{" "}
+                <strong>(13)</strong>
                 law.
               </li>
               <li>
@@ -225,15 +244,18 @@ const InvoiceTemplate3 = ({
                 <br />
                 {receiver?.name || (
                   <span className="inline-block min-w-[100px] border-b border-gray-700 h-[1.2em] align-middle my-1 block"></span>
-                )}
+                )}{" "}
+                <strong>(4)</strong>
                 <br />
                 {receiver?.email || (
                   <span className="inline-block min-w-[100px] border-b border-gray-700 h-[1.2em] align-middle my-1 block"></span>
-                )}
+                )}{" "}
+                <strong>(15)</strong>
                 <br />
                 {receiver?.address || (
                   <span className="inline-block min-w-[100px] border-b border-gray-700 h-[1.2em] align-middle my-1 block"></span>
-                )}
+                )}{" "}
+                <strong>(5)</strong>
               </div>
             </div>
             <div className="mt-4">
@@ -242,15 +264,18 @@ const InvoiceTemplate3 = ({
                 <br />
                 {payer?.name || (
                   <span className="inline-block min-w-[100px] border-b border-gray-700 h-[1.2em] align-middle my-1 block"></span>
-                )}
+                )}{" "}
+                <strong>(2)</strong>
                 <br />
                 {payer?.email || (
                   <span className="inline-block min-w-[100px] border-b border-gray-700 h-[1.2em] align-middle my-1 block"></span>
-                )}
+                )}{" "}
+                <strong>(16)</strong>
                 <br />
                 {payer?.address || (
                   <span className="inline-block min-w-[100px] border-b border-gray-700 h-[1.2em] align-middle my-1 block"></span>
-                )}
+                )}{" "}
+                <strong>(3)</strong>
               </div>
             </div>
           </li>
@@ -262,7 +287,7 @@ const InvoiceTemplate3 = ({
         <div className="mb-6">
           <h2 className=" mt-8">
             The Parties agree to the terms and conditions set forth above as
-            demonstrated by their signatures as follows:
+            demonstrated by their signatures as follows: <strong>(14)</strong>
           </h2>
           <div className="flex flex-col gap-8 mt-4 pl-10">
             <div>
@@ -277,9 +302,11 @@ const InvoiceTemplate3 = ({
               )}
               <br />
               Date:{" "}
-              {new Date(
-                serviceAgreement?.signature?.clientDate
-              ).toLocaleDateString("en-US", DATE_OPTIONS) || (
+              {serviceAgreement?.signature?.clientDate ? (
+                new Date(
+                  serviceAgreement?.signature?.clientDate
+                ).toLocaleDateString("en-US", DATE_OPTIONS)
+              ) : (
                 <span className="inline-block min-w-[100px] border-b border-gray-700 h-[1.2em] align-middle mx-1"></span>
               )}
             </div>
@@ -295,9 +322,11 @@ const InvoiceTemplate3 = ({
               )}
               <br />
               Date:{" "}
-              {new Date(
-                serviceAgreement?.signature?.providerDate
-              ).toLocaleDateString("en-US", DATE_OPTIONS) || (
+              {serviceAgreement?.signature?.providerDate ? (
+                new Date(
+                  serviceAgreement?.signature?.providerDate
+                ).toLocaleDateString("en-US", DATE_OPTIONS)
+              ) : (
                 <span className="inline-block min-w-[100px] border-b border-gray-700 h-[1.2em] align-middle mx-1"></span>
               )}
             </div>

@@ -176,82 +176,6 @@ const ReceiptItems = () => {
               No data
             </div>
           )}
-          <div className="flex flex-col sm:flex-row items-start sm:items-center justify-end px-2 pt-3 pb-1 gap-3 border-t border-neutral-200 mt-2">
-            <div className="w-full sm:w-1/4 text-left sm:text-right font-medium mb-2 sm:mb-0 text-sm">
-              Tax
-            </div>
-            <div className="w-full sm:w-1/4">
-              <FormInput
-                name="details.taxDetails.amount"
-                type="number"
-                placeholder="Tax amount"
-                vertical
-              />
-            </div>
-          </div>
-          <div className="flex flex-col sm:flex-row items-start sm:items-center justify-end px-2 pt-3 pb-1 gap-3 ">
-            <div className="w-full sm:w-1/4 text-left sm:text-right font-medium mb-2 sm:mb-0 text-sm">
-              Discount
-            </div>
-            <div className="w-full sm:w-1/4">
-              <FormInput
-                name="details.discountDetails.amount"
-                type="number"
-                placeholder="Discount amount"
-                vertical
-              />
-            </div>
-          </div>
-          <div className="flex flex-col sm:flex-row items-start sm:items-center justify-end px-2 pt-3 pb-1 gap-3 ">
-            <div className="w-full sm:w-1/3 text-left sm:text-right font-medium mb-2 sm:mb-0 text-sm">
-              Shipping/Handling
-            </div>
-            <div className="w-full sm:w-1/4">
-              <FormInput
-                name="details.shippingDetails.cost"
-                type="number"
-                placeholder="Shipping/Handling amount"
-                vertical
-              />
-            </div>
-          </div>
-        </div>
-
-        {/* Mobile tax section */}
-        <div className="md:hidden flex flex-col items-start justify-end px-3 py-3 gap-3 border border-neutral-200 rounded-lg">
-          <div className="w-full flex items-center justify-between">
-            <div className="w-full font-medium mb-2">Tax</div>
-            <div className="w-full">
-              <FormInput
-                name="details.taxDetails.amount"
-                type="number"
-                placeholder="Tax amount"
-                vertical
-              />
-            </div>
-          </div>
-          <div className="w-full flex items-center justify-between">
-            <div className="w-full font-medium mb-2">Discount</div>
-            <div className="w-full">
-              <FormInput
-                name="details.discountDetails.amount"
-                type="number"
-                placeholder="Discount amount"
-                vertical
-              />
-            </div>
-          </div>
-          <div className="w-full flex items-center justify-between">
-            <div className="w-full font-medium mb-2">Shipping/Handling</div>
-            <div className="w-full">
-              <FormInput
-                name="details.shippingDetails.cost"
-                type="number"
-                placeholder="Shipping/Handling amount"
-                vertical
-              />
-            </div>
-          </div>
         </div>
 
         <BaseButton
@@ -267,36 +191,16 @@ const ReceiptItems = () => {
         <div className="flex flex-col items-end w-full sm:w-auto border-t border-neutral-200">
           <div className="w-full sm:w-[300px] p-2 px-4 space-y-1">
             <div className="flex justify-between w-full text-base">
-              <span className="text-sm text-gray-500">Tax amount</span>
-              <span className="font-semibold text-gray-700">
-                {watch("details.taxDetails.amount") || 0}
-              </span>
-            </div>
-            <div className="flex justify-between w-full text-base">
-              <span className="text-sm text-gray-500">Discount</span>
-              <span className="font-semibold text-gray-700">
-                {watch("details.discountDetails.amount") || 0}
-              </span>
-            </div>
-            <div className="flex justify-between w-full text-base">
               <span className="text-sm text-gray-500">Sub Total</span>
               <span className="font-semibold text-gray-700">
                 {watch("details.subTotal") || 0}
               </span>
             </div>
             <div className="flex justify-between w-full text-base">
-              <span className="text-sm text-gray-500">
-                Subtotal less discount
-              </span>
+              <span className="text-sm text-gray-500">Sales tax (5%)</span>
               <span className="font-semibold text-gray-700">
-                {watch("details.subTotal") -
-                  watch("details.discountDetails.amount") || 0}
-              </span>
-            </div>
-            <div className="flex justify-between w-full text-base">
-              <span className="text-sm text-gray-500">Shipping/Handling</span>
-              <span className="font-semibold text-gray-700">
-                {watch("details.shippingDetails.cost") || 0}
+                {(watch("details.taxDetails.amount") *
+                  watch("details.subTotal") || 0) / 100}
               </span>
             </div>
 

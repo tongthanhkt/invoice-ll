@@ -4,11 +4,17 @@ import CreatableSelect, { CreatableProps } from "react-select/creatable";
 export const AppSelect = ({
   label,
   ...props
-}: CreatableProps<any, any, any> & { label: string }) => {
+}: CreatableProps<any, any, any> & { label: string; formIndex?: number }) => {
   return (
     <div className="space-y-1.5 sm:space-y-2">
       <Label className="text-label font-medium text-neutral-700 block truncate">
-        {label}
+        {label}{" "}
+        {props.formIndex && (
+          <span className="text-neutral-700 font-semibold">
+            {" "}
+            ({props.formIndex})
+          </span>
+        )}
       </Label>
       <CreatableSelect
         {...props}

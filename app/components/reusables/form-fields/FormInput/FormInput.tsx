@@ -24,6 +24,7 @@ type FormInputProps = {
   placeholder?: string;
   vertical?: boolean;
   type?: string;
+  formIndex?: number;
 } & InputProps;
 
 const FormInput = ({
@@ -33,6 +34,7 @@ const FormInput = ({
   placeholder,
   vertical = true,
   type,
+  formIndex,
   className,
   ...props
 }: FormInputProps) => {
@@ -44,7 +46,7 @@ const FormInput = ({
   };
 
   const renderInput = (field: any) => (
-    <div className="relative w-full">
+    <div className="relative w-full flex items-center gap-2">
       <Input
         {...field}
         placeholder={placeholder}
@@ -90,6 +92,12 @@ const FormInput = ({
                 } truncate`}
               >
                 {vertical ? label : `${label}:`}
+                {formIndex && (
+                  <span className="text-neutral-700 font-semibold">
+                    {" "}
+                    ({formIndex})
+                  </span>
+                )}
               </FormLabel>
             )}
             {labelHelper && (

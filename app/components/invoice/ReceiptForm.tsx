@@ -24,6 +24,8 @@ export const ReceiptForm = () => {
       setValue("company.phone", company.phone_number);
       setValue("company.email", company.email);
     }
+    setValue("details.taxDetails.amountType", "percentage");
+    setValue("details.taxDetails.amount", 5);
   }, [company]);
 
   const receiptNumber = watch("details.invoiceNumber");
@@ -52,7 +54,6 @@ export const ReceiptForm = () => {
                 </div>
               </div>
             </div>
-            <FormInput name="details.remarks" label="Remarks" />
           </div>
         </SectionContainer>
         <SectionContainer title="Company Details">
@@ -78,14 +79,7 @@ export const ReceiptForm = () => {
             addBtn: "Add Billing",
           }}
         />
-        <ShipmentSection
-          title={"Ship To"}
-          label={{
-            name: "Name",
-            address: "Address",
-            addBtn: "Add Shipment",
-          }}
-        />
+
         <ReceiptItems />
       </div>
     </InvoiceContainer>

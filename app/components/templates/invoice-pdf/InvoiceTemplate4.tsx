@@ -1,102 +1,113 @@
 import { formatNumberWithCommas } from "@/lib/helpers";
 import InvoiceLayout from "./InvoiceLayout";
+import { UploadCloud } from "lucide-react";
 import { DATE_OPTIONS } from "@/lib/variables";
 
 const InvoiceTemplate4 = (data: any) => {
-  const { company, details, receiver, shipment } = data || {};
+  const { company, details, receiver } = data || {};
 
   return (
     <InvoiceLayout>
-      <div className="bg-white p-8 border-t-4 border-red-600 min-h-[1100px]">
-        {/* Header */}
-        <div className="flex flex-row justify-between items-start mb-8">
-          <div>
-            <h1 className="text-3xl font-light text-gray-500 tracking-wide mb-4">
-              RECEIPT
-            </h1>
-            <div className="text-sm text-gray-700 leading-6">
-              <div>{company?.name}</div>
-              <div>{company?.address}</div>
+      <div className="bg-white min-h-[1100px]">
+        {/* Header: Logo + Upload */}
+        <div className="flex flex-row justify-between items-start">
+          {/* Company Info */}
+          <div className="pt-2">
+            <div className="text-base font-semibold text-gray-800 mb-1">
+              {company?.name || "Your Company Inc."}
+            </div>
+            <div className="text-sm text-gray-700 leading-5">
+              <div>{company?.address || "1234 Company St,"}</div>
               <div>
-                {company?.city}, {company?.zipCode}
+                {company?.city || "Company Town"}
+                {company?.zipCode ? ", " + company.zipCode : ", ST 12345"}
               </div>
-              <div>{company?.phone}</div>
-              <div>{company?.email}</div>
             </div>
           </div>
-          <div className="flex flex-col items-end gap-4">
-            <div className="w-20 h-20 rounded-full bg-gray-400 flex items-center justify-center text-white text-lg font-bold">
-              LOGO
-            </div>
-            <div className="text-xs text-right mt-2">
-              <div className="font-semibold tracking-wider">PAYMENT DATE</div>
-              <div>
-                {details.invoiceDate &&
-                  new Date(details.invoiceDate).toLocaleDateString(
-                    "en-US",
-                    DATE_OPTIONS
-                  )}
-              </div>
-              <div className="font-semibold tracking-wider mt-2">
-                RECEIPT NO.
-              </div>
-              <div>{details?.invoiceNumber}</div>
+          <div className="flex flex-col items-end">
+            <div className="w-64 h-14 border border-blue-700 rounded flex items-center justify-center gap-2 text-blue-700 text-lg font-medium mb-2 bg-white">
+              <UploadCloud className="w-6 h-6" />
+              Upload Logo
             </div>
           </div>
         </div>
 
-        {/* Bill To / Ship To */}
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-8 mb-6">
-          <div>
-            <div className="font-bold text-xs text-blue-900 mb-1 border-b border-gray-300 pb-1">
-              BILL TO
+        <div className="flex flex-row-reverse justify-between items-end mb-6 mt-10">
+          {/* Title + Receipt Info */}
+          <div className="flex flex-col items-end">
+            <div className="text-4xl font-extrabold tracking-widest text-blue-900 leading-none text-right mb-4">
+              SERVICES
+              <br />
+              RECEIPT
             </div>
-            <div className="text-sm text-gray-800 leading-6">
-              <div>{receiver?.name}</div>
-              {receiver?.company_name && <div>{receiver?.company_name}</div>}
-              <div>{receiver?.address}</div>
-              {receiver?.phone_number && <div>{receiver?.phone_number}</div>}
-              {receiver?.email && <div>{receiver?.email}</div>}
+            <div className="flex flex-col gap-2 text-sm font-semibold text-blue-900 mb-2">
+              <div className="flex items-center gap-4">
+                <div className="w-28 text-right">Receipt #</div>
+                <div className="font-normal text-black  ml-auto">
+                  {details?.invoiceNumber || "0000457"}
+                </div>
+              </div>
+              <div className="flex items-center gap-4">
+                <div className="w-28 text-right">Receipt date</div>
+                <div className="font-normal text-black  ml-auto">
+                  {details?.invoiceDate
+                    ? new Date(details.invoiceDate).toLocaleDateString("en-GB")
+                    : "11-04-2023"}
+                </div>
+              </div>
             </div>
           </div>
+          {/* Billed To */}
           <div>
-            <div className="font-bold text-xs text-blue-900 mb-1 border-b border-gray-300 pb-1">
-              SHIP TO
+            <div className="font-bold text-xs text-blue-900 mb-1">
+              Billed To
             </div>
-            <div className="text-sm text-gray-800 leading-6">
-              <div>{shipment?.name}</div>
-              {shipment?.company_name && <div>{shipment?.company_name}</div>}
-              <div>{shipment?.address}</div>
-              {shipment?.phone_number && <div>{shipment?.phone_number}</div>}
+            <div className="text-base font-semibold text-gray-800 mb-1">
+              {receiver?.name || "Customer Name"}
+            </div>
+            <div className="text-sm text-gray-700 leading-5">
+              <div>{receiver?.address || "1234 Customer St,"}</div>
+              <div>
+                {receiver?.city || "Customer Town"}
+                {receiver?.zipCode ? ", " + receiver.zipCode : ", ST 12345"}
+              </div>
             </div>
           </div>
         </div>
 
         {/* Items Table */}
-        <div className="mb-6">
-          <div className="grid grid-cols-12 bg-red-700 text-white font-semibold text-xs">
-            <div className="col-span-6 p-2 border-r border-white">
-              DESCRIPTION
+        <div className="mt-10 mb-2">
+          <div className="grid grid-cols-12 bg-blue-900 text-white font-bold text-sm rounded-t">
+            <div className="col-span-2 p-2 border-r border-solid border-blue-900 text-left">
+              Quantity
             </div>
-            <div className="col-span-2 p-2 border-r border-white text-center">
-              QTY
+            <div className="col-span-6 p-2 border-r border-solid border-blue-900 text-left">
+              Description
             </div>
-            <div className="col-span-2 p-2 border-r border-white text-center">
-              UNIT PRICE
+            <div className="col-span-2 p-2 border-r border-solid border-blue-900 text-right">
+              Unit Price
             </div>
-            <div className="col-span-2 p-2 text-center">TOTAL</div>
+            <div className="col-span-2 p-2 text-right">Amount</div>
           </div>
           {details?.items?.map((item: any, idx: number) => (
             <div
               key={idx}
-              className="grid grid-cols-12 border-b border-gray-200 text-xs"
+              className="grid grid-cols-12 last:border-b-2 border-solid border-blue-900 text-sm"
+              style={{
+                borderBottom:
+                  idx === details?.items?.length - 1
+                    ? "1.5px solid #1e3a8a"
+                    : "",
+              }}
             >
-              <div className="col-span-6 p-2">{item?.description}</div>
-              <div className="col-span-2 p-2 text-center">{item?.quantity}</div>
-              <div className="col-span-2 p-2 text-center">
+              <div className="col-span-2 p-2 text-left">{item?.quantity}</div>
+              <div className="col-span-6 p-2 text-left">
+                {item?.description}
+              </div>
+              <div className="col-span-2 p-2 text-right">
                 {formatNumberWithCommas(Number(item?.unitPrice) || 0)}
               </div>
-              <div className="col-span-2 p-2 text-center">
+              <div className="col-span-2 p-2 text-right">
                 {formatNumberWithCommas(Number(item?.total) || 0)}
               </div>
             </div>
@@ -104,50 +115,33 @@ const InvoiceTemplate4 = (data: any) => {
         </div>
 
         {/* Totals */}
-        <div className="flex flex-row justify-end">
+        <div className="flex flex-row justify-end mt-8">
           <div className="w-full md:w-1/2 lg:w-1/3">
-            <div className="flex flex-col gap-1 text-xs">
-              <div className="flex justify-between border-b border-gray-200 py-1">
-                <span className="font-semibold">SUBTOTAL</span>
+            <div className="flex flex-col gap-1 text-sm">
+              <div className="flex justify-between py-1">
+                <span>Subtotal</span>
                 <span>
                   {formatNumberWithCommas(Number(details?.subTotal) || 0)}
                 </span>
               </div>
-              {details?.discount !== undefined && (
-                <div className="flex justify-between border-b border-gray-200 py-1">
-                  <span className="font-semibold">DISCOUNT</span>
-                  <span>{formatNumberWithCommas(details?.discount || 0)}</span>
-                </div>
-              )}
-              <div className="flex justify-between border-b border-gray-200 py-1">
-                <span className="font-semibold">SUBTOTAL LESS DISCOUNT</span>
+              <div className="flex justify-between py-1">
+                <span>Sales Tax (5%)</span>
                 <span>
                   {formatNumberWithCommas(
-                    details?.discountDetails?.amount || 0
+                    ((details?.taxDetails?.amount || 0) *
+                      (details?.subTotal || 0)) /
+                      100
                   )}
                 </span>
               </div>
-
-              {details?.taxDetails?.amount !== undefined && (
-                <div className="flex justify-between border-b border-gray-200 py-1">
-                  <span className="font-semibold">TOTAL TAX</span>
-                  <span>
-                    {formatNumberWithCommas(details?.taxDetails?.amount || 0)}
-                  </span>
-                </div>
-              )}
-              {details?.shippingDetails?.cost !== undefined && (
-                <div className="flex justify-between border-b border-gray-200 py-1">
-                  <span className="font-semibold">SHIPPING/HANDLING</span>
-                  <span>
-                    {formatNumberWithCommas(
-                      details?.shippingDetails?.cost || 0
-                    )}
-                  </span>
-                </div>
-              )}
-              <div className="flex justify-between border-t-2 border-gray-400 py-2 mt-2 font-bold text-base">
-                <span>Paid</span>
+              <div
+                className="flex justify-between border-y-2 border-solid border-blue-900 py-2 mt-2 font-bold text-lg text-blue-900 w-full"
+                style={{
+                  borderBottom: "1px solid #1e3a8a ",
+                  borderTop: "1px solid #1e3a8a ",
+                }}
+              >
+                <span>Total (USD)</span>
                 <span>
                   $
                   {details?.totalAmount !== undefined
@@ -158,13 +152,6 @@ const InvoiceTemplate4 = (data: any) => {
             </div>
           </div>
         </div>
-
-        {/* Remarks */}
-        {details?.remarks && (
-          <div className="mt-6 text-xs text-gray-600">
-            Remarks, notes: {details?.remarks}
-          </div>
-        )}
       </div>
     </InvoiceLayout>
   );
