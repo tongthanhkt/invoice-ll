@@ -79,7 +79,7 @@ const InvoiceTemplate4 = (data: any) => {
         <div className="mt-10 mb-2">
           <div className="grid grid-cols-12 bg-blue-900 text-white font-bold text-sm rounded-t">
             <div className="col-span-2 p-2 border-r border-solid border-blue-900 text-left">
-              QTY
+              Quantity
             </div>
             <div className="col-span-6 p-2 border-r border-solid border-blue-900 text-left">
               Description
@@ -93,6 +93,12 @@ const InvoiceTemplate4 = (data: any) => {
             <div
               key={idx}
               className="grid grid-cols-12 last:border-b-2 border-solid border-blue-900 text-sm"
+              style={{
+                borderBottom:
+                  idx === details?.items?.length - 1
+                    ? "1.5px solid #1e3a8a"
+                    : "",
+              }}
             >
               <div className="col-span-2 p-2 text-left">{item?.quantity}</div>
               <div className="col-span-6 p-2 text-left">
@@ -121,10 +127,20 @@ const InvoiceTemplate4 = (data: any) => {
               <div className="flex justify-between py-1">
                 <span>Sales Tax (5%)</span>
                 <span>
-                  {formatNumberWithCommas(details?.taxDetails?.amount || 0)}
+                  {formatNumberWithCommas(
+                    ((details?.taxDetails?.amount || 0) *
+                      (details?.subTotal || 0)) /
+                      100
+                  )}
                 </span>
               </div>
-              <div className="flex justify-between border-y-2 border-blue-900 py-2 mt-2 font-bold text-lg text-blue-900 w-max">
+              <div
+                className="flex justify-between border-y-2 border-solid border-blue-900 py-2 mt-2 font-bold text-lg text-blue-900 w-full"
+                style={{
+                  borderBottom: "1px solid #1e3a8a ",
+                  borderTop: "1px solid #1e3a8a ",
+                }}
+              >
                 <span>Total (USD)</span>
                 <span>
                   $
