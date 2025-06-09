@@ -47,7 +47,8 @@ export const ServiceAgreementForm = () => {
           <div className="grid grid-cols-2 sm:grid-cols-2 gap-4 sm:gap-6">
             <div className="space-y-1">
               <Label className="!text-label font-medium text-neutral-700">
-                Agreement Date
+                Agreement Date{" "}
+                <span className="text-neutral-700 font-semibold"> (1)</span>
               </Label>
               <div className="bg-white text-gray-600">
                 <DatePickerFormField name="serviceAgreement.invoiceDate" />
@@ -55,7 +56,8 @@ export const ServiceAgreementForm = () => {
             </div>
             <div className="space-y-1">
               <Label className="!text-label font-medium text-neutral-700">
-                Contract Duration
+                Contract Duration{" "}
+                <span className="text-neutral-700 font-semibold"> (11)</span>
               </Label>
               <div className="flex items-center gap-4">
                 <FormInput
@@ -109,6 +111,11 @@ export const ServiceAgreementForm = () => {
             address: "Provider Address",
             addBtn: "Add Provider",
           }}
+          formIndexes={{
+            name: 2,
+            email: 15,
+            address: 3,
+          }}
         />
 
         {/* Receiver Details */}
@@ -119,6 +126,11 @@ export const ServiceAgreementForm = () => {
             email: "Customer Email",
             address: "Customer Address",
             addBtn: "Add Customer",
+          }}
+          formIndexes={{
+            name: 4,
+            email: 16,
+            address: 5,
           }}
         />
 
@@ -135,6 +147,7 @@ export const ServiceAgreementForm = () => {
               Add Service
             </BaseButton>
           }
+          formIndex={6}
         >
           <div className="space-y-4">
             {services.map((service, index) => (
@@ -162,7 +175,7 @@ export const ServiceAgreementForm = () => {
         </SectionContainer>
 
         {/* Compensation Section */}
-        <SectionContainer title="Compensation">
+        <SectionContainer title="Compensation" formIndex={7}>
           <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
             <FormInput
               label="Total"
@@ -194,18 +207,21 @@ export const ServiceAgreementForm = () => {
                 name="serviceAgreement.payment.frequency"
                 type="number"
                 placeholder="Billing frequency (in days)"
+                formIndex={8}
               />
               <FormInput
                 label="Due Period"
                 name="serviceAgreement.payment.dueDate"
                 type="number"
                 placeholder="Due period (in days)"
+                formIndex={9}
               />
             </div>
 
             <div className="space-y-2">
               <Label className="!text-label font-medium text-neutral-700">
-                Accepted Payment Methods
+                Accepted Payment Methods{" "}
+                <span className="text-neutral-700 font-semibold"> (10)</span>
               </Label>
               <div className="flex flex-wrap gap-4">
                 {["Credit Card", "Electronic Transfer", "Check"].map(
@@ -250,19 +266,21 @@ export const ServiceAgreementForm = () => {
                 type="number"
                 placeholder="Enter number of days"
                 label="Termination Notice Period"
+                formIndex={12}
               />
               <FormInput
                 name="serviceAgreement.appliedLaw"
                 type="text"
                 placeholder="Enter governing law"
                 label="Governing Law"
+                formIndex={13}
               />
             </div>
           </div>
         </SectionContainer>
 
         {/* Signature Section */}
-        <SectionContainer title="Signatures">
+        <SectionContainer title="Signatures" formIndex={14}>
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
             <div className="space-y-1">
               <Label className="!text-label font-medium text-neutral-700">

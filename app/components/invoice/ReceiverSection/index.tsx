@@ -19,9 +19,11 @@ interface SelectOption {
 export const ReceiverSection = ({
   title,
   label,
+  formIndexes,
 }: {
   title?: string;
   label?: { name?: string; email?: string; address?: string; addBtn?: string };
+  formIndexes?: { name?: number; email?: number; address?: number };
 }) => {
   const methods = useFormContext();
   const { setValue } = methods;
@@ -87,17 +89,20 @@ export const ReceiverSection = ({
           }}
           isSearchable={true}
           isClearable={true}
+          formIndex={formIndexes?.name}
         />
 
         <FormInput
           name="receiver.email"
           label={label?.email || "Receiver Email"}
           placeholder={`Enter the email`}
+          formIndex={formIndexes?.email}
         />
         <FormInput
           name="receiver.address"
           label={label?.address || "Receiver Address"}
           placeholder={`Enter the address`}
+          formIndex={formIndexes?.address}
         />
       </div>
     </SectionContainer>

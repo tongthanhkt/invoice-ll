@@ -24,6 +24,11 @@ type PayerSectionProps = {
     address?: string;
     addBtn?: string;
   };
+  formIndexes?: {
+    name?: number;
+    email?: number;
+    address?: number;
+  };
 };
 export const PayerSection = ({
   title = "Payer Details",
@@ -33,6 +38,7 @@ export const PayerSection = ({
     address: "Payer Address",
     addBtn: "Add Payer",
   },
+  formIndexes,
 }: PayerSectionProps) => {
   const methods = useFormContext();
   const { setValue } = methods;
@@ -85,6 +91,7 @@ export const PayerSection = ({
     >
       <AppSelect
         label={label.name || "Payer"}
+        formIndex={formIndexes?.name}
         value={selectedPayer}
         options={(payers as UserInfo[])?.map((payer) => ({
           value: payer.id,
@@ -112,6 +119,7 @@ export const PayerSection = ({
       <FormInput
         name="payer.email"
         label={label.email || "Payer Email"}
+        formIndex={formIndexes?.email}
         placeholder={`Enter your ${
           label.email?.toLowerCase() || "payer email"
         }`}
@@ -119,6 +127,7 @@ export const PayerSection = ({
       <FormInput
         name="payer.address"
         label={label.address || "Payer Address"}
+        formIndex={formIndexes?.address}
         placeholder={`Enter the ${
           label.address?.toLowerCase() || "payer address"
         }`}

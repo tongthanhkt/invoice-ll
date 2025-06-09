@@ -30,7 +30,7 @@ import { ServiceAgreementForm } from "./ServiceAgreementForm";
 import { ReceiptForm } from "./ReceiptForm";
 import { DeliveryReceiptForm } from "./DeliveryReceiptForm";
 import { SaleContractForm } from "./SaleContractForm";
-
+import { AcceptanceReport } from "./AcceptanceReport";
 export interface PayerCombined {
   payers: Payer[];
   addresses: {
@@ -122,6 +122,9 @@ const InvoiceMain = () => {
     if (type === "Sale Contract") {
       setValue("details.pdfTemplate", 6);
     }
+    if (type === "Acceptance Report") {
+      setValue("details.pdfTemplate", 7);
+    }
 
     setValue("details.invoiceNumber", "0001");
     setValue("details.invoiceDate", new Date().toISOString());
@@ -161,6 +164,8 @@ const InvoiceMain = () => {
         return <DeliveryReceiptForm />;
       case "Sale Contract":
         return <SaleContractForm />;
+      case "Acceptance Report":
+        return <AcceptanceReport />;
       default:
         return <InvoiceForm />;
     }
