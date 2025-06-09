@@ -31,6 +31,7 @@ import { ReceiptForm } from "./ReceiptForm";
 import { DeliveryReceiptForm } from "./DeliveryReceiptForm";
 import { SaleContractForm } from "./SaleContractForm";
 import { AcceptanceReport } from "./AcceptanceReport";
+import CreditNoteForm from "./CreditNoteForm";
 export interface PayerCombined {
   payers: Payer[];
   addresses: {
@@ -125,6 +126,9 @@ const InvoiceMain = () => {
     if (type === "Acceptance Report") {
       setValue("details.pdfTemplate", 7);
     }
+    if (type === "Credit Note") {
+      setValue("details.pdfTemplate", 8);
+    }
 
     setValue("details.invoiceNumber", "0001");
     setValue("details.invoiceDate", new Date().toISOString());
@@ -137,6 +141,13 @@ const InvoiceMain = () => {
     setValue("receiver.zipCode", "");
     setValue("receiver.city", "");
     setValue("details.items", []);
+    if (type !== "Receipt") {
+      setValue("details.taxDetails.amountType", "amount");
+      setValue("details.taxDetails.amount", 0);
+    } else {
+      setValue("details.taxDetails.amountType", "percentage");
+      setValue("details.taxDetails.amount", 5);
+    }
     removeFinalPdf();
     // // Force re-render of InvoiceActions and InvoiceTemplate
     setRenderKey((prev) => prev + 1);
@@ -166,6 +177,8 @@ const InvoiceMain = () => {
         return <SaleContractForm />;
       case "Acceptance Report":
         return <AcceptanceReport />;
+      case "Credit Note":
+        return <CreditNoteForm />;
       default:
         return <InvoiceForm />;
     }

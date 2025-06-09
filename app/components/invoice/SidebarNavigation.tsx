@@ -78,7 +78,7 @@ const DOCUMENT_TYPES: DocumentType[] = [
     id: "credit-note",
     label: "Credit Note",
     icon: FileMinus,
-    enabled: false,
+    enabled: true,
   },
   {
     id: "serviceAgreement",
@@ -108,7 +108,7 @@ const DOCUMENT_TYPES: DocumentType[] = [
     id: "acceptance-report",
     label: "Acceptance Report",
     icon: StickyNoteIcon,
-    enabled: true,
+    enabled: false,
   },
 ];
 
