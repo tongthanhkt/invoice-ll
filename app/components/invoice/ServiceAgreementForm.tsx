@@ -43,64 +43,62 @@ export const ServiceAgreementForm = () => {
     <InvoiceContainer title="Service Agreement">
       <div className="space-y-4">
         {/* Date Section */}
-        <SectionContainer title="Details">
-          <div className="grid grid-cols-2 sm:grid-cols-2 gap-4 sm:gap-6">
-            <div className="space-y-1">
-              <Label className="!text-label font-medium text-neutral-700">
-                Agreement Date{" "}
-                <span className="text-neutral-700 font-semibold"> (1)</span>
-              </Label>
-              <div className="bg-white text-gray-600">
-                <DatePickerFormField name="serviceAgreement.invoiceDate" />
-              </div>
-            </div>
-            <div className="space-y-1">
-              <Label className="!text-label font-medium text-neutral-700">
-                Contract Duration{" "}
-                <span className="text-neutral-700 font-semibold"> (11)</span>
-              </Label>
-              <div className="flex items-center gap-4">
-                <FormInput
-                  name="serviceAgreement.term.duration"
-                  type="number"
-                  className="w-24"
-                  placeholder="Duration"
-                />
-                <Select
-                  name="serviceAgreement.term.unit"
-                  defaultValue="days"
-                  onValueChange={(value) => {
-                    setValue("serviceAgreement.term.unit", value);
-                  }}
-                >
-                  <SelectTrigger className="w-full bg-white text-label border border-solid h-9 border-neutral-300 rounded-lg hover:border-blue-400 outline-0 focus:ring-0 focus:ring-offset-0 text-neutral-700">
-                    <SelectValue placeholder="Select time unit" />
-                  </SelectTrigger>
-                  <SelectContent>
-                    <SelectItem
-                      value="days"
-                      className="text-gray-700 hover:text-gray-900 px-3 sm:px-4 !py-1 hover:bg-gray-50 rounded-lg hover:cursor-pointer my-1 text-label  transition-all duration-150 data-[state=checked]:!bg-blue-100 data-[state=checked]:!text-blue-600 data-[state=checked]:hover:text-blue-600 data-[state=checked]:hover:bg-blue-100  data-[highlighted]:!bg-blue-50 data-[highlighted]:shadow-sm !pl-7"
-                    >
-                      Days
-                    </SelectItem>
-                    <SelectItem
-                      value="months"
-                      className="text-gray-700 hover:text-gray-900 px-3 sm:px-4 !py-1 hover:bg-gray-50 rounded-lg hover:cursor-pointer my-1 text-label transition-all duration-150 data-[state=checked]:!bg-blue-100 data-[state=checked]:!text-blue-600 data-[state=checked]:hover:text-blue-600 data-[state=checked]:hover:bg-blue-100  data-[highlighted]:!bg-blue-50 data-[highlighted]:shadow-sm !pl-7"
-                    >
-                      Months
-                    </SelectItem>
-                    <SelectItem
-                      value="years"
-                      className="text-gray-700 hover:text-gray-900 px-3 sm:px-4 !py-1 hover:bg-gray-50 rounded-lg hover:cursor-pointer my-1 text-label  transition-all duration-150 data-[state=checked]:!bg-blue-100 data-[state=checked]:!text-blue-600 data-[state=checked]:hover:text-blue-600 data-[state=checked]:hover:bg-blue-100  data-[highlighted]:!bg-blue-50 data-[highlighted]:shadow-sm !pl-7"
-                    >
-                      Years
-                    </SelectItem>
-                  </SelectContent>
-                </Select>
-              </div>
+        <div className="grid grid-cols-2 sm:grid-cols-2 gap-4 sm:gap-6">
+          <div className="space-y-1">
+            <Label className="!text-label font-medium text-neutral-700">
+              Agreement Date{" "}
+              <span className="text-neutral-700 font-semibold"> (1)</span>
+            </Label>
+            <div className="bg-white text-gray-600">
+              <DatePickerFormField name="serviceAgreement.invoiceDate" />
             </div>
           </div>
-        </SectionContainer>
+          <div className="space-y-1">
+            <Label className="!text-label font-medium text-neutral-700">
+              Contract Duration{" "}
+              <span className="text-neutral-700 font-semibold"> (11)</span>
+            </Label>
+            <div className="flex items-center gap-4">
+              <FormInput
+                name="serviceAgreement.term.duration"
+                type="number"
+                className="w-24"
+                placeholder="Duration"
+              />
+              <Select
+                name="serviceAgreement.term.unit"
+                defaultValue="days"
+                onValueChange={(value) => {
+                  setValue("serviceAgreement.term.unit", value);
+                }}
+              >
+                <SelectTrigger className="w-full bg-white text-label border border-solid h-9 border-neutral-300 rounded-lg hover:border-blue-400 outline-0 focus:ring-0 focus:ring-offset-0 text-neutral-700">
+                  <SelectValue placeholder="Select time unit" />
+                </SelectTrigger>
+                <SelectContent>
+                  <SelectItem
+                    value="days"
+                    className="text-gray-700 hover:text-gray-900 px-3 sm:px-4 !py-1 hover:bg-gray-50 rounded-lg hover:cursor-pointer my-1 text-label  transition-all duration-150 data-[state=checked]:!bg-blue-100 data-[state=checked]:!text-blue-600 data-[state=checked]:hover:text-blue-600 data-[state=checked]:hover:bg-blue-100  data-[highlighted]:!bg-blue-50 data-[highlighted]:shadow-sm !pl-7"
+                  >
+                    Days
+                  </SelectItem>
+                  <SelectItem
+                    value="months"
+                    className="text-gray-700 hover:text-gray-900 px-3 sm:px-4 !py-1 hover:bg-gray-50 rounded-lg hover:cursor-pointer my-1 text-label transition-all duration-150 data-[state=checked]:!bg-blue-100 data-[state=checked]:!text-blue-600 data-[state=checked]:hover:text-blue-600 data-[state=checked]:hover:bg-blue-100  data-[highlighted]:!bg-blue-50 data-[highlighted]:shadow-sm !pl-7"
+                  >
+                    Months
+                  </SelectItem>
+                  <SelectItem
+                    value="years"
+                    className="text-gray-700 hover:text-gray-900 px-3 sm:px-4 !py-1 hover:bg-gray-50 rounded-lg hover:cursor-pointer my-1 text-label  transition-all duration-150 data-[state=checked]:!bg-blue-100 data-[state=checked]:!text-blue-600 data-[state=checked]:hover:text-blue-600 data-[state=checked]:hover:bg-blue-100  data-[highlighted]:!bg-blue-50 data-[highlighted]:shadow-sm !pl-7"
+                  >
+                    Years
+                  </SelectItem>
+                </SelectContent>
+              </Select>
+            </div>
+          </div>
+        </div>
 
         {/* Payer Details */}
         <PayerSection

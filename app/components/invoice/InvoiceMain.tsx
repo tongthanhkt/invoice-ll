@@ -33,6 +33,7 @@ import { ReceiptForm } from "./ReceiptForm";
 import { SaleContractForm } from "./SaleContractForm";
 import { ServiceAgreementForm } from "./ServiceAgreementForm";
 import SidebarNavigation from "./SidebarNavigation";
+import { QuotationForm } from "./QuotationForm";
 export interface PayerCombined {
   payers: Payer[];
   addresses: {
@@ -133,7 +134,9 @@ const InvoiceMain = () => {
     if (type === "Debit Note") {
       setValue("details.pdfTemplate", 9);
     }
-
+    if (type === "Quotation") {
+      setValue("details.pdfTemplate", 10);
+    }
     setValue("details.invoiceNumber", "0001");
     setValue("details.invoiceDate", new Date().toISOString());
     setValue("payer.name", "");
@@ -151,6 +154,14 @@ const InvoiceMain = () => {
     } else {
       setValue("details.taxDetails.amountType", "percentage");
       setValue("details.taxDetails.amount", 5);
+    }
+
+    if (type === "Quotation") {
+      setValue("details.discountDetails.amountType", "percentage");
+      setValue("details.discountDetails.amount", 5);
+    } else {
+      setValue("details.discountDetails.amountType", "amount");
+      setValue("details.discountDetails.amount", 0);
     }
     removeFinalPdf();
     // // Force re-render of InvoiceActions and InvoiceTemplate
@@ -185,6 +196,8 @@ const InvoiceMain = () => {
         return <CreditNoteForm />;
       case "Debit Note":
         return <DebitNoteForm />;
+      case "Quotation":
+        return <QuotationForm />;
       default:
         return <InvoiceForm />;
     }

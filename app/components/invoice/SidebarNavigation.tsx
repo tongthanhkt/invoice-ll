@@ -54,7 +54,7 @@ const DOCUMENT_TYPES: DocumentType[] = [
     id: "quotation",
     label: "Quotation",
     icon: FileCheck,
-    enabled: false,
+    enabled: true,
   },
   {
     id: "invoice",

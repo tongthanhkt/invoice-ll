@@ -41,21 +41,19 @@ export const ReceiptForm = () => {
   return (
     <InvoiceContainer title="Receipt" invoiceLabel={invoiceLabel}>
       <div className="space-y-4">
-        <SectionContainer title="Details">
-          <div className="space-y-4">
-            <div className="grid grid-cols-2 gap-4">
-              <FormInput name="details.invoiceNumber" label="Receipt Number" />
-              <div className="space-y-1 -mt-2">
-                <Label className="!text-label font-medium text-neutral-700">
-                  Receipt Date
-                </Label>
-                <div className="bg-white text-gray-600 ">
-                  <DatePickerFormField name="details.invoiceDate" />
-                </div>
+        <div className="space-y-4">
+          <div className="grid grid-cols-2 gap-4">
+            <FormInput name="details.invoiceNumber" label="Receipt Number" />
+            <div className="space-y-1 -mt-2">
+              <Label className="!text-label font-medium text-neutral-700">
+                Receipt Date
+              </Label>
+              <div className="bg-white text-gray-600 ">
+                <DatePickerFormField name="details.invoiceDate" />
               </div>
             </div>
           </div>
-        </SectionContainer>
+        </div>
         <SectionContainer title="Company Details">
           <div className="space-y-4">
             <FormInput name="company.name" label="Company Name" />
