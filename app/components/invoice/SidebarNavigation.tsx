@@ -70,9 +70,9 @@ const DOCUMENT_TYPES: DocumentType[] = [
   },
   {
     id: "debit-note",
-    label: "Debit note",
+    label: "Debit Note",
     icon: FileWarning,
-    enabled: false,
+    enabled: true,
   },
   {
     id: "credit-note",
