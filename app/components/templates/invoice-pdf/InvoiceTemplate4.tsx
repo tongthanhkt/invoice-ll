@@ -68,8 +68,8 @@ const InvoiceTemplate4 = (data: any) => {
             <div className="text-sm text-gray-700 leading-5">
               <div>{receiver?.address || "1234 Customer St,"}</div>
               <div>
-                {receiver?.city || "Customer Town"}
-                {receiver?.zipCode ? ", " + receiver.zipCode : ", ST 12345"}
+                {receiver?.city}
+                {receiver?.zipCode ? ", " + receiver.zipCode : ""}
               </div>
             </div>
           </div>

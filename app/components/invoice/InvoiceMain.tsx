@@ -22,16 +22,17 @@ import {
 } from "@/constants/animationVariants";
 import { FileText, X } from "lucide-react";
 import { useState } from "react";
+import { AcceptanceReport } from "./AcceptanceReport";
+import CreditNoteForm from "./CreditNoteForm";
+import DebitNoteForm from "./DebitNoteForm";
+import { DeliveryReceiptForm } from "./DeliveryReceiptForm";
 import InvoiceActions from "./InvoiceActions";
 import InvoiceForm from "./InvoiceForm";
 import PaymentVoucherForm from "./PaymentVoucherForm";
-import SidebarNavigation from "./SidebarNavigation";
-import { ServiceAgreementForm } from "./ServiceAgreementForm";
 import { ReceiptForm } from "./ReceiptForm";
-import { DeliveryReceiptForm } from "./DeliveryReceiptForm";
 import { SaleContractForm } from "./SaleContractForm";
-import { AcceptanceReport } from "./AcceptanceReport";
-import CreditNoteForm from "./CreditNoteForm";
+import { ServiceAgreementForm } from "./ServiceAgreementForm";
+import SidebarNavigation from "./SidebarNavigation";
 export interface PayerCombined {
   payers: Payer[];
   addresses: {
@@ -129,6 +130,9 @@ const InvoiceMain = () => {
     if (type === "Credit Note") {
       setValue("details.pdfTemplate", 8);
     }
+    if (type === "Debit Note") {
+      setValue("details.pdfTemplate", 9);
+    }
 
     setValue("details.invoiceNumber", "0001");
     setValue("details.invoiceDate", new Date().toISOString());
@@ -179,6 +183,8 @@ const InvoiceMain = () => {
         return <AcceptanceReport />;
       case "Credit Note":
         return <CreditNoteForm />;
+      case "Debit Note":
+        return <DebitNoteForm />;
       default:
         return <InvoiceForm />;
     }

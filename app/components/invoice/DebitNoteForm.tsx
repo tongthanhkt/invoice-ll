@@ -1,18 +1,18 @@
 import { Label } from "@/components/ui/label";
-import { useQuerySpinner } from "@/hooks";
-import { useGetCompanyQuery } from "@/services";
-import { useEffect, useMemo } from "react";
+import { useQuerySpinner } from "@/hooks/useQuerySpinner";
+import { useGetCompanyQuery } from "@/services/companyService";
+import { useEffect } from "react";
 import { useFormContext } from "react-hook-form";
-import DatePickerFormField from "../reusables/form-fields/DatePickerFormField";
+import { DatePickerFormField } from "..";
 import FormInput from "../reusables/form-fields/FormInput/FormInput";
-import ReceiptItems from "./form/sections/ReceiptItems";
 import { InvoiceContainer } from "./InvoiceContainer";
+import { InvoiceItemTable } from "./InvoiceItemTable";
 import { ReceiverSection } from "./ReceiverSection";
 import { SectionContainer } from "./SectionContainer";
-import { ShipmentSection } from "./ShipmentSection";
 
-export const ReceiptForm = () => {
+const DebitNoteForm = () => {
   const { setValue, watch } = useFormContext();
+
   const { data: company } = useQuerySpinner(useGetCompanyQuery());
 
   useEffect(() => {
@@ -24,38 +24,54 @@ export const ReceiptForm = () => {
       setValue("company.phone", company.phone_number);
       setValue("company.email", company.email);
     }
-    setValue("details.taxDetails.amountType", "percentage");
-    setValue("details.taxDetails.amount", 5);
+    setValue("details.debitNoteNumber", "DN-001");
+    setValue("details.refInvoiceDate", new Date());
+    setValue("details.term", "Due on Receipt");
   }, [company]);
 
-  const receiptNumber = watch("details.invoiceNumber");
-
-  const invoiceLabel = useMemo(() => {
-    if (receiptNumber) {
-      return `#${receiptNumber}`;
-    } else {
-      return "New Receipt";
-    }
-  }, [receiptNumber]);
-
   return (
-    <InvoiceContainer title="Receipt" invoiceLabel={invoiceLabel}>
+    <InvoiceContainer title="Debit Note">
       <div className="space-y-4">
         <SectionContainer title="Details">
           <div className="space-y-4">
             <div className="grid grid-cols-2 gap-4">
-              <FormInput name="details.invoiceNumber" label="Receipt Number" />
+              <FormInput
+                name="details.debitNoteNumber"
+                label="Debit Note Number"
+              />
+              <FormInput
+                name="details.invoiceNumber"
+                label="Reference Invoice No"
+              />
               <div className="space-y-1 -mt-2">
                 <Label className="!text-label font-medium text-neutral-700">
-                  Receipt Date
+                  Debit Note Date
                 </Label>
                 <div className="bg-white text-gray-600 ">
                   <DatePickerFormField name="details.invoiceDate" />
                 </div>
               </div>
+              <div className="space-y-1 -mt-2">
+                <Label className="!text-label font-medium text-neutral-700">
+                  Due Date
+                </Label>
+                <div className="bg-white text-gray-600 ">
+                  <DatePickerFormField name="details.dueDate" />
+                </div>
+              </div>
+              <FormInput name="details.term" label="Terms" />
+              <div className="space-y-1 -mt-2">
+                <Label className="!text-label font-medium text-neutral-700">
+                  Reference Invoice Date
+                </Label>
+                <div className="bg-white text-gray-600 ">
+                  <DatePickerFormField name="details.refInvoiceDate" />
+                </div>
+              </div>
             </div>
           </div>
         </SectionContainer>
+
         <SectionContainer title="Company Details">
           <div className="space-y-4">
             <FormInput name="company.name" label="Company Name" />
@@ -70,6 +86,7 @@ export const ReceiptForm = () => {
             </div>
           </div>
         </SectionContainer>
+
         <ReceiverSection
           title={"Bill To"}
           label={{
@@ -79,9 +96,10 @@ export const ReceiptForm = () => {
             addBtn: "Add Billing",
           }}
         />
-
-        <ReceiptItems />
+        <InvoiceItemTable title="Debit Note Items" />
       </div>
     </InvoiceContainer>
   );
 };
+
+export default DebitNoteForm;

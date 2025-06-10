@@ -1,12 +1,12 @@
 import { useFormContext } from "react-hook-form";
 import { Items } from "../..";
 
-export const InvoiceItemTable = () => {
+export const InvoiceItemTable = ({ title }: { title?: string }) => {
   const { watch } = useFormContext();
   return (
     <>
       <section className="space-y-4">
-        <Items />
+        <Items title={title} />
       </section>
       <section className="space-y-4">
         <div className="flex flex-col items-end w-full sm:w-auto border-t border-neutral-200">
