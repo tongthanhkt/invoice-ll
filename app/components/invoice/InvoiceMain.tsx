@@ -34,6 +34,7 @@ import { SaleContractForm } from "./SaleContractForm";
 import { ServiceAgreementForm } from "./ServiceAgreementForm";
 import SidebarNavigation from "./SidebarNavigation";
 import { QuotationForm } from "./QuotationForm";
+import { PurchaseOrderForm } from "./PurchaseOrderForm";
 export interface PayerCombined {
   payers: Payer[];
   addresses: {
@@ -137,6 +138,9 @@ const InvoiceMain = () => {
     if (type === "Quotation") {
       setValue("details.pdfTemplate", 10);
     }
+    if (type === "Purchase Order") {
+      setValue("details.pdfTemplate", 11);
+    }
     setValue("details.invoiceNumber", "0001");
     setValue("details.invoiceDate", new Date().toISOString());
     setValue("payer.name", "");
@@ -156,7 +160,7 @@ const InvoiceMain = () => {
       setValue("details.taxDetails.amount", 5);
     }
 
-    if (type === "Quotation") {
+    if (type === "Quotation" || type === "Purchase Order") {
       setValue("details.discountDetails.amountType", "percentage");
       setValue("details.discountDetails.amount", 5);
     } else {
@@ -198,6 +202,8 @@ const InvoiceMain = () => {
         return <DebitNoteForm />;
       case "Quotation":
         return <QuotationForm />;
+      case "Purchase Order":
+        return <PurchaseOrderForm />;
       default:
         return <InvoiceForm />;
     }

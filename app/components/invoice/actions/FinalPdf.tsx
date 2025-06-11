@@ -92,14 +92,15 @@ export default function FinalPdf() {
 
       <div className="flex-grow bg-neutral-100 p-4">
         {/* Mobile view */}
-        <div className="lg:hidden max-w-[850px] mx-auto bg-white shadow-md rounded-lg overflow-hidden h-[calc(100vh_-_560px)]">
-          <div className="relative w-full overflow-x-auto">
+        <div className="lg:hidden max-w-[850px] mx-auto bg-white shadow-md rounded-lg overflow-x-hidden overflow-y-auto h-[calc(100vh_-_560px)]">
+          <div className="relative w-full overflow-x-auto overflow-y-auto">
             <div
               style={{
                 width: "1000px",
                 height: "1000px",
                 transform: "scale(.55)",
                 transformOrigin: "top left",
+                overflow: "auto",
               }}
             >
               <iframe

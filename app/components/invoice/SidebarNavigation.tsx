@@ -46,9 +46,9 @@ const DOCUMENT_TYPES: DocumentType[] = [
   },
   {
     id: "purchase-order",
-    label: "Purchase order",
+    label: "Purchase Order",
     icon: FileText,
-    enabled: false,
+    enabled: true,
   },
   {
     id: "quotation",
@@ -108,7 +108,7 @@ const DOCUMENT_TYPES: DocumentType[] = [
     id: "acceptance-report",
     label: "Acceptance Report",
     icon: StickyNoteIcon,
-    enabled: false,
+    enabled: true,
   },
 ];
 
