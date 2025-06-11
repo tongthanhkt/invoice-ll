@@ -69,11 +69,11 @@ export const AcceptanceReport = () => {
           </div>
         </SectionContainer>
         <SectionContainer title="Acceptance Details">
-          <div className="space-y-1 ">
+          <div className="space-y-1">
             <Label className="!text-label font-medium text-neutral-700">
               Has the agreement been performed within the set time limit?
             </Label>
-            {/* <Select
+            <Select
               name="acceptance.agreementPerformWithinTime"
               defaultValue="has been"
               onValueChange={(value) => {
@@ -97,10 +97,10 @@ export const AcceptanceReport = () => {
                   No, it has not been performed within the time limit
                 </SelectItem>
               </SelectContent>
-            </Select> */}
+            </Select>
           </div>
 
-          {/* <div className="space-y-1 ">
+          <div className="space-y-1 ">
             <Label className="!text-label font-medium text-neutral-700">
               Has the agreement been performed in accordance with the subject of
               the agreement?
@@ -162,7 +162,7 @@ export const AcceptanceReport = () => {
                 </SelectItem>
               </SelectContent>
             </Select>
-          </div> */}
+          </div>
           <FormInput
             name="acceptance.termsOfPayment"
             label="Payment terms in the contract"

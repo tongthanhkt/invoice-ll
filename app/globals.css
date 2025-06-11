@@ -43,6 +43,7 @@
     font-family: "Poppins", sans-serif;
     background-color: hsl(var(--background));
     color: hsl(var(--foreground));
+    overflow: hidden;
   }
 
   input,
