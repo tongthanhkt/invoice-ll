@@ -15,6 +15,7 @@ import {
   TruckIcon,
   BadgeCentIcon,
   StickyNoteIcon,
+  WalletCardsIcon,
 } from "lucide-react";
 import { useState } from "react";
 
@@ -108,6 +109,18 @@ const DOCUMENT_TYPES: DocumentType[] = [
     id: "acceptance-report",
     label: "Acceptance Report",
     icon: StickyNoteIcon,
+    enabled: true,
+  },
+  {
+    id: "delivery-order",
+    label: "Delivery Order",
+    icon: WalletCardsIcon,
+    enabled: true,
+  },
+  {
+    id: "commercial-invoice",
+    label: "Commercial Invoice",
+    icon: FileText,
     enabled: true,
   },
 ];

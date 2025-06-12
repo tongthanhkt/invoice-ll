@@ -83,7 +83,9 @@ const formatPriceToString = (price: number, currency: string): string => {
 
   // Convert fractional part to words
   const fractionalPartInWords =
-    fractionalPart > 0 ? numberToWords.toWords(fractionalPart) : null;
+    fractionalPart > 0 && Number.isSafeInteger(fractionalPart)
+      ? numberToWords.toWords(fractionalPart)
+      : null;
 
   // Handle zero values for both parts
   if (integerPart === 0 && fractionalPart === 0) {
@@ -271,6 +273,16 @@ const formatNumberToPercent = (number: number): string => {
   return words + " percent";
 };
 
+const roundToDecimals = (num: number, round = 2) => {
+  const decimalPart = num.toString().split(".")[1];
+
+  if (decimalPart && decimalPart.length > round) {
+    return parseFloat(num.toFixed(round));
+  }
+
+  return num;
+};
+
 export {
   formatNumberWithCommas,
   formatPriceToString,
@@ -280,4 +292,5 @@ export {
   getInvoiceTemplate,
   fileToBuffer,
   formatNumberToPercent,
+  roundToDecimals,
 };

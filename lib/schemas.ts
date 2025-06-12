@@ -112,6 +112,9 @@ const ItemSchema = z.object({
   unitPrice: fieldValidators.unitPrice,
   total: fieldValidators.stringToNumber,
   unit: fieldValidators.string.optional(),
+  weightInUnit: fieldValidators.stringToNumber.optional(),
+  measurement: fieldValidators.string.optional(),
+  no: fieldValidators.stringOptional,
 });
 
 const PaymentInformationSchema = z.object({
