@@ -8,6 +8,8 @@ import { useQuerySpinner } from "@/hooks";
 import { ReceiverSection } from "./ReceiverSection";
 import { ShipmentSection } from "./ShipmentSection";
 import CommercialInvoiceItems from "./form/sections/CommercialInvoiceItems";
+import { Label } from "@/components/ui/label";
+import DatePickerFormField from "../reusables/form-fields/DatePickerFormField";
 
 export const CommercialInvoiceForm = () => {
   const { setValue, watch } = useFormContext();
@@ -30,6 +32,31 @@ export const CommercialInvoiceForm = () => {
   return (
     <InvoiceContainer title="Commercial Invoice">
       <div className="space-y-4">
+        <SectionContainer title="Details">
+          <div className="space-y-4">
+            <div className="grid grid-cols-2 gap-4">
+              <FormInput name="details.invoiceNumber" label="Invoice No" />
+              <div className="space-y-1 -mt-2">
+                <Label className="!text-label font-medium text-neutral-700">
+                  Date
+                </Label>
+                <div className="bg-white text-gray-600">
+                  <DatePickerFormField name="details.invoiceDate" />
+                </div>
+              </div>
+              <FormInput name="details.typedName" label="Typed Name" />
+              <div className="space-y-1 -mt-2">
+                <Label className="!text-label font-medium text-neutral-700">
+                  Signed date
+                </Label>
+                <div className="bg-white text-gray-600">
+                  <DatePickerFormField name="details.signedDate" />
+                </div>
+              </div>
+            </div>
+            <FormInput name="details.terms" label="Terms" />
+          </div>
+        </SectionContainer>
         <SectionContainer title="Company Details">
           <div className="space-y-4">
             <FormInput name="company.name" label="Company Name" />
