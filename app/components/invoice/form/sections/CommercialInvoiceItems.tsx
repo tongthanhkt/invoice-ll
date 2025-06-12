@@ -54,6 +54,51 @@ const CommercialInvoiceItems = () => {
     }
   };
 
+  const summaryItems = [
+    {
+      label: "Subtotal",
+      value: watch("details.subTotal") || 0,
+    },
+    {
+      label: "Discount",
+      value: formatNumberWithCommas(
+        (Number(watch("details.discountDetails.amount")) *
+          Number(watch("details.subTotal"))) /
+          100 || 0
+      ),
+    },
+    {
+      label: "Subtotal less discount",
+      value: formatNumberWithCommas(
+        Number(watch("details.subTotal")) -
+          (Number(watch("details.discountDetails.amount")) *
+            Number(watch("details.subTotal"))) /
+            100 || 0
+      ),
+    },
+    {
+      label: "Tax rate(%)",
+      value: watch("details.taxDetails.amount") || 0,
+    },
+    {
+      label: "Tax Amount",
+      value: formatNumberWithCommas(
+        (Number(watch("details.taxDetails.amount")) *
+          Number(watch("details.subTotal"))) /
+          100 || 0
+      ),
+    },
+    {
+      label: "Shipping fee",
+      value: watch("details.shippingDetails.cost") || 0,
+    },
+    {
+      label: "Total",
+      value: watch("details.totalAmount") || 0,
+      fontMedium: true,
+    },
+  ];
+
   return (
     <>
       <section className="flex flex-col gap-4 w-full">
@@ -191,65 +236,27 @@ const CommercialInvoiceItems = () => {
       <section className="space-y-4 mt-4">
         <div className="flex flex-col items-end w-full sm:w-auto border-t border-neutral-200">
           <div className="w-full sm:w-[300px] p-2 px-4 space-y-1">
-            <div className="flex justify-between w-full text-base">
-              <span className="text-sm text-gray-500">Subtotal</span>
-              <span className="font-semibold text-gray-700">
-                {watch("details.subTotal") || 0}
-              </span>
-            </div>
-            <div className="flex justify-between w-full text-base">
-              <span className="text-sm text-gray-500">Discount</span>
-              <span className="font-semibold text-gray-700">
-                {formatNumberWithCommas(
-                  (Number(watch("details.discountDetails.amount")) *
-                    Number(watch("details.subTotal"))) /
-                    100 || 0
-                )}
-              </span>
-            </div>
-            <div className="flex justify-between w-full text-base">
-              <span className="text-sm text-gray-500">
-                Subtotal less discount
-              </span>
-              <span className="font-semibold text-gray-700">
-                {formatNumberWithCommas(
-                  Number(watch("details.subTotal")) -
-                    (Number(watch("details.discountDetails.amount")) *
-                      Number(watch("details.subTotal"))) /
-                      100 || 0
-                )}
-              </span>
-            </div>
-            <div className="flex justify-between w-full text-base">
-              <span className="text-sm text-gray-500">Tax rate(%)</span>
-              <span className="font-semibold text-gray-700">
-                {watch("details.taxDetails.amount") || 0}
-              </span>
-            </div>
-            <div className="flex justify-between w-full text-base">
-              <span className="text-sm text-gray-500">Tax Amount</span>
-              <span className="font-semibold text-gray-700">
-                {formatNumberWithCommas(
-                  (Number(watch("details.taxDetails.amount")) *
-                    Number(watch("details.subTotal"))) /
-                    100 || 0
-                )}
-              </span>
-            </div>
-
-            <div className="flex justify-between w-full text-base">
-              <span className="text-sm text-gray-500">Shipping fee</span>
-              <span className="font-semibold text-gray-700">
-                {watch("details.shippingDetails.cost") || 0}
-              </span>
-            </div>
-
-            <div className="flex justify-between w-full text-base">
-              <span className="text-sm text-gray-500 font-medium">Total</span>
-              <span className="font-semibold text-gray-700">
-                {watch("details.totalAmount") || 0}
-              </span>
-            </div>
+            {summaryItems.map((item, idx) => (
+              <div
+                className="flex justify-between w-full text-base"
+                key={item.label}
+              >
+                <span
+                  className={`text-sm text-gray-500${
+                    item.fontMedium ? " font-medium" : ""
+                  }`}
+                >
+                  {item.label}
+                </span>
+                <span
+                  className={`font-semibold text-gray-700${
+                    item.fontMedium ? " font-medium" : ""
+                  }`}
+                >
+                  {item.value}
+                </span>
+              </div>
+            ))}
           </div>
         </div>
       </section>
