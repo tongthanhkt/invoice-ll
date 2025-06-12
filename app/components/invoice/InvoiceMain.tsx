@@ -35,6 +35,8 @@ import { ServiceAgreementForm } from "./ServiceAgreementForm";
 import SidebarNavigation from "./SidebarNavigation";
 import { QuotationForm } from "./QuotationForm";
 import { PurchaseOrderForm } from "./PurchaseOrderForm";
+import { DeliveryOrderForm } from "./DeliveryOrderForm";
+import { CommercialInvoiceForm } from "./CommercialInvoiceForm";
 export interface PayerCombined {
   payers: Payer[];
   addresses: {
@@ -141,6 +143,13 @@ const InvoiceMain = () => {
     if (type === "Purchase Order") {
       setValue("details.pdfTemplate", 11);
     }
+    if (type === "Delivery Order") {
+      setValue("details.pdfTemplate", 12);
+    }
+    if (type === "Commercial Invoice") {
+      setValue("details.pdfTemplate", 13);
+    }
+
     setValue("details.invoiceNumber", "0001");
     setValue("details.invoiceDate", new Date().toISOString());
     setValue("payer.name", "");
@@ -152,7 +161,7 @@ const InvoiceMain = () => {
     setValue("receiver.zipCode", "");
     setValue("receiver.city", "");
     setValue("details.items", []);
-    if (type !== "Receipt") {
+    if (type !== "Receipt" && type !== "Commercial Invoice") {
       setValue("details.taxDetails.amountType", "amount");
       setValue("details.taxDetails.amount", 0);
     } else {
@@ -160,7 +169,11 @@ const InvoiceMain = () => {
       setValue("details.taxDetails.amount", 5);
     }
 
-    if (type === "Quotation" || type === "Purchase Order") {
+    if (
+      type === "Quotation" ||
+      type === "Purchase Order" ||
+      type === "Commercial Invoice"
+    ) {
       setValue("details.discountDetails.amountType", "percentage");
       setValue("details.discountDetails.amount", 5);
     } else {
@@ -204,6 +217,10 @@ const InvoiceMain = () => {
         return <QuotationForm />;
       case "Purchase Order":
         return <PurchaseOrderForm />;
+      case "Delivery Order":
+        return <DeliveryOrderForm />;
+      case "Commercial Invoice":
+        return <CommercialInvoiceForm />;
       default:
         return <InvoiceForm />;
     }
