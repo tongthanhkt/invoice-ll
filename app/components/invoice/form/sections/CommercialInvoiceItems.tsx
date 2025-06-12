@@ -212,6 +212,28 @@ const CommercialInvoiceItems = () => {
         {/* Mobile tax section */}
         <div className="md:hidden flex flex-col items-start justify-end px-3 py-3 gap-3 border border-neutral-200 rounded-lg">
           <div className="w-full flex items-center justify-between">
+            <div className="w-full font-medium ">Discount(%)</div>
+            <div className="w-full">
+              <FormInput
+                name="details.discountDetails.amount"
+                type="number"
+                placeholder="Discount(%)"
+                vertical
+              />
+            </div>
+          </div>
+          <div className="w-full flex items-center justify-between">
+            <div className="w-full font-medium ">Tax rate(%)</div>
+            <div className="w-full">
+              <FormInput
+                name="details.taxDetails.amount"
+                type="number"
+                placeholder="Tax rate(%)"
+                vertical
+              />
+            </div>
+          </div>
+          <div className="w-full flex items-center justify-between">
             <div className="w-full font-medium ">Shipping free</div>
             <div className="w-full">
               <FormInput
