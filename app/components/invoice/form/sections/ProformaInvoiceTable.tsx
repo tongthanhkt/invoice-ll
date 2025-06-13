@@ -31,7 +31,7 @@ const ProformaInvoiceTable = () => {
       partNumber: "",
       description: "",
       unit: "",
-      quantity: 0,
+      quantity: 1,
       unitPrice: 0,
       total: 0,
       taxable: false,
@@ -53,10 +53,17 @@ const ProformaInvoiceTable = () => {
     (Number(watch("details.taxDetails.amount")) * Number(totalTaxableAmount)) /
       100 || 0;
 
+  const total =
+    watch("details.totalAmount") -
+    (((watch("details.subTotal") || 0) *
+      (watch("details.taxDetails.amount") || 0)) /
+      100 || 0) +
+    taxAmount;
+
   const summaryItems = [
     {
       label: "Subtotal",
-      value: watch("details.subTotal") || 0,
+      value: formatNumberWithCommas(watch("details.subTotal") || 0),
     },
     {
       label: "Taxable",
@@ -72,24 +79,61 @@ const ProformaInvoiceTable = () => {
     },
     {
       label: "Shipping fee",
-      value: watch("details.shippingDetails.cost") || 0,
+      value: formatNumberWithCommas(watch("details.shippingDetails.cost") || 0),
     },
     {
       label: "Insurance",
-      value: watch("details.insuranceDetails.cost") || 0,
+      value: formatNumberWithCommas(
+        watch("details.insuranceDetails.cost") || 0
+      ),
     },
     {
       label: "Legal/Consular",
-      value: watch("details.legalDetails.cost") || 0,
+      value: formatNumberWithCommas(watch("details.legalDetails.cost") || 0),
     },
     {
       label: "Inspection/Cert",
-      value: watch("details.inspectionDetails.cost") || 0,
+      value: formatNumberWithCommas(
+        watch("details.inspectionDetails.cost") || 0
+      ),
     },
     {
       label: "Total",
-      value: watch("details.totalAmount") + taxAmount || 0,
+      value: formatNumberWithCommas(total),
       fontMedium: true,
+    },
+  ];
+
+  const amountFields = [
+    {
+      label: "Tax rate(%)",
+      name: "details.taxDetails.amount",
+      placeholder: "Tax amount",
+    },
+    {
+      label: "Shipping fee",
+      name: "details.shippingDetails.cost",
+      placeholder: "Shipping/Handling amount",
+    },
+    {
+      label: "Insurance",
+      name: "details.insuranceDetails.cost",
+      placeholder: "0",
+    },
+    {
+      label: "Legal/Consular",
+      name: "details.legalDetails.cost",
+      placeholder: "0",
+    },
+    {
+      label: "Inspection/Cert",
+      name: "details.inspectionDetails.cost",
+      placeholder: "0",
+    },
+    {
+      label: "Other",
+      name: "details.otherDetails.cost",
+      placeholder: "0",
     },
   ];
 
@@ -120,78 +164,28 @@ const ProformaInvoiceTable = () => {
           )}
         </div>
 
-        <div className=" flex flex-col items-start justify-end px-3 py-3 gap-3 border border-neutral-200 rounded-lg">
-          <div className="grid grid-cols-2 gap-3 w-full items-center">
-            <div className="w-full font-medium mb-2 text-sm">Tax rate</div>
-            <div className="w-full">
-              <FormInput
-                name="details.taxDetails.amount"
-                type="number"
-                placeholder="Tax amount"
-                vertical
-              />
-            </div>
-          </div>{" "}
-          <div className="grid grid-cols-2 gap-3 w-full items-center">
-            <div className="w-full font-medium mb-2 text-sm">Shipping fee</div>
-            <div className="w-full">
-              <FormInput
-                name="details.shippingDetails.cost"
-                type="number"
-                placeholder="Shipping/Handling amount"
-                vertical
-              />
-            </div>
+        {fields?.length ? (
+          <div className=" flex flex-col items-start justify-end px-3 py-3 gap-3 border border-neutral-200 rounded-lg">
+            {amountFields.map((field, index) => (
+              <div
+                key={index}
+                className="grid grid-cols-2 gap-3 w-full items-center"
+              >
+                <div className="w-full font-medium mb-2 text-sm">
+                  {field.label}
+                </div>
+                <div className="w-full">
+                  <FormInput
+                    name={field.name}
+                    type="number"
+                    placeholder={field.placeholder}
+                    vertical
+                  />
+                </div>
+              </div>
+            ))}
           </div>
-          <div className="grid grid-cols-2 gap-3 w-full items-center">
-            <div className="w-full font-medium mb-2 text-sm">Insurance</div>
-            <div className="w-full">
-              <FormInput
-                name="details.insuranceDetails.cost"
-                type="number"
-                placeholder="Insurance amount"
-                vertical
-              />
-            </div>
-          </div>
-          <div className="grid grid-cols-2 gap-3 w-full items-center">
-            <div className="w-full font-medium mb-2 text-sm">
-              Legal/Consular
-            </div>
-            <div className="w-full">
-              <FormInput
-                name="details.legalDetails.cost"
-                type="number"
-                placeholder="Legal/Consular amount"
-                vertical
-              />
-            </div>
-          </div>{" "}
-          <div className="grid grid-cols-2 gap-3 w-full items-center">
-            <div className="w-full font-medium mb-2 text-sm">
-              Inspection/Cert
-            </div>
-            <div className="w-full">
-              <FormInput
-                name="details.inspectionDetails.cost"
-                type="number"
-                placeholder="Inspection/Cert amount"
-                vertical
-              />
-            </div>
-          </div>
-          <div className="grid grid-cols-2 gap-3 w-full items-center">
-            <div className="w-full font-medium mb-2 text-sm">Other</div>
-            <div className="w-full">
-              <FormInput
-                name="details.otherDetails.cost"
-                type="number"
-                placeholder="Other amount"
-                vertical
-              />
-            </div>
-          </div>
-        </div>
+        ) : null}
 
         <BaseButton
           tooltipLabel="Add a new item to the list"

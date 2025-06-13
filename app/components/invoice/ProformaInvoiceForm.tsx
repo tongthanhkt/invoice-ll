@@ -117,7 +117,7 @@ export const ProformaInvoiceForm = () => {
               name="proforma.unitWeight"
               label="Unit Weight"
               type="number"
-            />{" "}
+            />
             <FormInput
               name="proforma.grossWeight"
               label="Est Gross Weight"
@@ -157,6 +157,15 @@ export const ProformaInvoiceForm = () => {
               name="additional.reasonForExport"
               label="Reason for Export:"
             />
+            <FormInput name="additional.typedName" label="Typed Name" />
+            <div className="space-y-1 -mt-2">
+              <Label className="!text-label font-medium text-neutral-700">
+                Signed date
+              </Label>
+              <div className="bg-white text-gray-600">
+                <DatePickerFormField name="details.signedDate" />
+              </div>
+            </div>
           </div>
         </SectionContainer>
       </div>
