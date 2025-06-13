@@ -81,6 +81,7 @@ const fieldValidators = {
     .transform((value) => {
       return formatNumberWithCommas(value);
     }),
+  boolean: z.boolean(),
 };
 
 const CustomInputSchema = z.object({
@@ -106,7 +107,7 @@ const InvoiceReceiverSchema = z.object({
 });
 
 const ItemSchema = z.object({
-  name: fieldValidators.stringMin1,
+  name: fieldValidators.stringMin1.optional(),
   description: fieldValidators.stringOptional,
   quantity: fieldValidators.quantity,
   unitPrice: fieldValidators.unitPrice,
@@ -115,6 +116,8 @@ const ItemSchema = z.object({
   weightInUnit: fieldValidators.stringToNumber.optional(),
   measurement: fieldValidators.string.optional(),
   no: fieldValidators.stringOptional,
+  taxable: fieldValidators.boolean.optional(),
+  partNumber: fieldValidators.stringOptional,
 });
 
 const PaymentInformationSchema = z.object({
@@ -139,6 +142,18 @@ const ShippingDetailsSchema = z.object({
   costType: fieldValidators.string,
 });
 
+const InsuranceDetailsSchema = z.object({
+  cost: fieldValidators.stringToNumberWithMax,
+});
+
+const LegalDetailsSchema = z.object({
+  cost: fieldValidators.stringToNumberWithMax,
+});
+
+const InspectionDetailsSchema = z.object({
+  cost: fieldValidators.stringToNumberWithMax,
+});
+
 const SignatureSchema = z.object({
   data: fieldValidators.string,
   fontFamily: fieldValidators.string.optional(),
@@ -159,6 +174,9 @@ const InvoiceDetailsSchema = z.object({
   taxDetails: TaxDetailsSchema.optional(),
   discountDetails: DiscountDetailsSchema.optional(),
   shippingDetails: ShippingDetailsSchema.optional(),
+  insuranceDetails: InsuranceDetailsSchema.optional(),
+  legalDetails: LegalDetailsSchema.optional(),
+  inspectionDetails: InspectionDetailsSchema.optional(),
   subTotal: fieldValidators.nonNegativeNumber,
   totalAmount: fieldValidators.nonNegativeNumber,
   totalAmountInWords: fieldValidators.string,

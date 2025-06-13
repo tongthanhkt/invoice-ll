@@ -37,6 +37,7 @@ import { QuotationForm } from "./QuotationForm";
 import { PurchaseOrderForm } from "./PurchaseOrderForm";
 import { DeliveryOrderForm } from "./DeliveryOrderForm";
 import { CommercialInvoiceForm } from "./CommercialInvoiceForm";
+import { ProformaInvoiceForm } from "./ProformaInvoiceForm";
 export interface PayerCombined {
   payers: Payer[];
   addresses: {
@@ -149,6 +150,9 @@ const InvoiceMain = () => {
     if (type === "Commercial Invoice") {
       setValue("details.pdfTemplate", 13);
     }
+    if (type === "Proforma Invoice") {
+      setValue("details.pdfTemplate", 14);
+    }
 
     setValue("details.invoiceNumber", "0001");
     setValue("details.invoiceDate", new Date().toISOString());
@@ -221,6 +225,8 @@ const InvoiceMain = () => {
         return <DeliveryOrderForm />;
       case "Commercial Invoice":
         return <CommercialInvoiceForm />;
+      case "Proforma Invoice":
+        return <ProformaInvoiceForm />;
       default:
         return <InvoiceForm />;
     }
