@@ -77,9 +77,26 @@ export const ChargesContextProvider = ({ children }: ChargesContextProps) => {
       cost: 0,
       costType: "amount",
     },
+    insurance: useWatch({ name: `details.insuranceDetails`, control }) || {
+      cost: 0,
+      costType: "amount",
+    },
+    legal: useWatch({ name: `details.legalDetails`, control }) || {
+      cost: 0,
+      costType: "amount",
+    },
+    inspection: useWatch({ name: `details.inspectionDetails`, control }) || {
+      cost: 0,
+      costType: "amount",
+    },
+    other: useWatch({ name: `details.otherDetails`, control }) || {
+      cost: 0,
+      costType: "amount",
+    },
   };
 
-  const { discount, tax, shipping } = charges;
+  const { discount, tax, shipping, insurance, legal, inspection, other } =
+    charges;
 
   // Switch states. On/Off
   const [discountSwitch, setDiscountSwitch] = useState<boolean>(
@@ -166,6 +183,10 @@ export const ChargesContextProvider = ({ children }: ChargesContextProps) => {
     shippingType,
     shipping?.cost,
     currency,
+    insurance?.cost,
+    legal?.cost,
+    inspection?.cost,
+    other?.cost,
   ]);
 
   /**
@@ -179,18 +200,20 @@ export const ChargesContextProvider = ({ children }: ChargesContextProps) => {
       (sum: number, item: ItemType) => sum + Number(item.total),
       0
     );
-    console.log("1");
     setValue("details.subTotal", totalSum);
     setSubTotal(totalSum);
 
     let discountAmount: number = parseFloat(discount!.amount.toString()) ?? 0;
     let taxAmount: number = parseFloat(tax!.amount.toString()) ?? 0;
-    let shippingCost: number = parseFloat(shipping!.cost.toString()) ?? 0;
+    let shippingCost: number = parseFloat(shipping!.cost?.toString()) ?? 0;
+    let insuranceCost: number = parseFloat(insurance!.cost?.toString()) ?? 0;
+    let legalCost: number = parseFloat(legal!.cost?.toString()) ?? 0;
+    let inspectionCost: number = parseFloat(inspection!.cost?.toString()) ?? 0;
+    let otherCost: number = parseFloat(other!.cost?.toString()) ?? 0;
 
     let discountAmountType: string = "amount";
     let taxAmountType: string = "amount";
     let shippingCostType: string = "amount";
-    console.log("2");
 
     let total: number = totalSum;
 
@@ -204,7 +227,6 @@ export const ChargesContextProvider = ({ children }: ChargesContextProps) => {
       }
       setValue("details.discountDetails.amount", discountAmount);
     }
-    console.log("3");
 
     if (!isNaN(taxAmount)) {
       if (taxType == "amount") {
@@ -226,6 +248,22 @@ export const ChargesContextProvider = ({ children }: ChargesContextProps) => {
         shippingCostType = "percentage";
       }
       setValue("details.shippingDetails.cost", shippingCost);
+    }
+
+    if (!isNaN(insuranceCost)) {
+      total += insuranceCost;
+    }
+
+    if (!isNaN(legalCost)) {
+      total += legalCost;
+    }
+
+    if (!isNaN(inspectionCost)) {
+      total += inspectionCost;
+    }
+
+    if (!isNaN(otherCost)) {
+      total += otherCost;
     }
 
     total = roundToDecimals(total);

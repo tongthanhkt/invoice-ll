@@ -123,6 +123,12 @@ const DOCUMENT_TYPES: DocumentType[] = [
     icon: FileText,
     enabled: true,
   },
+  {
+    id: "proforma-invoice",
+    label: "Proforma Invoice",
+    icon: FileText,
+    enabled: true,
+  },
 ];
 
 type SidebarNavigationProps = {
