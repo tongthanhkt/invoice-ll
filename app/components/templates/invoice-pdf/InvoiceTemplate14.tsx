@@ -260,21 +260,40 @@ const InvoiceTemplate14 = (data: any) => {
         </div>
 
         {/* Terms & Comments */}
-        <div className="mt-10 text-xs text-gray-700">
+        <div
+          className="mt-10 text-xs"
+          style={{ breakBefore: "page", pageBreakBefore: "always" }}
+        >
           <div className="font-bold text-xs text-white bg-blue-900 px-2 py-1 rounded-t mb-1">
             TERMS OF SALE AND OTHER COMMENTS
           </div>
-          <div className="border border-t-0 border-blue-900 p-2 mb-4 min-h-[60px]">
+          <div className="border border-t-0 border-blue-900 p-2 mb-4 min-h-[60px] whitespace-pre-line break-words">
             {details?.terms ||
               "[Include and terms of sale or other information as needed]"}
-            <br />
             {details?.paymentTerms && (
-              <div>Payment Terms: {details.paymentTerms}</div>
+              <div>
+                Payment Terms:{" "}
+                <span className="break-words whitespace-pre-line">
+                  {details.paymentTerms}
+                </span>
+              </div>
             )}
             {details?.deliveryTerms && (
-              <div>Delivery Terms: {details.deliveryTerms}</div>
+              <div>
+                Delivery Terms:{" "}
+                <span className="break-words whitespace-pre-line">
+                  {details.deliveryTerms}
+                </span>
+              </div>
             )}
-            {details?.comments && <div>{details.comments}</div>}
+            {details?.comments && (
+              <div>
+                Comments:{" "}
+                <span className="break-words whitespace-pre-line">
+                  {details.comments}
+                </span>
+              </div>
+            )}
           </div>
         </div>
 
@@ -286,25 +305,25 @@ const InvoiceTemplate14 = (data: any) => {
           <div className="border border-t-0 border-gray-700 p-2 whitespace-pre-line break-words">
             <div className="mb-1">
               <span>Country of Origin: </span>
-              <span className="break-all">
+              <span className="break-words">
                 {additional?.country || "[Country]"}
               </span>
             </div>
             <div className="mb-1">
               <span>Port of Embarkation: </span>
-              <span className="break-all">
+              <span className="break-words">
                 {additional?.portEmbarkation || "[Name]"}
               </span>
             </div>
             <div className="mb-1">
               <span>Port of Discharge: </span>
-              <span className="break-all">
+              <span className="break-words">
                 {additional?.portDischarge || "[Name]"}
               </span>
             </div>
             <div className="mb-1">
               <span>Reason for Export: </span>
-              <span className="break-all">
+              <span className="break-words">
                 {additional?.reasonForExport || ""}
               </span>
             </div>
@@ -315,10 +334,10 @@ const InvoiceTemplate14 = (data: any) => {
             <div className="flex flex-row justify-between items-end mt-8">
               <div>
                 <div className="h-8 border-b border-gray-400 w-48 mb-2"></div>
-                <div className="break-all">
+                <div className="break-words">
                   {additional?.typedName || "[Typed Name]"}
                 </div>
-                <div className="break-all">
+                <div className="break-words">
                   {company?.name || "[Company Name]"}
                 </div>
               </div>
