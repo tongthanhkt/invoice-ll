@@ -31,6 +31,7 @@ export const ProformaInvoiceForm = () => {
       setValue("company.phone", company.phone_number);
       setValue("company.email", company.email);
     }
+    setValue("proforma.freightType", "Air");
   }, [company]);
   return (
     <InvoiceContainer title="Proforma Invoice">
@@ -113,11 +114,7 @@ export const ProformaInvoiceForm = () => {
                 <DatePickerFormField name="proforma.estShipDate" />
               </div>
             </div>
-            <FormInput
-              name="proforma.unitWeight"
-              label="Unit Weight"
-              type="number"
-            />
+            <FormInput name="proforma.unitWeight" label="Unit Weight" />
             <FormInput
               name="proforma.grossWeight"
               label="Est Gross Weight"
