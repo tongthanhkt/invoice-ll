@@ -154,6 +154,10 @@ const InspectionDetailsSchema = z.object({
   cost: fieldValidators.stringToNumberWithMax,
 });
 
+const OtherDetailsSchema = z.object({
+  cost: fieldValidators.stringToNumberWithMax,
+});
+
 const SignatureSchema = z.object({
   data: fieldValidators.string,
   fontFamily: fieldValidators.string.optional(),
@@ -177,6 +181,7 @@ const InvoiceDetailsSchema = z.object({
   insuranceDetails: InsuranceDetailsSchema.optional(),
   legalDetails: LegalDetailsSchema.optional(),
   inspectionDetails: InspectionDetailsSchema.optional(),
+  otherDetails: OtherDetailsSchema.optional(),
   subTotal: fieldValidators.nonNegativeNumber,
   totalAmount: fieldValidators.nonNegativeNumber,
   totalAmountInWords: fieldValidators.string,

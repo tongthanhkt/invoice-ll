@@ -49,31 +49,18 @@ const ProformaInvoiceTable = () => {
     ?.filter((field) => field.taxable)
     ?.reduce((acc: number, curr: ItemType) => acc + Number(curr.total || 0), 0);
 
+  const taxAmount =
+    (Number(watch("details.taxDetails.amount")) * Number(totalTaxableAmount)) /
+      100 || 0;
+
   const summaryItems = [
     {
       label: "Subtotal",
       value: watch("details.subTotal") || 0,
     },
     {
-      label: "Taxable amount",
+      label: "Taxable",
       value: formatNumberWithCommas(totalTaxableAmount),
-    },
-    {
-      label: "Discount",
-      value: formatNumberWithCommas(
-        (Number(watch("details.discountDetails.amount")) *
-          Number(watch("details.subTotal"))) /
-          100 || 0
-      ),
-    },
-    {
-      label: "Subtotal less discount",
-      value: formatNumberWithCommas(
-        Number(watch("details.subTotal")) -
-          (Number(watch("details.discountDetails.amount")) *
-            Number(watch("details.subTotal"))) /
-            100 || 0
-      ),
     },
     {
       label: "Tax rate(%)",
@@ -81,19 +68,27 @@ const ProformaInvoiceTable = () => {
     },
     {
       label: "Tax Amount",
-      value: formatNumberWithCommas(
-        (Number(watch("details.taxDetails.amount")) *
-          Number(totalTaxableAmount)) /
-          100 || 0
-      ),
+      value: formatNumberWithCommas(taxAmount),
     },
     {
       label: "Shipping fee",
       value: watch("details.shippingDetails.cost") || 0,
     },
     {
+      label: "Insurance",
+      value: watch("details.insuranceDetails.cost") || 0,
+    },
+    {
+      label: "Legal/Consular",
+      value: watch("details.legalDetails.cost") || 0,
+    },
+    {
+      label: "Inspection/Cert",
+      value: watch("details.inspectionDetails.cost") || 0,
+    },
+    {
       label: "Total",
-      value: watch("details.totalAmount") || 0,
+      value: watch("details.totalAmount") + taxAmount || 0,
       fontMedium: true,
     },
   ];
@@ -181,6 +176,17 @@ const ProformaInvoiceTable = () => {
                 name="details.inspectionDetails.cost"
                 type="number"
                 placeholder="Inspection/Cert amount"
+                vertical
+              />
+            </div>
+          </div>
+          <div className="grid grid-cols-2 gap-3 w-full items-center">
+            <div className="w-full font-medium mb-2 text-sm">Other</div>
+            <div className="w-full">
+              <FormInput
+                name="details.otherDetails.cost"
+                type="number"
+                placeholder="Other amount"
                 vertical
               />
             </div>

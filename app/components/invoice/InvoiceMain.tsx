@@ -165,7 +165,11 @@ const InvoiceMain = () => {
     setValue("receiver.zipCode", "");
     setValue("receiver.city", "");
     setValue("details.items", []);
-    if (type !== "Receipt" && type !== "Commercial Invoice") {
+    if (
+      type !== "Receipt" &&
+      type !== "Commercial Invoice" &&
+      type !== "Proforma Invoice"
+    ) {
       setValue("details.taxDetails.amountType", "amount");
       setValue("details.taxDetails.amount", 0);
     } else {
