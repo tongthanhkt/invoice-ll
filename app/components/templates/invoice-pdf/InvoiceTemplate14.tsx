@@ -6,7 +6,6 @@ import { DATE_OPTIONS } from "@/lib/variables";
 const InvoiceTemplate14 = (data: any) => {
   const { company, details, receiver, shipment, additional, proforma } =
     data || {};
-  console.log("🚀 ~ InvoiceTemplate14 ~ proforma:", proforma);
   const items = details?.items || [];
 
   // Totals and summary fields (mimic ProformaInvoiceTable logic)
@@ -22,7 +21,7 @@ const InvoiceTemplate14 = (data: any) => {
 
   return (
     <InvoiceLayout>
-      <div className="bg-white min-h-[1100px] p-8">
+      <div className="bg-white min-h-[1100px] py-8 px-4">
         <div className="text-4xl font-extrabold tracking-widest text-blue-900 leading-none text-right mb-4">
           PRO FORMA INVOICE
         </div>
@@ -144,7 +143,7 @@ const InvoiceTemplate14 = (data: any) => {
 
         {/* Items Table */}
         <div className="mt-4 mb-2">
-          <div className="grid grid-cols-7 bg-blue-900 text-white font-bold text-xs rounded-t">
+          <div className="grid grid-cols-8 bg-blue-900 text-white font-bold text-xs rounded-t">
             <div className="col-span-1 p-2 border-r border-solid border-blue-900 text-left">
               PART NUMBER
             </div>
@@ -160,12 +159,15 @@ const InvoiceTemplate14 = (data: any) => {
             <div className="col-span-1 p-2 border-r border-solid border-blue-900 text-right">
               UNIT PRICE
             </div>
+            <div className="col-span-1 p-2 border-r border-solid border-blue-900 text-center">
+              TAX
+            </div>
             <div className="col-span-1 p-2 text-right">TOTAL AMOUNT</div>
           </div>
           {items.map((item: any, idx: number) => (
             <div
               key={idx}
-              className="grid grid-cols-7 last:border-b-2 border-solid border-blue-900 text-xs"
+              className="grid grid-cols-8 last:border-b-2 border-solid border-blue-900 text-xs"
               style={{
                 borderBottom:
                   idx === items.length - 1 ? "1.5px solid #1e3a8a" : "",
@@ -179,6 +181,9 @@ const InvoiceTemplate14 = (data: any) => {
               <div className="col-span-1 p-2 text-right">{item?.quantity}</div>
               <div className="col-span-1 p-2 text-right">
                 {formatNumberWithCommas(Number(item?.unitPrice) || 0)}
+              </div>
+              <div className="col-span-1 p-2 text-center">
+                {item?.taxable ? "X" : ""}
               </div>
               <div className="col-span-1 p-2 text-right">
                 {formatNumberWithCommas(Number(item?.total) || 0)}

@@ -43,7 +43,7 @@ const ProformaInvoiceRow = ({
     // Calculate total when rate or quantity changes
     if (rate != undefined && quantity != undefined) {
       const calculatedTotal = (rate * quantity).toFixed(2);
-      console.log("🚀 ~ useEffect ~ calculatedTotal:", calculatedTotal);
+
       setValue(`${name}[${index}].total`, calculatedTotal);
     }
   }, [rate, quantity]);
